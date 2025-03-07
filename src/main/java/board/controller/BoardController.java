@@ -1,8 +1,11 @@
 package board.controller;
 
 
+import board.config.LoginSession;
 import board.model.dto.BoardDto;
 import board.service.BoardService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +16,8 @@ import java.util.ArrayList;
 @RequestMapping("/board")
 public class BoardController {
 
+    HttpSession httpSession = req.getSession();
+
     @Autowired
     private BoardService boardService;
 
@@ -21,6 +26,13 @@ public class BoardController {
     public boolean save(@RequestBody BoardDto boardDto){
         System.out.println("BoardController.save");
         System.out.println("boardDto = " + boardDto);
+
+
+
+        //int result = new LoginSession().check(); 생성자로 만들어서 사용할수 있음
+
+
+
 
         return boardService.save(boardDto);
 

@@ -19,6 +19,7 @@ public class LoginSession {
 
     }
 
+
     /** 로그인 정보를 가져오는 함수 */
     public int check(int userNumber) {
         int result = 0;
