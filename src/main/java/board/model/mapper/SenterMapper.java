@@ -9,7 +9,10 @@ import java.util.List;
 public interface SenterMapper {
 
     // 문의등록 SQL
-    @Insert( " insert into senter( stitle , scontent , spassword , suser ) values( #{stitle} , #{scontent} , #{spassword} , #{suser} ) " )
+    @Insert( " insert into senter( stitle , scontent , user_number ) values( #{stitle} , #{scontent} , #{userNumber} ) " )
+    @Results({
+            @Result(property = "userNumber" , column = "user_number" ) // DB의 user_number -> DTO의 userNumber 매핑
+    })
     boolean sWrite( SenterDto senterDto );
 
     // 문의전체조회 SQL
