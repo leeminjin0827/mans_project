@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class LoginSession {
     public static ArrayList<HttpSession> sessionList = new ArrayList<>();
 
@@ -20,14 +21,12 @@ public class LoginSession {
     }
 
     /** 로그인 정보를 가져오는 함수 */
-    public int check(int userNumber) {
+    public int check(HttpSession session) {
         int result = 0;
         for(int index = 0; index < sessionList.size(); index++) {
-            HttpSession session = sessionList.get(index);
-            int loginNumber = (Integer)session.getAttribute("loginNumber");
-            if(loginNumber == userNumber) {
-                result = loginNumber;
-                     break;
+            HttpSession tempSession = sessionList.get(index);
+            if(session.getId().equals(tempSession.getId())) {
+                result = (Integer)tempSession.getAttribute("loginNumber");
             }
         }
         return result;

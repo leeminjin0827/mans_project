@@ -47,6 +47,8 @@ public class UserService {
                 // state값이 true일 경우 정상적으로 로그인 됨
                 if(state) {
                     result = true;
+                    int aaaa = new LoginSession().check(req.getSession());
+                    System.out.println("aaaa : " + aaaa);
                 }
                 break;
             }
