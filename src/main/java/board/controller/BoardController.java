@@ -16,7 +16,7 @@ import java.util.ArrayList;
 @RequestMapping("/board")
 public class BoardController {
 
-    HttpSession httpSession = req.getSession();
+    //HttpSession httpSession = req.getSession();
 
     @Autowired
     private BoardService boardService;
