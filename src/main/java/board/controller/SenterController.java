@@ -41,7 +41,7 @@ public class SenterController {
         }
 
         // 로그인한 번호를 Dto에 저장
-        //senterDto.setUserNumber(loginNumber);
+       // senterDto.setUserNumber(loginNumber);
 
         // 등록 처리
         boolean result = senterService.sWrite( senterDto );

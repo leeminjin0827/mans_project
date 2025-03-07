@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class LoginSession {
     public static ArrayList<HttpSession> sessionList = new ArrayList<>();
 
