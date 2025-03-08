@@ -36,9 +36,9 @@ public class SenterController {
         //senterDto.setUserNumber(loginNumber);
 
         // 로그인 정보 확인
-        if( loginSession.check(loginNumber) == 0 ){
-            return false;
-        }
+        //if( loginSession.check(loginNumber) == 0 ){
+          //  return false;
+        //}
 
         // 로그인한 번호를 Dto에 저장
        // senterDto.setUserNumber(loginNumber);
