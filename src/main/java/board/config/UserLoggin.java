@@ -33,4 +33,27 @@ public class UserLoggin {
         // 지정한 함수의 반환값을 그대로 반환
         return result;
     }
+
+    @Around("execution(* board.service.StaffService.*(..))")
+    public Object timeCheck2(ProceedingJoinPoint joinPoint) throws Throwable {
+        // 지정한 함수 시그니처 출력
+        System.out.println("[실행 메소드] : " + joinPoint.getSignature());
+
+        // 매개변수 출력
+        System.out.println("[매개변수] : " + Arrays.toString(joinPoint.getArgs()));
+
+        // 시작 시간
+        long startTime = System.currentTimeMillis();
+        // 지정한 함수 실행
+        Object result = joinPoint.proceed();
+        // 종료 시간
+        long endTime = System.currentTimeMillis();
+        // 걸린 시간
+        long time = endTime - startTime;
+        // 시간 출력
+        System.out.println("[걸린 시간] : " + time + "ms\n");
+
+        // 지정한 함수의 반환값을 그대로 반환
+        return result;
+    }
 }

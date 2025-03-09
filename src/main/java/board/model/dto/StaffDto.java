@@ -1,0 +1,28 @@
+package board.model.dto;
+
+import lombok.*;
+
+@NoArgsConstructor @AllArgsConstructor
+@Getter @Setter @ToString
+public class StaffDto {
+    // 직원 번호
+    private int staffNumber;
+    // 직원 아이디
+    private String id;
+    // 직원 비밀번호
+    private String password;
+    // 직원 이름
+    private String name;
+    // 직원 전화번호
+    private String phone;
+    // 직원 주소
+    private String address;
+    // 직원 입사일
+    private String startDate;
+    // 직원 퇴사일
+    private String endDate;
+    // 직원 연봉
+    private int salary;
+    // 직원 퇴사 상태
+    private int resignation;
+}
