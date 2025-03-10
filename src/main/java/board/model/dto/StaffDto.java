@@ -21,8 +21,13 @@ public class StaffDto {
     private String startDate;
     // 직원 퇴사일
     private String endDate;
+    // 직원 직급
+    private int staffRank;
     // 직원 연봉
     private int salary;
     // 직원 퇴사 상태
     private int resignation;
+    // 직원 근무지
+    private int hno;
+
 }
