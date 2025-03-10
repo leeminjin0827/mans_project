@@ -10,12 +10,13 @@ import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/director")
+@CrossOrigin("http://localhost:5174/")
 public class OperateController {
 
     @Autowired
     private OperateService operateService;
 
-    // [등록] {"hotel_name" : "서울점" ,"address" : "영등포역" ,"director" : "진진" , "hotel_number" : "010-222-2222" , "intro" : "소개하는곳"}
+    // [등록] { "address" : "영등포역"  , "hotel_number" : "010-222-2222" , "intro" : "소개하는곳"}
     // state 안넣는 이유 : 등록을 하는것은 운영을 할때 하는것이기 때문
     //address api사용할지 고민하기
     @PostMapping("")
@@ -51,7 +52,7 @@ public class OperateController {
         return operateService.Update(operateDto);
     }
 
-    //수정(점장,주소)
+    //수정(주소)
     @PutMapping("/revice")
     public boolean alter(@RequestBody OperateDto operateDto){
         System.out.println("OperateController.alter");

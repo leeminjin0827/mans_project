@@ -12,8 +12,8 @@ import java.util.ArrayList;
 @Mapper
 public interface OperateMapper {
 
-    @Insert("insert into operate(hotel_name, address, director, hotel_number, intro )" +
-            "values( #{hotel_name}, #{address}, #{director}, #{hotel_number}, #{intro})")
+    @Insert("insert into operate( address,  hotel_number, intro )" +
+            "values( #{address}, #{hotel_number}, #{intro})")
     public boolean conFine(OperateDto operateDto);
 
     @Select("select * from operate")
@@ -25,7 +25,7 @@ public interface OperateMapper {
     @Update(" update operate set hotel_number = #{hotel_number} , intro = #{intro} where hno = #{hno} ")
     public boolean Update(OperateDto operateDto);
 
-    @Update(" update operate set address = #{address} , director = #{director} where hno = #{hno}")
+    @Update(" update operate set address = #{address} where hno = #{hno} ")
     boolean alter(OperateDto operateDto);
 
     @Update(" update operate set state = #{state} where hno = #{hno}")

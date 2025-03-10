@@ -36,17 +36,17 @@ public class SenterController {
         //senterDto.setUserNumber(loginNumber);
 
         // 로그인 정보 확인
-        //if( loginSession.check(loginNumber) == 0 ){
-          //  return false;
-        //}
+       //if( loginSession.check(loginNumber) == 0 ){
+            return false;
+       // }
 
         // 로그인한 번호를 Dto에 저장
        // senterDto.setUserNumber(loginNumber);
 
         // 등록 처리
-        boolean result = senterService.sWrite( senterDto );
-        System.out.println( result ? "등록성공" : "등록실패" );
-        return result;
+        //boolean result = senterService.sWrite( senterDto );
+       // System.out.println( result ? "등록성공" : "등록실패" );
+      // return result;
 //        if( result == 0 ){
 //            System.out.println("회원가입 실패");
 //        }else if ( result == 1 ){
