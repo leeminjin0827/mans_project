@@ -35,11 +35,11 @@ public class StaffService {
     }
 
     /** 직원 지점별 조회 */
-    public ArrayList<StaffDto> staffFindDetail() {
+    public ArrayList<StaffDto> staffFindDetail(int hno) {
         // 유효성 검사 시작
         // 유효성 검사 종료
-        // 추후 병합 후 작성
-        return null;
+        ArrayList<StaffDto> result = staffMapper.staffFindDetail(hno);
+        return result;
     }
 
     /** 직원 수정 */

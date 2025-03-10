@@ -24,7 +24,14 @@ public interface StaffMapper {
     ArrayList<StaffDto> staffFindAll();
 
     /** 직원 지점별 조회 */
-    ArrayList<StaffDto> staffFindDetail();
+    @Select("select * from staff where hno = #{hno}")
+    @Results({
+            @Result(property = "staffNumber", column = "staff_number"),
+            @Result(property = "startDate", column = "start_date"),
+            @Result(property = "endDate", column = "end_date"),
+            @Result(property = "staffRank", column = "staff_rank")
+    })
+    ArrayList<StaffDto> staffFindDetail(int hno);
 
     /** 직원 수정 */
     @Update("update staff set " +

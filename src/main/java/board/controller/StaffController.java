@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/staff")
-@CrossOrigin("http://localhost:5174")
+@CrossOrigin("http://localhost:5173")
 public class StaffController {
 
     private final StaffService staffService;
@@ -33,8 +33,8 @@ public class StaffController {
     // 나중에 병합할때 작업
     /** 직원 지점별 조회 */
     @GetMapping("/detail")
-    public ArrayList<StaffDto> staffFindDetail() {
-        ArrayList<StaffDto> result = staffService.staffFindDetail();
+    public ArrayList<StaffDto> staffFindDetail(@RequestParam(name = "hno") int hno) {
+        ArrayList<StaffDto> result = staffService.staffFindDetail(hno);
         return result;
     }
 
