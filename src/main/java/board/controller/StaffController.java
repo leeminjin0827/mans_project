@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/staff")
+@CrossOrigin("http://localhost:5174")
 public class StaffController {
 
     private final StaffService staffService;

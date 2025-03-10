@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public interface StaffMapper {
 
     /** 직원 등록 */
-    @Insert("insert into staff(id, name, phone, address, start_date,staff_rank, salary) values " +
+    @Insert("insert into staff(id, name, phone, address, start_date, staff_rank, salary) values " +
             "(#{id}, #{name}, #{phone}, #{address}, #{startDate}, 2, #{salary})")
     boolean staffRegister(StaffDto staffDto);
 
