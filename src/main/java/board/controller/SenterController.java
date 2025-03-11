@@ -32,7 +32,7 @@ public class SenterController {
         }
 
         // 세션에 저장된 loginNumber 가져오기
-        int loginNumber = (int) session.getAttribute("loginNumber");
+//        int loginNumber = (int) session.getAttribute("loginNumber");
         //senterDto.setUserNumber(loginNumber);
 
 //        // 로그인 정보 확인
