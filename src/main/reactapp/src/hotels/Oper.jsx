@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 
 
 export default function Operatae(props){
+    
+    useEffect(() => {onFindAll()}, []) // 처음부터 전체 출력
 
     //입력받은 데이터를 저장하는 변수
     const[formData, setFomdata] = useState({ address : '',hotel_number: '', intro : ''});
@@ -70,6 +72,20 @@ export default function Operatae(props){
 
     }
 
+    const stateChange = async (e) =>{
+        try {
+            const response = await 
+
+
+
+        } catch (error) {console.log(error);
+            
+        }
+
+    }
+
+    
+
     return(<>
             <div>
                 <form>
@@ -99,7 +115,7 @@ export default function Operatae(props){
                                 <th>{board.address}</th>
                                 <th>{board.hotel_number}</th>
                                 <th>{board.intro}</th>
-                                <th><select name="state" value={formData.hno} onChange={formDataChange}>
+                                <th><select name="state" value={formData.hno} onChange={() => stateChange(formData.hno)}>
                                     <option value='0'>운영중</option>
                                     <option value='1'>임시휴업</option>
                                     <option value='3'>폐점</option>
