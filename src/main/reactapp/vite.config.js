@@ -10,3 +10,4 @@ export default defineConfig({
     port: 5173,       // 포트 확인
   }
 })
+//ipconfig 아이피 확인
