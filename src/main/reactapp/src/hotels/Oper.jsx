@@ -74,7 +74,7 @@ export default function Operatae(props){
 
     const stateChange = async (e) =>{
         try {
-            const response = await 
+            //const response = await 
 
 
 
