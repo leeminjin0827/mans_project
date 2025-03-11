@@ -1,0 +1,119 @@
+drop database if exists man;
+create database man;
+use man;
+
+create table user (
+-- 사용자 번호
+   user_number int unsigned auto_increment,
+   -- 사용자 아이디
+	id varchar(30) not null unique,
+	-- 사용자 비밀번호
+	password varchar(30) not null,
+	-- 사용자 이름
+	name varchar(15) not null,
+	-- 사용자 전화번호
+	phone varchar(13),
+	-- 사용자 주소
+	address text,
+	-- 관리자 상태 0이면 일반 사용자, 1이면 관리자
+	admin_state int unsigned default 0,
+	-- 가입 날짜
+	join_date datetime default now(),
+	-- 회원탈퇴 상태 0이면 탈퇴 1이면 미탈퇴
+	drop_state int unsigned default 0,
+	constraint primary key(user_number)
+);
+-- 고객센터 테이블
+-- create table senter(
+--    -- 문의번호(PK)
+--    sno int unsigned auto_increment ,
+--     -- 문의제목
+--    stitle varchar(30) not null ,
+--     -- 문의내용
+--     scontent longtext not null ,
+--     -- 사용자번호(FK)
+--     user_number int unsigned not null ,
+--     constraint primary key(sno) ,
+--     constraint foreign key(user_number) references user(user_number)
+-- );
+
+-- 게시판테이블
+-- create table board(
+--    bno int auto_increment,
+--     title varchar(20) not null,
+--     content longtext,
+--     writer varchar(10),
+--     view int default 0,
+--     date datetime default now(),
+--
+--     primary key(bno)
+-- );
+
+-- 옵션테이블
+create table options(
+   -- 옵션식별번호
+   opno int unsigned auto_increment ,
+    -- 옵션명
+    op_name varchar(255) not null ,
+    constraint primary key(opno)
+);
+
+-- 객실등급 테이블
+create table rating(
+   -- 객실등급번호
+   rno int unsigned auto_increment,
+    -- 객실등급
+    rating_name varchar(30) not null,
+    -- 침대수
+    bed_count int not null,
+    -- 침대유형
+    bed_type varchar(30) not null,
+    -- 제공옵션
+    rating_option varchar(30) not null,
+    constraint primary key(rno)
+);
+
+-- 객실 테이블
+create table room(
+   rono int unsigned auto_increment,
+    rno int unsigned ,
+    opno int unsigned ,
+    constraint primary key(rono),
+    foreign key(rno) references rating(rno) on update cascade  on delete  cascade,
+    foreign key(opno) references options(opno) on update cascade  on delete  cascade
+);
+
+create table staff (
+	staff_number int unsigned auto_increment,
+    id varchar(30) not null unique,
+    password varchar(30) not null default "1234",
+    name varchar(15) not null,
+    phone varchar(13) not null,
+    address varchar(100) not null,
+    start_date date not null,
+    end_date date default null,
+    staff_rank int unsigned default 2,
+    salary int not null,
+    resignation int default 0,
+    hno int unsigned default 0,
+    constraint primary key(staff_number)
+);
+
+create table commute (
+	commute_number int unsigned auto_increment,
+    now_date date not null,
+    now_start time not null,
+    now_end time default null,
+    staff_number int unsigned not null,
+    constraint primary key(commute_number),
+    constraint foreign key(staff_number) references staff(staff_number)
+);
+
+create table operate(
+hno int unsigned auto_increment,
+address char(50),
+hotel_number char(12),
+intro longtext,
+state int default 0,
+constraint primary key(hno)
+);
