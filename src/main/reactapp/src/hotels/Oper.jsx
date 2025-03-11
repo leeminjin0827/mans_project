@@ -22,7 +22,7 @@ export default function Operatae(props){
     //현재 state 변수를 스프링 서버에게 보내기, axios
     const onPost = async (e) => {
         try {
-            const response = await axios.post('http://localhost:8080/director' , formData)
+            const response = await axios.post('http://localhost:8081/director' , formData)
             if(response.data == true){alert("등록성공");
                 setFomdata({address : '',hotel_number: '', intro : ''});
                 onFindAll();
@@ -35,7 +35,7 @@ export default function Operatae(props){
 
     const onFindAll = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/director');
+            const response = await axios.get('http://localhost:8081/director');
             setBoards(response.data);
         } catch (error) {console.log(error);
             
@@ -58,7 +58,7 @@ export default function Operatae(props){
     const onUpdate = async (hno) => {
         try {
                 editFormData.hno = hno;
-            const response = await axios.put('http://localhost:8080/director', editFormData)
+            const response = await axios.put('http://localhost:8081/director', editFormData)
             if(response.data == true){
                 alert("수정성공");
                 setEditFormData({hotel_number : '', intro : ''}); //초기화
@@ -72,17 +72,17 @@ export default function Operatae(props){
 
     }
 
-    const stateChange = async (e) =>{
-        try {
-            const response = await 
+    // const stateChange = async (e) =>{
+    //     try {
+    //         const response = await 
 
+        
 
-
-        } catch (error) {console.log(error);
+    //     } catch (error) {console.log(error);
             
-        }
+    //     }
 
-    }
+    // }
 
     
 
