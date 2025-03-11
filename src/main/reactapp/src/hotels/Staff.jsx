@@ -130,9 +130,31 @@ export default function StaffPage(props) {
         }
     }
 
+    // 지점별 조회 관련 state
+    const [selectOption, setSelectOption] = useState("0");
+    useEffect(() => {}, [selectOption]);
+    const changeOption = (event) => {
+        setSelectOption(event.target.value);
+        if(event.target.value == 0) {
+            staffFindAll();
+        } else {
+            staffFindDetail(event.target.value);
+        }
+    }
+    const staffFindDetail = async (number) => {
+        try {
+            const response = await axios.get(`http://localhost:8081/staff/detail?hno=${number}`);
+            console.log(response.data);
+            setStaffInfoList(response.data);
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
     // input 출력 테스트
     console.log(staffInfo);
     // console.log(staffUpdate);
+    console.log(selectOption);
 
     // 중복되는 함수
     // 직급을 문자열로 변환
@@ -247,6 +269,13 @@ export default function StaffPage(props) {
             <br/><hr/><br/>
             <div>
                 <h1>직원 전체 출력</h1>
+                <select value={selectOption} onChange={changeOption}>
+                    <option value={"0"}>전체</option>
+                    <option value={"1"}>강남점</option>
+                    <option value={"2"}>중구점</option>
+                    <option value={"3"}>부평점</option>
+                </select>
+                <br/>
                 <table border={"1"}>
                     <thead>
                         <tr>
