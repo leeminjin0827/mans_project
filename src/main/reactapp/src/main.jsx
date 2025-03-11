@@ -12,5 +12,8 @@ import './App.css'
 
 const root = createRoot(document.querySelector("#root"));
 
-import StaffPage from './hotels/Staff.jsx';
-root.render(<StaffPage />);
+// import StaffPage from './hotels/Staff.jsx';
+// root.render(<StaffPage />);
+
+import PermanentDrawerLeft from './hotels/header';
+root.render( <PermanentDrawerLeft /> )
