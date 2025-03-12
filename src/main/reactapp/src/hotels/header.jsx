@@ -1,4 +1,7 @@
+import { BrowserRouter , Route , Routes , Link } from "react-router-dom";
 import * as React from 'react';
+
+// mul import
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,98 +16,122 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import LocationCityIcon from '@mui/icons-material/LocationCity';
+import PersonIcon from '@mui/icons-material/Person';
+import DoorBackIcon from '@mui/icons-material/DoorBack';
+// 라우터 연결 import
+import Operatae from "./Oper";
+import ParlorPage from "./Parlor";
+import StaffPage from "./Staff";
 
 const drawerWidth = 240;
 
 export default function PermanentDrawerLeft() {
   return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
-      >
-        <Toolbar>
-          <Typography variant="h6" noWrap component="div">
-            Permanent drawer
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
+    <BrowserRouter>
+      <Box sx={{ display: 'flex' }}>
+        <CssBaseline />
+        {/* 상단 bar */}
+        <AppBar
+          position="fixed"
+          sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
+        >
+          <Toolbar>
+            <Typography variant="h6" noWrap component="div">
+              관리자 페이지
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        {/* 상단 bar end*/}
+        <Drawer
+          sx={{
             width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-        variant="permanent"
-        anchor="left"
-      >
-        <Toolbar />
-        <Divider />
-        {/* 상단 아이콘 모양 변경 하는 공간 */}
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              width: drawerWidth,
+              boxSizing: 'border-box',
+            },
+          }}
+          variant="permanent"
+          anchor="left"
+        >
+          <Toolbar />
+          
+          <Divider /> {/* 사이드바 border */}
+
+          {/* 사이드 상단 공간 */}
+          <ListItem disablePadding>
+            <ListItemButton component={Link} to="/oper">
+              <ListItemIcon>
+                <LocationCityIcon />
+              </ListItemIcon>
+              <ListItemText primary="지점관리" />
+            </ListItemButton>
+          </ListItem>
+            
+            <ListItem disablePadding>
+              <ListItemButton component={Link} to="/parlor">
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  <DoorBackIcon />
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary="지점별객실관리" />
               </ListItemButton>
             </ListItem>
-          ))}
-        </List>
-        <Divider />
-        {/* 하단 아이콘 모양 변경 하는 공간 */}
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
+
+            <ListItem disablePadding>
+              <ListItemButton component={Link} to="/staff">
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  <PersonIcon />
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary="직원관리" />
               </ListItemButton>
             </ListItem>
-          ))}
-        </List>
-      </Drawer>
-      <Box
-        component="main"
-        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
-      >
-        <Toolbar />
-        <Typography sx={{ marginBottom: 2 }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-          enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-          imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-          Convallis convallis tellus id interdum velit laoreet id donec ultrices.
-          Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
-          nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
-          leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
-          feugiat vivamus at augue. At augue eget arcu dictum varius duis at
-          consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
-          sapien faucibus et molestie ac.
-        </Typography>
-        <Typography sx={{ marginBottom: 2 }}>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
-          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
-          tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
-          sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
-          tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
-          gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
-          et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
-          tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
+
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <InboxIcon />
+                </ListItemIcon>
+                <ListItemText primary="..." />
+              </ListItemButton>
+            </ListItem>
+          {/* 사이드 상단 공간 end*/}
+
+          <Divider /> {/* 사이드바 border */}
+
+          {/* 사이드 하단 공간 */}
+          <List>
+            {['All mail', 'Trash', 'Spam'].map((text, index) => (
+              <ListItem key={text} disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  </ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+          {/* 사이드 하단 공간 end*/}
+        </Drawer>
+        <Box
+          component="main"
+          sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
+        >
+          <Toolbar />
+          <Typography sx={{ marginBottom: 2 }}>
+
+          </Typography>
+          <Typography sx={{ marginBottom: 2 }}>
+
+          </Typography>
+        </Box>
       </Box>
-    </Box>
+      <Routes>
+        <Route path="/oper" element={ <Operatae />} />
+        <Route path="/parlor" element={ <ParlorPage />} />
+        <Route path="/staff" element={ <StaffPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
