@@ -47,7 +47,7 @@ public class LoginSession {
             sessionList.add(session);
             state = true;
         } else {
-            removeSession(userNumber, req);
+            removeSession(userNumber);
             HttpSession session = req.getSession();
             System.out.println("isNew() : " + session.isNew());
             session.setAttribute("loginNumber", userNumber);
@@ -58,8 +58,9 @@ public class LoginSession {
         return state;
     }
 
-    /** 해당 세션을 모두 무효화 */
-    private static void removeSession(int userNumber, HttpServletRequest req) {
+    /** 해당 세션을 모두 무효화 이후 세션을 지움 */
+    public static boolean removeSession(int userNumber) {
+        boolean result = false;
         for(int index = 0; index < sessionList.size(); index++) {
             HttpSession tempSession = sessionList.get(index);
             int loginNumber = (Integer)tempSession.getAttribute("loginNumber");
@@ -68,8 +69,10 @@ public class LoginSession {
                 // 세션 종료
                tempSession.invalidate();
                sessionList.remove(tempSession);
+               result = true;
             }
         }
+        return result;
     }
 
     /** 새로운 세션을 저장 */
