@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/director")
-@CrossOrigin("http://localhost:5174")
+@CrossOrigin("http://localhost:5173")
 public class OperateController {
 
     @Autowired

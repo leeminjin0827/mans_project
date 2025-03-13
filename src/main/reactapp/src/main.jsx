@@ -15,10 +15,6 @@ const root = createRoot(document.querySelector("#root"));
 // import StaffPage from './hotels/Staff.jsx';
 // root.render(<StaffPage />);
 
-// 사이드바
-import PermanentDrawerLeft from './hotels/header';
-root.render( <PermanentDrawerLeft /> )
+import Operatae from './hotels/Oper';
+root.render(<Operatae/>);
 
-// 객실
-// import ParlorPage from './hotels/Parlor';
-// root.render( <ParlorPage /> );
