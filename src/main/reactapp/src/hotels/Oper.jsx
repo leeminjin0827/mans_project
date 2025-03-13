@@ -72,25 +72,17 @@ export default function Operatae(props){
 
     }
 
+    // const stateChange = async (e) =>{
+    //     try {
+    //         const response = await 
 
-    //지점별 운영 변경
-    const [stateOtion, setStateOption] = useState("0");
-    useEffect(() => {} , [stateOtion]);
-    const stateChange = async (e) =>{
-        setStateOption(e.target.value);
-     
-    }
+        
 
-    const stFomData = async () => {
-        try{
-            const response = await axios.put('http://localhost:8081/director', stateOtion)
-            console.log(response.data);
-            setStateOption(response.data);
+    //     } catch (error) {console.log(error);
+            
+    //     }
 
-        }catch(e){console.log(e);}
-
-
-    }
+    // }
 
     
 
@@ -123,11 +115,11 @@ export default function Operatae(props){
                                 <th>{board.address}</th>
                                 <th>{board.hotel_number}</th>
                                 <th>{board.intro}</th>
-                                <th><select  value={stateOtion} onChange={stateChange}>
+                                <th><select name="state" value={formData.hno} onChange={() => stateChange(formData.hno)}>
                                     <option value='0'>운영중</option>
                                     <option value='1'>임시휴업</option>
                                     <option value='3'>폐점</option>
-                                </select></th><th><button type="butoon" onClick={() => stFomData(board.hno)}>수정</button></th></tr>)// 여기 부분 onUpdate() 를 그냥 넣으니 연속 실행됨
+                                </select></th><th><button type="butoon" onClick={() => onUpdate(board.hno)}>수정</button></th></tr>)// 여기 부분 onUpdate() 를 그냥 넣으니 연속 실행됨
                             })
 
                         }
