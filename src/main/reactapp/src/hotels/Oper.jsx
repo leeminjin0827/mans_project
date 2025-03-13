@@ -36,6 +36,9 @@ export default function Operatae(props){
         try {
             const response = await axios.get('http://localhost:8081/director');
             setBoards(response.data);
+            for(let index = 0; index < response.data.length; index++) {
+                stateDe[index] = response.data[2].state;
+            }
         } catch (error) {console.log(error);
             
         }
@@ -75,26 +78,26 @@ export default function Operatae(props){
     }
 
 
-    const [stateDe, setState] = useState(Array(boards.length));
-
-    const stateChange = (e) => {
+    const [stateDe, setStateDe] = useState([ 0 , 0 , 0 ]); 
+    //  [ 0 : 운영중 , 1:임시휴업 , 2: 폐업 ] 
+    //          0           1           2
+    //   index  0           1           2
+    const stateChange = (e , index ) => {
         console.log(e.target);
         // console.log(e.target.name);
         console.log(e.target.value);
-        setState(e.target.value);
+        stateDe[index] = e.target.value;
 
-       
+        setStateDe( [...stateDe ] );
     }
     const stateUpdate = (hno ,state) => {
         let response =  axios.delete(`http://localhost:8081/director?hno=${hno}&state=${state}`)
         if(response.data == true){alert('변경성공'); setState({hno : '' , state : ''}); onFindAll();}
         else{alert('변경실패');}
-
-
     }
 
 
-    console.log(temp);
+   
     
 
     return(<>
@@ -118,14 +121,14 @@ export default function Operatae(props){
                     <tbody>
                         {
                             boards.map((board, index) => {
-                                console.log(index);
+                                
                                 return(<tr key={board.hno}><th>{board.hno}</th>
                                 <th>{board.address}</th>
                                 <th>{board.hotel_number}</th>
                                 <th>{board.intro}</th>
-                                <th><select value={stateDe[index]} onChange={stateChange}>
+                                <th><select value={stateDe[index]} onChange={ (e) => { stateChange( e, index) } } >
                                     <option value={0}>운영중</option>
-                                    <option value={1}>임시휴업</option>
+                                   <option value={1}>임시휴업</option>
                                     <option value={2}>폐점</option>
                                     </select>
                                     <button type="button" onClick={stateUpdate}>상태수정</button>
@@ -133,13 +136,31 @@ export default function Operatae(props){
                                 
                                 <th><button type="butoon" onClick={() => onUpdate(board.hno, board.hotel_number ,board.intro)}>수정</button></th></tr>)// 여기 부분 onUpdate() 를 그냥 넣으니 연속 실행됨
                             })
-
                         }
-
                     </tbody>
                 </table>
 
             </div>
+
+                            {/* 0 1 1 
+
+                            <select value={ 0 } >
+                                <option value="0"> 하하</option>
+                                <option value="1"> 카카 </option>
+                            </select>
+
+
+                            <select value={ 1 } >
+                                <option value="0"> 하하</option>
+                                <option value="1"> 카카 </option>
+                            </select>
+
+
+                            <select value={ 1 } >
+                                <option value="0"> 하하</option>
+                                <option value="1"> 카카 </option>
+                            </select> */}
+
     
             </>)
 
