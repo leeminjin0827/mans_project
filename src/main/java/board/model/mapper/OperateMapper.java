@@ -28,8 +28,8 @@ public interface OperateMapper {
     @Update(" update operate set address = #{address} where hno = #{hno} ")
     boolean alter(OperateDto operateDto);
 
-    @Update(" update operate set state = #{state} where hno = #{hno}")
-    boolean remove(int hno, int state);
+    @Update(" update operate set state = #{ state } where hno = #{ hno }")
+    boolean remove(OperateDto operateDto);
 
 
 }

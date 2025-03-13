@@ -37,8 +37,10 @@ export default function Operatae(props){
         try {
             const response = await axios.get('http://localhost:8081/director');
             setBoards(response.data);
+            console.log(response.data);
             for(let index = 0; index < response.data.length; index++) {
-                stateDe[index] = response.data[2].state;
+                stateDe[index] = response.data[index].state;
+                console.log(stateDe[index]);
             }
         } catch (error) {console.log(error);
             
@@ -77,9 +79,9 @@ export default function Operatae(props){
         }
 
     }
+    const temp = [];
 
-
-    const [stateDe, setStateDe] = useState([ 0 , 0 , 0 ]); 
+    const [stateDe, setStateDe] = useState(temp); 
     //  [ 0 : 운영중 , 1:임시휴업 , 2: 폐업 ] 
     //          0           1           2
     //   index  0           1           2
@@ -91,9 +93,10 @@ export default function Operatae(props){
 
         setStateDe( [...stateDe ] );
     }
-    const stateUpdate = (hno ,state) => {
-        let response =  axios.delete(`http://localhost:8081/director?hno=${hno}&state=${state}`)
-        if(response.data == true){alert('변경성공'); setState({hno : '' , state : ''}); onFindAll();}
+    const stateUpdate = async (hno ,state) => {
+        let response = await axios.delete(`http://localhost:8081/director?hno=${hno}&state=${state}`)
+        console.log(response.data);
+        if(response.data == true){alert('변경성공');  onFindAll();}
         else{alert('변경실패');}
     }
 
@@ -133,7 +136,7 @@ export default function Operatae(props){
                                    <option value={1}>임시휴업</option>
                                     <option value={2}>폐점</option>
                                     </select>
-                                    <button type="button" onClick={stateUpdate}>상태수정</button>
+                                    <button type="button" onClick={() =>{stateUpdate(board.hno, stateDe[index])}}>상태수정</button>
                                     </th>
                                 
                                 <th><button type="butoon" onClick={() => onUpdate(board.hno, board.hotel_number ,board.intro)}>수정</button></th></tr>)// 여기 부분 onUpdate() 를 그냥 넣으니 연속 실행됨

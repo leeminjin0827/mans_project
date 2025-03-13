@@ -62,11 +62,12 @@ public class OperateController {
 
     //수정(상태변경) 나중에 입력으로 할지 아니면 바형태로 선택하는것으로 할지 고민할것
    @DeleteMapping("")
-    public boolean remove(@RequestParam("hno") int hno ,@RequestParam(name = "state") int state){
+    public boolean remove(@RequestParam(name = "hno") int hno ,@RequestParam(name = "state") int state){
         System.out.println("OperateController.remove");
-        System.out.println("pno = " + hno);
-
-        return  operateService.remove(hno, state);
+       System.out.println("hno = " + hno + ", state = " + state);
+        boolean result = operateService.remove(hno, state);
+       System.out.println("result : " + result);
+        return  result;
     }
 
 

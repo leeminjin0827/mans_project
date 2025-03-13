@@ -56,9 +56,12 @@ public class OperateService {
     //수정(상태변경)
     public boolean remove(int hno, int state){
         System.out.println("OperateService.remove");
-        System.out.println("hno = " + hno);
+        System.out.println("hno = " + hno + ", state = " + state);
 
-        return operateMapper.remove(hno , state);
+        OperateDto operateDto = new OperateDto();
+        operateDto.setHno(hno);
+        operateDto.setState(state);
+        return operateMapper.remove( operateDto);
 
     }
 
