@@ -2,6 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
+import Link from '@mui/material/Link';
 
 
 export default function Operatae(props){
@@ -51,29 +52,37 @@ export default function Operatae(props){
     
 
     //주소 소개 , 폰번호 변경 데이터
-    const [editFormData, setEditFormData] = useState({ hno : '' , hotel_number : '' , intro : ''});
+    const [editFormData, setEditFormData] = useState({ hno : '' , address : '', hotel_number : '' , intro : ''});
 
-    const editChange = (e) => {
-        console.log(e.target);
-        console.log(e.target.name);
-        console.log(e.target.value);
-        setEditFormData({...editFormData, [e.target.name] : e.target.value});
-    }
     
-    const onUpdate = async (hno, hotel_number, intro) => {
+    
+    const onUpdate = async (hno,address, hotel_number, intro) => {
+        editFormData.address = prompt(`현재주소 : ${address}`, editFormData.address);
         editFormData.hotel_number= prompt(`현재 번호 : ${hotel_number}`, editFormData.hotel_number);
         editFormData.intro = prompt(`현재 소개 : ${intro}`, editFormData.intro);
-
+        editFormData.hno = hno;
         try {
-                editFormData.hno = hno;
-            const response = await axios.put('http://localhost:8081/director', editFormData)
-            if(response.data == true && editFormData != ''){// 여기부분 수정 필요 전혀 걸러지지가 않음
+            
+            if(editFormData.hotel_number == "" && editFormData.address == '' && editFormData.intro == ''){// 여기부분 수정 필요 전혀 걸러지지가 않음
+                alert("수정실패 공백을 넣을수 없습니다.")
+            
+            } else if(editFormData.address != ""&& editFormData.address != '' && editFormData.intro != '') {
+                const response = await axios.put('http://localhost:8081/director', editFormData)
+                if(response.data == true){
                 alert("수정성공");
                 setEditFormData({hotel_number : '', intro : ''}); //초기화
                 onFindAll();
-            }else{
-                alert("수정실패");
+                
+                }else{alert("수정실패")}
             }
+                
+               
+
+            
+                
+                
+               
+            
         } catch (error) {console.log(error);
             
         }
@@ -127,7 +136,8 @@ export default function Operatae(props){
                         {
                             boards.map((board, index) => {
                                 
-                                return(<tr key={board.hno}><th>{board.hno}</th>
+                                return(<tr key={board.hno}>
+                                <th>{board.hno}</th>
                                 <th>{board.address}</th>
                                 <th>{board.hotel_number}</th>
                                 <th>{board.intro}</th>
@@ -139,7 +149,7 @@ export default function Operatae(props){
                                     <button type="button" onClick={() =>{stateUpdate(board.hno, stateDe[index])}}>상태수정</button>
                                     </th>
                                 
-                                <th><button type="butoon" onClick={() => onUpdate(board.hno, board.hotel_number ,board.intro)}>수정</button></th></tr>)// 여기 부분 onUpdate() 를 그냥 넣으니 연속 실행됨
+                                <th><button type="butoon" onClick={() => onUpdate(board.hno, board.address, board.hotel_number ,board.intro)}>수정</button></th></tr>)// 여기 부분 onUpdate() 를 그냥 넣으니 연속 실행됨
                             })
                         }
                     </tbody>
@@ -147,7 +157,7 @@ export default function Operatae(props){
 
             </div>
 
-                            {/* 0 1 1 
+                            {/* 0 1 1  위 반복문 예시 
 
                             <select value={ 0 } >
                                 <option value="0"> 하하</option>
