@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
+import Sidebar from "./components/Sidebar";
 
 export default function ParlorPage( props ){
 
@@ -147,6 +148,8 @@ export default function ParlorPage( props ){
 
 
     return(<>
+        <Sidebar />
+        <div className="mainBox">
         <h1>객실 관리 페이지</h1>
         <div style={{ display: 'flex' }}>
             <div style={{ marginRight: '20px' }}>
@@ -232,7 +235,7 @@ export default function ParlorPage( props ){
                 </thead>
             </table>
         </div>
-        
+        </div>
     </>)
 } // c end
 

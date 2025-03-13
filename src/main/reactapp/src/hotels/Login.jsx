@@ -1,4 +1,4 @@
-import * as React from 'react';
+
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import MuiCard from '@mui/material/Card';
@@ -14,6 +14,10 @@ import { styled } from '@mui/material/styles';
 // import ForgotPassword from './ForgotPassword';
 // import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
 import axios from "axios";
+import { useState } from 'react';
+import {useNavigate} from 'react-router-dom';
+
+
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -34,14 +38,15 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 export default function SignInCard() {
-  const [idError, setIdError] = React.useState(false);
-  const [idErrorMessage, setIdErrorMessage] = React.useState('');
-  const [passwordError, setPasswordError] = React.useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
-  const [open, setOpen] = React.useState(false);
+  const [idError, setIdError] = useState(false);
+  const [idErrorMessage, setIdErrorMessage] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
+  const [open, setOpen] = useState(false);
   // 추가
   // 아이디와 비밀번호를 가지고 있는 코드
-  const [info, setInfo] = React.useState({id : "", password : ""});
+  const [info, setInfo] = useState({id : "", password : ""});
+  const navigate = useNavigate();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -105,6 +110,7 @@ export default function SignInCard() {
       console.log(response.data);
       if(response.data) {
         alert("로그인 성공");
+        navigate("/oper");
       } else {
         alert("로그인 실패");
       }
@@ -114,7 +120,7 @@ export default function SignInCard() {
   }
   console.log(info);
   return (
-    <Card variant="outlined">
+    <Card variant="outlined" style={{display : "flex", justifyContent : "center", alignItems : "center"}}>
         <Typography component="h1" variant="h4" sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}>
             로그인
         </Typography>

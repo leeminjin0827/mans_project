@@ -23,111 +23,16 @@ import DoorBackIcon from '@mui/icons-material/DoorBack';
 import Operatae from "./Oper";
 import ParlorPage from "./Parlor";
 import StaffPage from "./Staff";
+import SignInCard from "./Login";
 
-const drawerWidth = 240;
+
 
 export default function PermanentDrawerLeft() {
   return (
     <BrowserRouter>
-      <Box sx={{ display: 'flex' }}>
-        <CssBaseline />
-        {/* 상단 bar */}
-        <AppBar
-          position="fixed"
-          sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
-        >
-          <Toolbar>
-            <Typography variant="h6" noWrap component="div">
-              관리자 페이지
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        {/* 상단 bar end*/}
-        <Drawer
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            '& .MuiDrawer-paper': {
-              width: drawerWidth,
-              boxSizing: 'border-box',
-            },
-          }}
-          variant="permanent"
-          anchor="left"
-        >
-          <Toolbar />
-          
-          <Divider /> {/* 사이드바 border */}
-
-          {/* 사이드 상단 공간 */}
-          <ListItem disablePadding>
-            <ListItemButton component={Link} to="/oper">
-              <ListItemIcon>
-                <LocationCityIcon />
-              </ListItemIcon>
-              <ListItemText primary="지점관리" />
-            </ListItemButton>
-          </ListItem>
-            
-            <ListItem disablePadding>
-              <ListItemButton component={Link} to="/parlor">
-                <ListItemIcon>
-                  <DoorBackIcon />
-                </ListItemIcon>
-                <ListItemText primary="지점별객실관리" />
-              </ListItemButton>
-            </ListItem>
-
-            <ListItem disablePadding>
-              <ListItemButton component={Link} to="/staff">
-                <ListItemIcon>
-                  <PersonIcon />
-                </ListItemIcon>
-                <ListItemText primary="직원관리" />
-              </ListItemButton>
-            </ListItem>
-
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <InboxIcon />
-                </ListItemIcon>
-                <ListItemText primary="..." />
-              </ListItemButton>
-            </ListItem>
-          {/* 사이드 상단 공간 end*/}
-
-          <Divider /> {/* 사이드바 border */}
-
-          {/* 사이드 하단 공간 */}
-          <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-          {/* 사이드 하단 공간 end*/}
-        </Drawer>
-        <Box
-          component="main"
-          sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
-        >
-          <Toolbar />
-          <Typography sx={{ marginBottom: 2 }}>
-
-          </Typography>
-          <Typography sx={{ marginBottom: 2 }}>
-
-          </Typography>
-        </Box>
-      </Box>
+      {/* <SignInCard /> */}
       <Routes>
+        <Route path="/" element={<SignInCard />} />
         <Route path="/oper" element={ <Operatae />} />
         <Route path="/parlor" element={ <ParlorPage />} />
         <Route path="/staff" element={ <StaffPage />} />

@@ -1,6 +1,7 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Sidebar from "./components/Sidebar";
 
 
 export default function Operatae(props){
@@ -95,7 +96,8 @@ export default function Operatae(props){
     
 
     return(<>
-            <div>
+            <Sidebar />
+            <div className="mainBox">
                 <form>
                     <h2>관리자 정보페이지</h2>
                     
