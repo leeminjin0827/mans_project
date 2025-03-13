@@ -253,70 +253,70 @@ export default function StaffPage(props) {
         <>
             <Sidebar />
             <div className="mainBox">
-            <h1>직원 등록</h1>
-            <form>
-                <span>아이디 : </span>
-                <input type="text" name="id" value={staffInfo.id} placeholder="hotels" onChange={changeData} /><br/>
-                <span>이름 : </span>
-                <input type="text" name="name" value={staffInfo.name} placeholder="홍길동" onChange={changeData} /><br/>
-                <span>전화번호 : </span>
-                <input type="text" name="phone" value={staffInfo.phone} placeholder="010-XXXX-XXXX" onChange={changeData} /><br/>
-                <span>주소 : </span>
-                <input type="text" name="address" value={staffInfo.address} placeholder="서울 강남구" onChange={changeData} /><br/>
-                <span>입사일 : </span>
-                <input type="text" name="startDate" value={staffInfo.startDate} placeholder="20XX-XX-XX" onChange={changeData} /><br/>
-                <span>연봉 : </span>
-                <input type="text" name="salary" value={staffInfo.salary} placeholder="만원단위작성" onChange={changeData} /><br/>
-                <button type="button" onClick={register}>등록</button>
-            </form>
-            <br/><hr/><br/>
-            <div>
-                <h1>직원 전체 출력</h1>
-                <select value={selectOption} onChange={changeOption}>
-                    <option value={"0"}>전체</option>
-                    <option value={"1"}>강남점</option>
-                    <option value={"2"}>중구점</option>
-                    <option value={"3"}>부평점</option>
-                </select>
-                <br/>
-                <table border={"1"}>
-                    <thead>
-                        <tr>
-                            <td>직원 번호</td><td>아이디</td><td>비밀번호</td>
-                            <td>이름</td><td>전화번호</td><td>주소</td>
-                            <td>입사일</td><td>퇴사일</td><td>직급</td>
-                            <td>연봉(만원)</td><td>지점 번호</td><td>퇴사 상태</td>
-                            <td>비고(근무 : 0, 퇴사 : 1)</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            staffInfoList.map((info, index) => {
-                                return (
-                                    <tr key={index}>
-                                        <td id={"staffNumber" + info.staffNumber}>{info.staffNumber}</td>
-                                        <td>{info.id}</td>
-                                        <td>{info.password}</td>
-                                        <td>{info.name}</td>
-                                        <td>{info.phone}</td>
-                                        <td>{info.address}</td>
-                                        <td>{info.startDate}</td>
-                                        <td>{info.endDate}</td>
-                                        <td>{changeRankToString(info.staffRank)}</td>
-                                        <td>{info.salary}</td>
-                                        <td>{changeHnoToString(info.hno)}</td>
-                                        <td>{changeResignationToString(info.resignation)}</td>
-                                        <td>
-                                            <button type="button" onClick={(event) => {newStaffInfo(event, info);}}>수정</button>
-                                            <button type="button" onClick={(event) => {resignationStaff(event, info.staffNumber);}}>퇴사</button>
-                                        </td>
-                                    </tr>
-                                );
-                            })
-                        }
-                    </tbody>
-                </table>
-            </div>
+                <h1>직원 등록</h1>
+                <form>
+                    <span>아이디 : </span>
+                    <input type="text" name="id" value={staffInfo.id} placeholder="hotels" onChange={changeData} /><br/>
+                    <span>이름 : </span>
+                    <input type="text" name="name" value={staffInfo.name} placeholder="홍길동" onChange={changeData} /><br/>
+                    <span>전화번호 : </span>
+                    <input type="text" name="phone" value={staffInfo.phone} placeholder="010-XXXX-XXXX" onChange={changeData} /><br/>
+                    <span>주소 : </span>
+                    <input type="text" name="address" value={staffInfo.address} placeholder="서울 강남구" onChange={changeData} /><br/>
+                    <span>입사일 : </span>
+                    <input type="text" name="startDate" value={staffInfo.startDate} placeholder="20XX-XX-XX" onChange={changeData} /><br/>
+                    <span>연봉 : </span>
+                    <input type="text" name="salary" value={staffInfo.salary} placeholder="만원단위작성" onChange={changeData} /><br/>
+                    <button type="button" onClick={register}>등록</button>
+                </form>
+                <br/><hr/><br/>
+                <div>
+                    <h1>직원 전체 출력</h1>
+                    <select value={selectOption} onChange={changeOption}>
+                        <option value={"0"}>전체</option>
+                        <option value={"1"}>강남점</option>
+                        <option value={"2"}>중구점</option>
+                        <option value={"3"}>부평점</option>
+                    </select>
+                    <br/>
+                    <table border={"1"}>
+                        <thead>
+                            <tr>
+                                <td>직원 번호</td><td>아이디</td><td>비밀번호</td>
+                                <td>이름</td><td>전화번호</td><td>주소</td>
+                                <td>입사일</td><td>퇴사일</td><td>직급</td>
+                                <td>연봉(만원)</td><td>지점 번호</td><td>퇴사 상태</td>
+                                <td>비고(근무 : 0, 퇴사 : 1)</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                staffInfoList.map((info, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td id={"staffNumber" + info.staffNumber}>{info.staffNumber}</td>
+                                            <td>{info.id}</td>
+                                            <td>{info.password}</td>
+                                            <td>{info.name}</td>
+                                            <td>{info.phone}</td>
+                                            <td>{info.address}</td>
+                                            <td>{info.startDate}</td>
+                                            <td>{info.endDate}</td>
+                                            <td>{changeRankToString(info.staffRank)}</td>
+                                            <td>{info.salary}</td>
+                                            <td>{changeHnoToString(info.hno)}</td>
+                                            <td>{changeResignationToString(info.resignation)}</td>
+                                            <td>
+                                                <button type="button" onClick={(event) => {newStaffInfo(event, info);}}>수정</button>
+                                                <button type="button" onClick={(event) => {resignationStaff(event, info.staffNumber);}}>퇴사</button>
+                                            </td>
+                                        </tr>
+                                    );
+                                })
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </>
     );
