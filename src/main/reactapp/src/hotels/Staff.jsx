@@ -1,32 +1,38 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Sidebar from "./components/Sidebar";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import StaticModal from "./components/StaticModal";
 
 
 export default function StaffPage(props) {
 
+    // 페이지 이동 관련 코드
+    const navigate = useNavigate();
+
     // 등록 관련 state
-    const [staffInfo, setStaffInfo] = useState(
-        {id : "", name : "", phone : "", address : "", startDate : "2025-03-10", salary : ""}
-    );
-    const changeData = (event) => {
-        setStaffInfo({...staffInfo, [event.target.name] : event.target.value});
-    }
-    const register = async (event) => {
-        try {
-            const response = await axios.post("http://localhost:8081/staff", staffInfo);
-            console.log(response.data);
-            if(response.data == true) {
-                alert("등록 성공");
-                setStaffInfo({id : "", name : "", phone : "", address : "", startDate : "2025-03-10", salary : ""});
-                staffFindAll();
-            } else {
-                alert("등록 실패");
-            }
-        } catch(e) {
-            console.log(e);
-        }
-    }
+    // const [staffInfo, setStaffInfo] = useState(
+    //     {id : "", name : "", phone : "", address : "", startDate : "2025-03-10", salary : ""}
+    // );
+    // const changeData = (event) => {
+    //     setStaffInfo({...staffInfo, [event.target.name] : event.target.value});
+    // }
+    // const register = async (event) => {
+    //     try {
+    //         const response = await axios.post("http://localhost:8081/staff", staffInfo);
+    //         console.log(response.data);
+    //         if(response.data == true) {
+    //             alert("등록 성공");
+    //             setStaffInfo({id : "", name : "", phone : "", address : "", startDate : "2025-03-10", salary : ""});
+    //             staffFindAll();
+    //         } else {
+    //             alert("등록 실패");
+    //         }
+    //     } catch(e) {
+    //         console.log(e);
+    //     }
+    // }
 
     // 출력 관련 state
     useEffect(() => {staffFindAll()}, []);
@@ -152,8 +158,6 @@ export default function StaffPage(props) {
         }
     }
 
-    // input 출력 테스트
-    console.log(staffInfo);
     // console.log(staffUpdate);
     console.log(selectOption);
 
@@ -253,33 +257,19 @@ export default function StaffPage(props) {
         <>
             <Sidebar />
             <div className="mainBox">
-                <h1>직원 등록</h1>
-                <form>
-                    <span>아이디 : </span>
-                    <input type="text" name="id" value={staffInfo.id} placeholder="hotels" onChange={changeData} /><br/>
-                    <span>이름 : </span>
-                    <input type="text" name="name" value={staffInfo.name} placeholder="홍길동" onChange={changeData} /><br/>
-                    <span>전화번호 : </span>
-                    <input type="text" name="phone" value={staffInfo.phone} placeholder="010-XXXX-XXXX" onChange={changeData} /><br/>
-                    <span>주소 : </span>
-                    <input type="text" name="address" value={staffInfo.address} placeholder="서울 강남구" onChange={changeData} /><br/>
-                    <span>입사일 : </span>
-                    <input type="text" name="startDate" value={staffInfo.startDate} placeholder="20XX-XX-XX" onChange={changeData} /><br/>
-                    <span>연봉 : </span>
-                    <input type="text" name="salary" value={staffInfo.salary} placeholder="만원단위작성" onChange={changeData} /><br/>
-                    <button type="button" onClick={register}>등록</button>
-                </form>
-                <br/><hr/><br/>
-                <div>
+                <div style={{width : "100%"}}>
                     <h1>직원 전체 출력</h1>
-                    <select value={selectOption} onChange={changeOption}>
-                        <option value={"0"}>전체</option>
-                        <option value={"1"}>강남점</option>
-                        <option value={"2"}>중구점</option>
-                        <option value={"3"}>부평점</option>
-                    </select>
+                    <div style={{ padding : "0px 10px",display : "flex", justifyContent : "end"}}>
+                        <select value={selectOption} onChange={changeOption} style={{marginRight : "50px"}}>
+                            <option value={"0"}>전체</option>
+                            <option value={"1"}>강남점</option>
+                            <option value={"2"}>중구점</option>
+                            <option value={"3"}>부평점</option>
+                        </select>
+                        <Button variant="contained" onClick={() => { return <StaticModal />;}}>직원 등록</Button>
+                    </div>
                     <br/>
-                    <table border={"1"}>
+                    <table border={"1"} style={{width : "100%", textAlign : "center"}}>
                         <thead>
                             <tr>
                                 <td>직원 번호</td><td>아이디</td><td>비밀번호</td>
@@ -306,9 +296,9 @@ export default function StaffPage(props) {
                                             <td>{info.salary}</td>
                                             <td>{changeHnoToString(info.hno)}</td>
                                             <td>{changeResignationToString(info.resignation)}</td>
-                                            <td>
-                                                <button type="button" onClick={(event) => {newStaffInfo(event, info);}}>수정</button>
-                                                <button type="button" onClick={(event) => {resignationStaff(event, info.staffNumber);}}>퇴사</button>
+                                            <td style={{padding : "10px", display : "flex", justifyContent : "space-evenly"}}>
+                                                <Button variant="contained" type="button" onClick={(event) => {newStaffInfo(event, info);}}>수정</Button>
+                                                <Button variant="contained" type="button" onClick={(event) => {resignationStaff(event, info.staffNumber);}}>퇴사</Button>
                                             </td>
                                         </tr>
                                     );
