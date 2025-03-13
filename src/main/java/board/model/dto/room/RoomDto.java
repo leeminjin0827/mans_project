@@ -14,6 +14,6 @@ public class RoomDto {
     private int rono;
     // 객실등급번호 FK
     private int rno;
-    // 옵션번호 FK
-    private int opno;
+//    // 옵션번호 FK
+//    private int opno;
 } // c end
