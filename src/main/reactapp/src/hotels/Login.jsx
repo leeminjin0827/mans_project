@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 // import ForgotPassword from './ForgotPassword';
 // import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
+import axios from "axios";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -38,6 +39,9 @@ export default function SignInCard() {
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
+  // 추가
+  // 아이디와 비밀번호를 가지고 있는 코드
+  const [info, setInfo] = React.useState({id : "", password : ""});
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -58,6 +62,7 @@ export default function SignInCard() {
       password: data.get('password'),
     });
   };
+
   // 로그인 버튼 클릭 시 실행되는 코드
   const validateInputs = () => {
     const id = document.getElementById('id');
@@ -85,10 +90,29 @@ export default function SignInCard() {
 
     return isValid;
   };
-
+  //추가
+  // 아이디와 비밀번호를 변수에 담는 코드
+  const changeInput = (event) => {
+    console.log("event.target.name : " + event.target.name);
+    console.log("event.target.value : " + event.target.value);
+    setInfo({...info, [event.target.name] : event.target.value});
+  }
   // 서버에 로그인 요청 하는 코드
-//   const login
-
+  const loginReq = async () => {
+    validateInputs();
+    try {
+      const response = await axios.post("http://localhost:8081/staff/login", info);
+      console.log(response.data);
+      if(response.data) {
+        alert("로그인 성공");
+      } else {
+        alert("로그인 실패");
+      }
+    } catch(e) {
+      console.log(e);
+    }
+  }
+  console.log(info);
   return (
     <Card variant="outlined">
         <Typography component="h1" variant="h4" sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}>
@@ -117,6 +141,8 @@ export default function SignInCard() {
                     fullWidth
                     variant="outlined"
                     color={idError ? 'error' : 'primary'}
+                    value={info.id}
+                    onChange={changeInput}
                 />
             </FormControl>
             <FormControl>
@@ -136,12 +162,14 @@ export default function SignInCard() {
                     fullWidth
                     variant="outlined"
                     color={passwordError ? 'error' : 'primary'}
+                    value={info.password}
+                    onChange={changeInput}
                 />
             </FormControl>
             <Box sx={{textAlign : "end"}}>
-                <FormLabel style={{cursor : "pointer"}} onClick={() => {alert("관리자에게 문의하세요");}}>아이디 / 비밀번호 찾기</FormLabel>
+                <Button variant="text" color="black" onClick={() => {alert("관리자에게 문의하세요");}}>아이디 / 비밀번호 찾기</Button>
             </Box>
-            <Button type="submit" fullWidth variant="contained" onClick={validateInputs}>
+            <Button type="submit" fullWidth variant="contained" onClick={loginReq}>
                 로그인
             </Button>
         </Box>

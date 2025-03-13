@@ -15,5 +15,5 @@ const root = createRoot(document.querySelector("#root"));
 // import StaffPage from './hotels/Staff.jsx';
 // root.render(<StaffPage />);
 
-import SignInCard from './hotels/Test';
+import SignInCard from './hotels/Login';
 root.render(<SignInCard />);

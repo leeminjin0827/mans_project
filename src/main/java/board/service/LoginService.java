@@ -22,8 +22,15 @@ public class LoginService {
         boolean result = false;
         System.out.println("LoginService.staffLogin");
         System.out.println("loginDto = " + loginDto);
-        int staffNumber = loginMapper.staffLogin(loginDto).getStaffNumber();
-        if(staffNumber > 0) {
+        LoginDto staff = loginMapper.staffLogin(loginDto);
+        if(staff == null) {
+            return result;
+        }
+        // 퇴사 상태 확인 0 : 근무 중, 1 : 퇴사
+        int resignation = staff.getResignation();
+        // 직원 번호
+        int staffNumber = staff.getStaffNumber();
+        if(resignation == 0 && staffNumber > 0) {
             boolean check = LoginSession._loginStateCheck(staffNumber, req);
             if(check) {
                 result = true;

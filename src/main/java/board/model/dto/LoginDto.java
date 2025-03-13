@@ -11,4 +11,6 @@ public class LoginDto {
     private String id;
     // 직원 비밀번호
     private String password;
+    // 퇴사 상태
+    private int resignation;
 }

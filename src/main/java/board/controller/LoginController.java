@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/staff")
+@CrossOrigin("http://localhost:5173")
 public class LoginController {
 
     private final LoginService loginService;
@@ -31,7 +32,7 @@ public class LoginController {
     }
 
     /** 로그인 상태 가져오기 */
-    @GetMapping("/loginstate")
+    @GetMapping("/login/session")
     public int loginState(HttpServletRequest req) {
         System.out.println("LoginController.loginState");
         System.out.println("req = " + req);
