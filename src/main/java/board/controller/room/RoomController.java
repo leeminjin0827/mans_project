@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/room")
+@CrossOrigin("http://localhost:5173")
 // http://localhost:8081/room
 // http://localhost:8081/room?rono=#
 // POST // { "rno" : 5 , "opno" : 1 }

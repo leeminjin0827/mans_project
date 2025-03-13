@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/room/rating")
+@CrossOrigin("http://localhost:5173")
 // http://localhost:8081/room/rating
 // http://localhost:8081/room/rating?rno=#
 // POST { "ratingName" : "#" , "bedCount" : # , "bedType" : "#" , "ratingOption" : "#" }

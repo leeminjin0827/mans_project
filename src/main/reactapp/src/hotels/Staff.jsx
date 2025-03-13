@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Sidebar from "./components/Sidebar";
 
 
 export default function StaffPage(props) {
@@ -250,6 +251,8 @@ export default function StaffPage(props) {
 
     return (
         <>
+            <Sidebar />
+            <div className="mainBox">
             <h1>직원 등록</h1>
             <form>
                 <span>아이디 : </span>
@@ -313,6 +316,7 @@ export default function StaffPage(props) {
                         }
                     </tbody>
                 </table>
+            </div>
             </div>
         </>
     );
