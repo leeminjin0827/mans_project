@@ -55,11 +55,14 @@ export default function Operatae(props){
         setEditFormData({...editFormData, [e.target.name] : e.target.value});
     }
     
-    const onUpdate = async (hno) => {
+    const onUpdate = async (hno, hotel_number, intro) => {
+        editFormData.hotel_number= prompt(`현재 비밀번호 : ${hotel_number}`, editFormData.hotel_number);
+        editFormData.intro = prompt(`현재 이름 : ${intro}`, editFormData.intro);
+
         try {
                 editFormData.hno = hno;
             const response = await axios.put('http://localhost:8081/director', editFormData)
-            if(response.data == true){
+            if(response.data == true && editFormData != ''){// 여기부분 수정 필요 전혀 걸러지지가 않음
                 alert("수정성공");
                 setEditFormData({hotel_number : '', intro : ''}); //초기화
                 onFindAll();
@@ -72,17 +75,22 @@ export default function Operatae(props){
 
     }
 
-    // const stateChange = async (e) =>{
-    //     try {
-    //         const response = await 
 
-        
+    const [stateDe, setState] = useState({ hno : '' , state : ''});
 
-    //     } catch (error) {console.log(error);
-            
-    //     }
+    const stateChange = (e) => {
+        console.log(e.target);
+        console.log(e.target.name);
+        console.log(e.target.value);
+        setState({...stateDe, [e.target.name] : e.target.value});
 
-    // }
+        let response =  axios.delete(`http://localhost:8081/director?id=${stateDe.hno}&state=${stateDe.state}`)
+        if(response.data == true){alert('삭제성공'); setState({hno : '' , state : ''}); onFindAll();}
+        else{alert('삭제실패');}
+    }
+
+
+
 
     
 
@@ -96,10 +104,6 @@ export default function Operatae(props){
                     소개 : <input type="text" value={formData.intro} name="intro" onChange={formDataChange}/><br/>
         
                     <button type="button" onClick={onPost}>저장</button><br/><br/>
-
-                    수정 전화번호 : <input type="text" value={editFormData.hotel_number} name="hotel_number" onChange={editChange}/><br/>
-                    수정 소개 : <input type="text" value={editFormData.intro} name="intro" onChange={editChange}/><br/>
-                    
 
 
                 </form>
@@ -115,11 +119,11 @@ export default function Operatae(props){
                                 <th>{board.address}</th>
                                 <th>{board.hotel_number}</th>
                                 <th>{board.intro}</th>
-                                <th><select name="state" value={formData.hno} onChange={() => stateChange(formData.hno)}>
+                                <th><select name="state" value={board.state} onChange={() =>stateChange()}>
                                     <option value='0'>운영중</option>
                                     <option value='1'>임시휴업</option>
-                                    <option value='3'>폐점</option>
-                                </select></th><th><button type="butoon" onClick={() => onUpdate(board.hno)}>수정</button></th></tr>)// 여기 부분 onUpdate() 를 그냥 넣으니 연속 실행됨
+                                    <option value='2'>폐점</option>
+                                </select></th><th><button type="butoon" onClick={() => onUpdate(board.hno, board.hotel_number ,board.intro)}>수정</button></th></tr>)// 여기 부분 onUpdate() 를 그냥 넣으니 연속 실행됨
                             })
 
                         }
