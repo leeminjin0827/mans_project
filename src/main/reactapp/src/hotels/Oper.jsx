@@ -33,7 +33,6 @@ export default function Operatae(props){
 
 
     const [boards, setBoards] = useState([]); //여러개의 방문록을 가지는 state 변수
-
     const onFindAll = async () => {
         try {
             const response = await axios.get('http://localhost:8081/director');
@@ -57,8 +56,8 @@ export default function Operatae(props){
     }
     
     const onUpdate = async (hno, hotel_number, intro) => {
-        editFormData.hotel_number= prompt(`현재 비밀번호 : ${hotel_number}`, editFormData.hotel_number);
-        editFormData.intro = prompt(`현재 이름 : ${intro}`, editFormData.intro);
+        editFormData.hotel_number= prompt(`현재 번호 : ${hotel_number}`, editFormData.hotel_number);
+        editFormData.intro = prompt(`현재 소개 : ${intro}`, editFormData.intro);
 
         try {
                 editFormData.hno = hno;
@@ -77,22 +76,26 @@ export default function Operatae(props){
     }
 
 
-    const [stateDe, setState] = useState({ hno : '' , state : ''});
+    const [stateDe, setState] = useState(Array(boards.length));
 
     const stateChange = (e) => {
         console.log(e.target);
-        console.log(e.target.name);
+        // console.log(e.target.name);
         console.log(e.target.value);
-        setState({...stateDe, [e.target.name] : e.target.value});
+        setState(e.target.value);
 
-        let response =  axios.delete(`http://localhost:8081/director?id=${stateDe.hno}&state=${stateDe.state}`)
-        if(response.data == true){alert('삭제성공'); setState({hno : '' , state : ''}); onFindAll();}
-        else{alert('삭제실패');}
+       
+    }
+    const stateUpdate = (hno ,state) => {
+        let response =  axios.delete(`http://localhost:8081/director?hno=${hno}&state=${state}`)
+        if(response.data == true){alert('변경성공'); setState({hno : '' , state : ''}); onFindAll();}
+        else{alert('변경실패');}
+
+
     }
 
 
-
-
+    console.log(temp);
     
 
     return(<>
@@ -117,15 +120,20 @@ export default function Operatae(props){
                     <tbody>
                         {
                             boards.map((board, index) => {
+                                console.log(index);
                                 return(<tr key={board.hno}><th>{board.hno}</th>
                                 <th>{board.address}</th>
                                 <th>{board.hotel_number}</th>
                                 <th>{board.intro}</th>
-                                <th><select name="state" value={board.state} onChange={() =>stateChange()}>
-                                    <option value='0'>운영중</option>
-                                    <option value='1'>임시휴업</option>
-                                    <option value='2'>폐점</option>
-                                </select></th><th><button type="butoon" onClick={() => onUpdate(board.hno, board.hotel_number ,board.intro)}>수정</button></th></tr>)// 여기 부분 onUpdate() 를 그냥 넣으니 연속 실행됨
+                                <th><select value={stateDe[index]} onChange={stateChange}>
+                                    <option value={0}>운영중</option>
+                                    <option value={1}>임시휴업</option>
+                                    <option value={2}>폐점</option>
+                                    </select>
+                                    <button type="button" onClick={stateUpdate}>상태수정</button>
+                                    </th>
+                                
+                                <th><button type="butoon" onClick={() => onUpdate(board.hno, board.hotel_number ,board.intro)}>수정</button></th></tr>)// 여기 부분 onUpdate() 를 그냥 넣으니 연속 실행됨
                             })
 
                         }
