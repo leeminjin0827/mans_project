@@ -12,9 +12,5 @@ import './App.css'
 
 const root = createRoot(document.querySelector("#root"));
 
-// import StaffPage from './hotels/Staff.jsx';
-// root.render(<StaffPage />);
-
-import Operatae from './hotels/Oper';
-root.render(<Operatae/>);
-
+import SignInCard from './hotels/Login';
+root.render(<SignInCard />);

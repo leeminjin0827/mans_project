@@ -11,7 +11,8 @@ import java.util.Arrays;
 @Component
 public class UserLoggin {
     /** 메소드 실행 시간 연산 함수 */
-    @Around("execution(* board.service.UserService.*(..))")
+    // @Around("execution(* board.service.UserService.*(..))")
+    @Around("execution(* board.service..*(..))")
     public Object timeCheck(ProceedingJoinPoint joinPoint) throws Throwable {
         // 지정한 함수 시그니처 출력
         System.out.println("[실행 메소드] : " + joinPoint.getSignature());
