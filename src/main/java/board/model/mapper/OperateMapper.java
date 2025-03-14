@@ -22,14 +22,14 @@ public interface OperateMapper {
     @Select("select * from operate where hno = #{hno}")
     public  OperateDto findOne(int hno);
 
-    @Update(" update operate set hotel_number = #{hotel_number} , intro = #{intro} where hno = #{hno} ")
+    @Update(" update operate set address = #{address}, hotel_number = #{hotel_number} , intro = #{intro} where hno = #{hno} ")
     public boolean Update(OperateDto operateDto);
 
-    @Update(" update operate set address = #{address} where hno = #{hno} ")
-    boolean alter(OperateDto operateDto);
+//    @Update(" update operate set address = #{address} where hno = #{hno} ")
+//    boolean alter(OperateDto operateDto);
 
     @Update(" update operate set state = #{ state } where hno = #{ hno }")
-    boolean remove(OperateDto operateDto);
+    boolean remove(OperateDto operateDto);// 여기까지는 값이 제대로 옴
 
 
 }
