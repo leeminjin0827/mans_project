@@ -2,6 +2,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
+import {Box, Button, Input, Option, Select} from "@mui/joy";
+import * as React from 'react';
+
 
 
 export default function Operatae(props){
@@ -59,27 +62,36 @@ export default function Operatae(props){
         console.log(e.target.value);
         setEditFormData({...editFormData, [e.target.name] : e.target.value});
     }
+
     
-    const onUpdate = async (hno, hotel_number, intro) => {
+    const onUpdate = async (hno,address, hotel_number, intro) => {
+        editFormData.address = prompt(`현재주소 : ${address}`, editFormData.address);
         editFormData.hotel_number= prompt(`현재 번호 : ${hotel_number}`, editFormData.hotel_number);
         editFormData.intro = prompt(`현재 소개 : ${intro}`, editFormData.intro);
-
+        editFormData.hno = hno;
         try {
-                editFormData.hno = hno;
-            const response = await axios.put('http://localhost:8081/director', editFormData)
-            if(response.data == true && editFormData != ''){// 여기부분 수정 필요 전혀 걸러지지가 않음
+            
+            if(editFormData.hotel_number == "" && editFormData.address == '' && editFormData.intro == ''&& editFormData.address == null){// 여기부분 수정 필요 전혀 걸러지지가 않음
+                alert("수정실패 공백을 넣을수 없습니다.")
+            
+            } else if(editFormData.address != ""&& editFormData.address != '' && editFormData.intro != '') {
+                const response = await axios.put('http://localhost:8081/director', editFormData)
+                if(response.data == true){
                 alert("수정성공");
                 setEditFormData({hotel_number : '', intro : ''}); //초기화
                 onFindAll();
-            }else{
-                alert("수정실패");
+                
+                }else{alert("수정실패")}
             }
+                
+               
         } catch (error) {console.log(error);
             
         }
 
     }
     const temp = [];
+
 
     const [stateDe, setStateDe] = useState(temp); 
     //  [ 0 : 운영중 , 1:임시휴업 , 2: 폐업 ] 
@@ -108,13 +120,15 @@ export default function Operatae(props){
             <Sidebar />
             <div className="mainBox">
                 <form>
-                    <h2>관리자 정보페이지</h2>
                     
-                    주소 : <input type="text" value={formData.address} name="address" onChange={formDataChange}/><br/>
-                    호텔 전화번호 : <input type="text" value={formData.hotel_number} name="hotel_number" onChange={formDataChange}/><br/>
-                    소개 : <input type="text" value={formData.intro} name="intro" onChange={formDataChange}/><br/>
-        
-                    <button type="button" onClick={onPost}>저장</button><br/><br/>
+                    <h2>관리자 정보페이지</h2>
+                    <Box sx={{ py: 1, width: '20%',  display: 'grid', gap: 1, alignItems: 'center', flexWrap: 'wrap' }}>
+                    <Input size="md" placeholder="주소" type="text" value={formData.address} name="address" onChange={formDataChange}/>
+                    <Input size="md" placeholder="호텔 전화번호" type="text" value={formData.hotel_number} name="hotel_number" onChange={formDataChange}/>
+                    <Input size="md" placeholder="소개" type="text" value={formData.intro} name="intro" onChange={formDataChange}/>
+                    
+                    <Button size="sm" sx={{width: '16%'}} type="button" onClick={onPost}>저장</Button><br/><br/>
+                    </Box>
 
 
                 </form>
@@ -131,15 +145,15 @@ export default function Operatae(props){
                                 <th>{board.address}</th>
                                 <th>{board.hotel_number}</th>
                                 <th>{board.intro}</th>
-                                <th><select value={stateDe[index]} onChange={ (e) => { stateChange( e, index) } } >
-                                    <option value={0}>운영중</option>
-                                   <option value={1}>임시휴업</option>
-                                    <option value={2}>폐점</option>
-                                    </select>
-                                    <button type="button" onClick={() =>{stateUpdate(board.hno, stateDe[index])}}>상태수정</button>
+                                <th><Select  value={stateDe[index]} onChange={ (e) => { stateChange( e, index) } } >
+                                    <Option value={0}>운영중</Option>
+                                   <Option value={1}>임시휴업</Option>
+                                    <Option value={2}>폐점</Option>
+                                    </Select>
+                                    <Button size="sm"button type="button" onClick={() =>{stateUpdate(board.hno, stateDe[index])}}>상태수정</Button>
                                     </th>
                                 
-                                <th><button type="butoon" onClick={() => onUpdate(board.hno, board.hotel_number ,board.intro)}>수정</button></th></tr>)// 여기 부분 onUpdate() 를 그냥 넣으니 연속 실행됨
+                                <th><Button size="sm"button type="butoon" onClick={() => onUpdate(board.hno, board.hotel_number ,board.intro)}>수정</Button></th></tr>)// 여기 부분 onUpdate() 를 그냥 넣으니 연속 실행됨
                             })
                         }
                     </tbody>
