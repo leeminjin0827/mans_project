@@ -1,19 +1,18 @@
 package board.model.mapper.room;
 
-import board.model.dto.room.OptionDto;
-import board.model.dto.room.RoomDto;
+import board.model.dto.room.RoomOptionDto;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 @Mapper
-public interface RoomMapper {
+public interface RoomOptionMapper {
 
-    // 객실 등록 SQL
-    @Insert(" insert into room(rno) values ( #{rno} ) ")
-    boolean roomWrite(RoomDto roomDto);  // 자동 생성된 rono를 외부에서 처리
+    // 등급 옵션 목록 추가 SQL
+    @Insert(" insert into room_options(rno, opno) values ( #{rno}, #{opno} ) ")
+    boolean rOptionWrite(@Param("rno") int rno, @Param("opno") int opno);
 
-    // 객실 전체조회 SQL
+    // 등급 옵션 목록 전체조회 SQL
     @Select(" select r.rono, r.rno, rt.rating_name, rt.bed_count, rt.bed_type, o.op_name from room r " +
             "join rating rt on r.rno = rt.rno " +
             "join room_options ro on r.rono = ro.rono " +
@@ -27,14 +26,12 @@ public interface RoomMapper {
             @Result(property = "bedType", column = "bed_type"),
             @Result(property = "opName", column = "op_name")
     })
-    List<RoomDto> roomList();
+    List<RoomOptionDto> rOptionList();
 
-    // 객실 수정 SQL
-    @Update(" update room set rno = #{rno} where rono = #{rono} ")
-    boolean roomUpdate(RoomDto roomDto);
+    // 등급 옵션 목록 수정 SQL
 
-    // 객실 삭제 SQL
-    @Delete(" delete from room where rono = #{rono} ")
-    boolean roomDelete(int rono);
+    // 등급 옵션 목록 삭제 SQL
+    @Delete(" delete from room_options where rono = #{rono} ")
+    boolean rOptionDelete(int rono);
 
 } // i end

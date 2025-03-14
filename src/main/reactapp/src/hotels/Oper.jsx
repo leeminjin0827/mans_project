@@ -95,7 +95,7 @@ export default function Operatae(props){
     }
 
 
-    console.log(temp);
+    // console.log(temp);
     
 
     return(<>
