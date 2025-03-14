@@ -63,9 +63,9 @@ export default function StaffPage(props) {
         let newPhone = prompt(`현재 전화번호 : ${info.phone}`, info.phone);
         let newAddress = prompt(`현재 주소 : ${info.address}`, info.address);
         let newStartDate = prompt(`현재 입사일 : ${info.startDate}`, info.startDate);
-        let newStaffRank = prompt(`현재 직급 : ${changeRankToString(info.staffRank)}`, changeRankToString(info.staffRank));
+        let newStaffRank = prompt(`현재 직급 : ${changeStaffRank(info.staffRank)}`, changeStaffRank(info.staffRank));
         let newSalary = prompt(`현재 연봉 : ${info.salary}`, info.salary);
-        let newHno = prompt(`현재 근무지 : ${changeHnoToString(info.hno)}`, changeHnoToString(info.hno));
+        let newHno = prompt(`현재 근무지 : ${changeWorkplace(info.hno)}`, changeWorkplace(info.hno));
 
         alert(
             `
@@ -80,9 +80,9 @@ export default function StaffPage(props) {
             `
         );
 
-        newStaffRank = changeRankToInt(newStaffRank);
+        newStaffRank = changeStaffRank(newStaffRank);
         alert(newStaffRank);
-        newHno = changeHnoToInt(newHno);
+        newHno = changeWorkplace(newHno);
         alert(newHno);
 
         setStaffUpdate(
@@ -165,73 +165,69 @@ export default function StaffPage(props) {
     // console.log(staffUpdate);
     // console.log(selectOption);
 
-    // 중복되는 함수
-    // 직급을 문자열로 변환
-    const changeRankToString = (staffRank) => {
-        let str;
-        switch(staffRank) {
-            case 0:
-                str = "관리자";
-                break;
-            case 1:
-                str = "지배인";
-                break;
-            case 2:
-                str = "사원";
-                break;
+    // 치환 관련 코드
+    /** 직급 관련 함수 */
+    const changeStaffRank = (staffRank) => {
+        let type = typeof staffRank;
+        let result;
+        if(type === "number") {
+            switch(staffRank) {
+                case 0:
+                    result = "관리자";
+                    break;
+                case 1:
+                    result = "지배인";
+                    break;
+                case 2:
+                    result = "사원";
+                    break;
+            }
+        } else if(type === "string") {
+            switch(staffRank) {
+                case "관리자" :
+                    result = 0;
+                    break;
+                case "지배인" :
+                    result = 1;
+                    break;
+                case "사원" :
+                    result = 2;
+                    break;
+            }
         }
-        return str;
-    }
-    // 직급을 숫자로 변환
-    const changeRankToInt = (staffRank) => {
-        let int;
-        switch(staffRank) {
-            case "관리자" :
-                int = 0;
-                break;
-            case "지배인" :
-                int = 1;
-                break;
-            case "사원" :
-                int = 2;
-                break;
-        }
-        return int;
+        return result;
     }
 
-    
-
-    // 근무지를 문자열로 변환
-    const changeHnoToString = (hno) => {
-        let str;
-        switch(hno) {
-            case 1:
-                str = "강남점";
-                break;
-            case 2:
-                str = "중구점";
-                break;
-            case 3:
-                str = "부평점";
-                break;
+    /** 근무지 관련 함수 */
+    const changeWorkplace = (hno) => {
+        let type = typeof hno;
+        let result;
+        if(type === "number") {
+            switch(hno) {
+                case 1:
+                    result = "강남점";
+                    break;
+                case 2:
+                    result = "중구점";
+                    break;
+                case 3:
+                    result = "부평점";
+                    break;
+            }
+        } else if(type === "string") {
+            switch(hno) {
+                case "강남점":
+                    result = 1;
+                    break;
+                case "중구점":
+                    result = 2;
+                    break;
+                case "부평점":
+                    result = 3;
+                    break;
+            }
         }
-        return str;
-    }
-    // 근무지를 숫자로 변환
-    const changeHnoToInt = (hno) => {
-        let int;
-        switch(hno) {
-            case "강남점":
-                int = 1;
-                break;
-            case "중구점":
-                int = 2;
-                break;
-            case "부평점":
-                int = 3;
-                break;
-        }
-        return int;
+        return result;
     }
     // 퇴사 상태를 문자열로 변환
     const changeResignationToString = (resignation) => {
@@ -252,7 +248,7 @@ export default function StaffPage(props) {
             <Sidebar />
             <div className="mainBox">
                 <div style={{width : "100%"}}>
-                    <h1>직원 전체 출력</h1>
+                    <h1>직원 관리</h1>
                     <div style={{ padding : "0px 10px",display : "flex", justifyContent : "end"}}>
                         <select value={selectOption} onChange={changeOption} style={{marginRight : "50px"}}>
                             <option value={"0"}>전체</option>
@@ -286,9 +282,9 @@ export default function StaffPage(props) {
                                             <td>{info.address}</td>
                                             <td>{info.startDate}</td>
                                             <td>{info.endDate}</td>
-                                            <td>{changeRankToString(info.staffRank)}</td>
+                                            <td>{changeStaffRank(info.staffRank)}</td>
                                             <td>{info.salary}</td>
-                                            <td>{changeHnoToString(info.hno)}</td>
+                                            <td>{changeWorkplace(info.hno)}</td>
                                             <td>{changeResignationToString(info.resignation)}</td>
                                             <td style={{padding : "10px", display : "flex", justifyContent : "space-evenly"}}>
                                                 <Button variant="contained" type="button" onClick={(event) => {newStaffInfo(event, info);}}>수정</Button>
