@@ -1,12 +1,23 @@
-import { Divider, Input } from "@mui/joy";
+import { Divider, Input, Option, Select } from "@mui/joy";
 import { Button } from "@mui/material";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 
 export default function StaffUpdate(props) {
 
+    // 직급 관리 배열
+    const [rankList, setRankList] = useState([0, 1, 2]);
+    // 새로운 직급
+    const [newRank, setNewRank] = useState(0);
+    // 근무지 관련 배열
+    const [workplaceList, setWorkplaceList] = useState([]);
+    // 새로운 근무지
+    const [newWorkplace, setNewWorkplace] = useState(0);
+    // 근무지 정보 가져오기
+    useEffect(() => {getWorkplace();}, []);
+    // 부모컨포넌트로부터 받은 값
     const info = props.staffUpdate;
 
     // 입력값 관련 코드
@@ -19,11 +30,11 @@ export default function StaffUpdate(props) {
         setUpdateData({...updateData, [event.target.name] : event.target.value});
     }
 
-    // 직원 정보 수정
+    /** 직원 정보 수정 */
     const staffInfoUpdate = async () => {
         try {
-            updateData.staffRank = props.changeStaffRank(updateData.staffRank);
-            updateData.hno = props.changeWorkplace(updateData.hno);
+            updateData.staffRank = newRank;
+            updateData.hno = newWorkplace;
             console.log("확인 체크");
             console.log(updateData);
             const response = await axios.put("http://localhost:8081/staff", updateData);
@@ -40,7 +51,23 @@ export default function StaffUpdate(props) {
         }
     }
 
-    console.log(updateData);
+    /** 지점정보 가져오는 코드 */
+    const getWorkplace = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8081/director`);
+            console.log(response.data);
+            for(let index = 0; index < response.data.length; index++) {
+                workplaceList[index] = response.data[index].hno;
+            }
+            setWorkplaceList([...workplaceList]);
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
+    // console.log(updateData);
+    // console.log(newRank);
+    console.log(workplaceList);
 
     return (
         <>
@@ -69,7 +96,22 @@ export default function StaffUpdate(props) {
                     </tr>
                     <tr>
                         <td>직급 : </td>
-                        <td><Input variant="outlined" size="md" name="staffRank" placeholder="" value={updateData.staffRank} onChange={chageInput} /></td>
+                        <td>
+                            <Select 
+                                defaultValue={props.changeStaffRank(updateData.staffRank)} 
+                                onChange={(event, newValue) => {setNewRank(newValue);}} 
+                                slotProps={{listbox : {sx : { zIndex: 1300 }}}}
+                                name="staffRank"
+                            >
+                                {
+                                    rankList.map((rank, index) => {
+                                        return (
+                                            <Option key={index} value={rank}>{props.changeStaffRank(rank)}</Option>
+                                        )
+                                    })
+                                }
+                            </Select>
+                        </td>
                     </tr>
                     <tr>
                         <td>연봉(만원) : </td>
@@ -77,7 +119,22 @@ export default function StaffUpdate(props) {
                     </tr>
                     <tr>
                         <td>근무지 : </td>
-                        <td><Input variant="outlined" size="md" name="hno" placeholder="○○점" value={updateData.hno} onChange={chageInput} /></td>
+                        <td>
+                            <Select 
+                                defaultValue={props.changeWorkplace(updateData.hno)} 
+                                onChange={(event, newValue) => {setNewWorkplace(newValue);}} 
+                                slotProps={{listbox : {sx : { zIndex: 1300 }}}}
+                                name="hno"
+                            >
+                                {
+                                    workplaceList.map((workplace, index) => {
+                                        return (
+                                            <Option key={index+1} value={workplace}>{props.changeWorkplace(workplace)}</Option>
+                                        )
+                                    })
+                                }
+                            </Select>
+                        </td>
                     </tr>
                 </tbody>
             </table>
