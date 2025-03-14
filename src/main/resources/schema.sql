@@ -79,21 +79,22 @@ create table room(
     -- 객실등급번호
     rno int unsigned ,
     constraint primary key(rono),
-    foreign key(rno) references rating(rno) on update cascade  on delete  cascade,
+    foreign key(rno) references rating(rno) on update cascade on delete cascade
 );
 
 -- 객실별 옵션 관리 테이블
 create table room_options (
-    -- 객실번호
-    rono int unsigned,
+    -- 객실등급번호
+    rno int unsigned ,
     -- 옵션번호
-    opno int unsigned,
-    constraint primary key(rono, opno),
-    foreign key(rono) references room(rono) on update cascade on delete cascade,
+    opno int unsigned ,
+    constraint primary key(rno, opno),
+    foreign key(rno) references rating(rno) on update cascade on delete cascade,
     foreign key(opno) references options(opno) on update cascade on delete cascade
 );
 
 create table staff (
+
 	staff_number int unsigned auto_increment,
     id varchar(30) not null unique,
     password varchar(30) not null default "1234",
