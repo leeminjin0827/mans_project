@@ -5,43 +5,23 @@ import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import StaticModal from "./components/StaticModal";
 import StaffRegister from "./components/staff/StaffRegister";
+import StaffUpdate from "./components/staff/StaffUpdate";
 
 
 export default function StaffPage(props) {
 
-    // 페이지 이동 관련 코드
+    /** 페이지 이동 관련 코드 */
     const navigate = useNavigate();
-
-    // 등록 관련 state
-    // const [staffInfo, setStaffInfo] = useState(
-    //     {id : "", name : "", phone : "", address : "", startDate : "2025-03-10", salary : ""}
-    // );
-    // const changeData = (event) => {
-    //     setStaffInfo({...staffInfo, [event.target.name] : event.target.value});
-    // }
-    // const register = async (event) => {
-    //     try {
-    //         const response = await axios.post("http://localhost:8081/staff", staffInfo);
-    //         console.log(response.data);
-    //         if(response.data == true) {
-    //             alert("등록 성공");
-    //             setStaffInfo({id : "", name : "", phone : "", address : "", startDate : "2025-03-10", salary : ""});
-    //             staffFindAll();
-    //         } else {
-    //             alert("등록 실패");
-    //         }
-    //     } catch(e) {
-    //         console.log(e);
-    //     }
-    // }
 
     // 모달창 관련 코드
     const [openModal, setOpenModal] = useState(false);
+    // 수정 모달창 관련 코드
+    const [updateModal, setUpdateModal] = useState(false);
 
     // 출력 관련 state
     useEffect(() => {staffFindAll()}, []);
     const [staffInfoList, setStaffInfoList] = useState([]);
-    const staffFindAll = async (event) => {
+    const staffFindAll = async () => {
         try {
             const response = await axios.get("http://localhost:8081/staff");
             // console.log(response.data);
@@ -56,67 +36,90 @@ export default function StaffPage(props) {
         {staffNumber : "", password : "", name : "", phone : "", address : "", startDate : "", staffRank : "", salary : "", hno : ""}
     );
     // 생명주기, 의존성, staffNumber값이 true일때 실행
-    useEffect(() => {if(staffUpdate.staffNumber) {console.log(staffUpdate.staffNumber); staffInfoUpdate();}}, [staffUpdate]);
-    const newStaffInfo = (event, info) => {
-        let newPassword = prompt(`현재 비밀번호 : ${info.password}`, info.password);
-        let newName = prompt(`현재 이름 : ${info.name}`, info.name);
-        let newPhone = prompt(`현재 전화번호 : ${info.phone}`, info.phone);
-        let newAddress = prompt(`현재 주소 : ${info.address}`, info.address);
-        let newStartDate = prompt(`현재 입사일 : ${info.startDate}`, info.startDate);
-        let newStaffRank = prompt(`현재 직급 : ${changeStaffRank(info.staffRank)}`, changeStaffRank(info.staffRank));
-        let newSalary = prompt(`현재 연봉 : ${info.salary}`, info.salary);
-        let newHno = prompt(`현재 근무지 : ${changeWorkplace(info.hno)}`, changeWorkplace(info.hno));
+    // useEffect(() => {if(staffUpdate.staffNumber) {console.log(staffUpdate.staffNumber); staffInfoUpdate();}}, [staffUpdate]);
+    // const newStaffInfo = (event, info) => {
+    //     let newPassword = prompt(`현재 비밀번호 : ${info.password}`, info.password);
+    //     let newName = prompt(`현재 이름 : ${info.name}`, info.name);
+    //     let newPhone = prompt(`현재 전화번호 : ${info.phone}`, info.phone);
+    //     let newAddress = prompt(`현재 주소 : ${info.address}`, info.address);
+    //     let newStartDate = prompt(`현재 입사일 : ${info.startDate}`, info.startDate);
+    //     let newStaffRank = prompt(`현재 직급 : ${changeStaffRank(info.staffRank)}`, changeStaffRank(info.staffRank));
+    //     let newSalary = prompt(`현재 연봉 : ${info.salary}`, info.salary);
+    //     let newHno = prompt(`현재 근무지 : ${changeWorkplace(info.hno)}`, changeWorkplace(info.hno));
 
-        alert(
-            `
-            newPassword : ${newPassword}\n
-            newName : ${newName}\n
-            newPhone :${newPhone}\n
-            newAddress : ${newAddress}\n
-            newStartDate : ${newStartDate}\n
-            newStaffRank : ${newStaffRank}\n
-            newSalary : ${newSalary}\n
-            newHno : ${newHno}
-            `
-        );
+    //     alert(
+    //         `
+    //         newPassword : ${newPassword}\n
+    //         newName : ${newName}\n
+    //         newPhone :${newPhone}\n
+    //         newAddress : ${newAddress}\n
+    //         newStartDate : ${newStartDate}\n
+    //         newStaffRank : ${newStaffRank}\n
+    //         newSalary : ${newSalary}\n
+    //         newHno : ${newHno}
+    //         `
+    //     );
 
-        newStaffRank = changeStaffRank(newStaffRank);
-        alert(newStaffRank);
-        newHno = changeWorkplace(newHno);
-        alert(newHno);
 
-        setStaffUpdate(
-            {
-                ...staffUpdate, 
-                staffNumber : info.staffNumber, 
-                password : newPassword, 
-                name : newName, 
-                phone : newPhone, 
-                address : newAddress, 
-                startDate : newStartDate, 
-                staffRank : newStaffRank, 
-                salary : newSalary, 
-                hno : newHno
+    //     newStaffRank = changeStaffRank(newStaffRank);
+    //     alert(newStaffRank);
+    //     newHno = changeWorkplace(newHno);
+    //     alert(newHno);
+
+    //     setStaffUpdate(
+    //         {
+    //             ...staffUpdate, 
+    //             staffNumber : info.staffNumber, 
+    //             password : newPassword, 
+    //             name : newName, 
+    //             phone : newPhone, 
+    //             address : newAddress, 
+    //             startDate : newStartDate, 
+    //             staffRank : newStaffRank, 
+    //             salary : newSalary, 
+    //             hno : newHno
+    //         }
+    //     );
+    // }
+
+    // 추가 중
+    // 수정 모달창 관련
+    const openUpdateModal = (staffNumber) => {
+        for(let index = 0; index < staffInfoList.length; index++) {
+            let list = staffInfoList[index];
+            if(staffNumber == list.staffNumber) {
+                staffUpdate.staffNumber = list.staffNumber;
+                staffUpdate.password = list.password;
+                staffUpdate.name = list.name;
+                staffUpdate.phone = list.phone;
+                staffUpdate.address = list.address;
+                staffUpdate.startDate = list.startDate;
+                staffUpdate.staffRank = changeStaffRank(list.staffRank);
+                staffUpdate.salary = list.salary;
+                staffUpdate.hno = changeWorkplace(list.hno);
             }
-        );
-    }
-    // 직원 정보 수정
-    const staffInfoUpdate = async () => {
-        try {
-            console.log("확인 체크");
-            console.log(staffUpdate);
-            const response = await axios.put("http://localhost:8081/staff", staffUpdate);
-            console.log(response.data);
-            if(response.data == true) {
-                alert("수정 성공");
-                staffFindAll();
-            } else {
-                alert("수정 실패");
-            }
-        } catch(e) {
-            console.log(e);
         }
+        setUpdateModal(true);
     }
+    // 추가 중
+
+    // 직원 정보 수정
+    // const staffInfoUpdate = async () => {
+    //     try {
+    //         console.log("확인 체크");
+    //         console.log(staffUpdate);
+    //         const response = await axios.put("http://localhost:8081/staff", staffUpdate);
+    //         console.log(response.data);
+    //         if(response.data == true) {
+    //             alert("수정 성공");
+    //             staffFindAll();
+    //         } else {
+    //             alert("수정 실패");
+    //         }
+    //     } catch(e) {
+    //         console.log(e);
+    //     }
+    // }
 
     // 퇴사 관련 state
     const [staffDelete, setStaffDelete] = useState({endDate : "", resignation : ""});
@@ -265,8 +268,8 @@ export default function StaffPage(props) {
                                 <td>직원 번호</td><td>아이디</td><td>비밀번호</td>
                                 <td>이름</td><td>전화번호</td><td>주소</td>
                                 <td>입사일</td><td>퇴사일</td><td>직급</td>
-                                <td>연봉(만원)</td><td>지점 번호</td><td>퇴사 상태</td>
-                                <td>비고(근무 : 0, 퇴사 : 1)</td>
+                                <td>연봉(만원)</td><td>근무지</td><td>퇴사 상태</td>
+                                <td>비고</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -287,7 +290,7 @@ export default function StaffPage(props) {
                                             <td>{changeWorkplace(info.hno)}</td>
                                             <td>{changeResignationToString(info.resignation)}</td>
                                             <td style={{padding : "10px", display : "flex", justifyContent : "space-evenly"}}>
-                                                <Button variant="contained" type="button" onClick={(event) => {newStaffInfo(event, info);}}>수정</Button>
+                                                <Button variant="contained" type="button" onClick={() => {openUpdateModal(info.staffNumber);}}>수정</Button>
                                                 <Button variant="contained" type="button" onClick={(event) => {resignationStaff(event, info.staffNumber);}}>퇴사</Button>
                                             </td>
                                         </tr>
@@ -297,11 +300,28 @@ export default function StaffPage(props) {
                         </tbody>
                     </table>
                 </div>
+                {/* 직원 등록 관련 모달 */}
                 <StaticModal 
                     isOpen={openModal}
                     title={"직원 등록"}
                     openData={<StaffRegister staffFindAll={staffFindAll} onClose={() => setOpenModal(false)} />}
                     onClose={()=> {setOpenModal(false)}}
+                    staffFindAll={staffFindAll}
+                />
+                {/* 직원 수정 관련 모달 */}
+                <StaticModal 
+                    isOpen={updateModal}
+                    title={"직원 정보 수정"}
+                    openData={
+                        <StaffUpdate 
+                            staffFindAll={staffFindAll} 
+                            onClose={() => setUpdateModal(false)} 
+                            staffUpdate={staffUpdate} 
+                            changeStaffRank={changeStaffRank} 
+                            changeWorkplace={changeWorkplace}
+                        />
+                    }
+                    onClose={()=> {setUpdateModal(false)}}
                     staffFindAll={staffFindAll}
                 />
             </div>
