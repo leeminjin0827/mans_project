@@ -17,23 +17,22 @@ export default function StaticModal(props) {
     return (
         <>
             <Fragment>
-                {/* <Button variant="outlined" color="neutral" onClick={() => setOpen(true)}>
-                Open modal
-                </Button> */}
                 <Modal
                     aria-labelledby="close-modal-title"
                     open={open}
                     onClose={(_event, reason) => {
-                    alert(`Reason: ${reason}`);
                     setOpen(true);
                     }}
                     sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                 >
-                    <Sheet variant="outlined" sx={{ minWidth: 300, borderRadius: 'md', p: 3 }}>
+                    <Sheet variant="outlined" sx={{ minWidth: 300, borderRadius: 'md', pr : 3, pb : 3, pl : 3 }}>
                         <ModalClose variant="outlined" onClick={onClose} />
-                        <Typography component="h2" id="close-modal-title" level="h4" textColor="inherit" sx={{ fontWeight: 'lg' }}>
-                            Modal title
+                        <Typography component="h3" id="close-modal-title" level="h3" textColor="inherit" sx={{ fontWeight: 'lg', mt : "15px", mb : "15px" }}>
+                            {props.title}
                         </Typography>
+                        {
+                            props.openData
+                        }
                     </Sheet>
                 </Modal>
             </Fragment>

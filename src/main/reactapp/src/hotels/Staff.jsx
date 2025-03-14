@@ -4,6 +4,7 @@ import Sidebar from "./components/Sidebar";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import StaticModal from "./components/StaticModal";
+import StaffRegister from "./components/staff/StaffRegister";
 
 
 export default function StaffPage(props) {
@@ -35,7 +36,7 @@ export default function StaffPage(props) {
     // }
 
     // 모달창 관련 코드
-    const [openModal, setOepnModal] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
 
     // 출력 관련 state
     useEffect(() => {staffFindAll()}, []);
@@ -43,7 +44,7 @@ export default function StaffPage(props) {
     const staffFindAll = async (event) => {
         try {
             const response = await axios.get("http://localhost:8081/staff");
-            console.log(response.data);
+            // console.log(response.data);
             setStaffInfoList(response.data);
         } catch(e) {
             console.log(e);
@@ -162,7 +163,7 @@ export default function StaffPage(props) {
     }
 
     // console.log(staffUpdate);
-    console.log(selectOption);
+    // console.log(selectOption);
 
     // 중복되는 함수
     // 직급을 문자열로 변환
@@ -197,6 +198,9 @@ export default function StaffPage(props) {
         }
         return int;
     }
+
+    
+
     // 근무지를 문자열로 변환
     const changeHnoToString = (hno) => {
         let str;
@@ -242,19 +246,6 @@ export default function StaffPage(props) {
         }
         return str;
     }
-    // 퇴사 상태를 숫자로 변환
-    const changeResignationToInt = (resignation) => {
-        let int;
-        switch(resignation) {
-            case "근무" :
-                int = 0;
-                break;
-            case "퇴사" :
-                int = 1;
-                break;
-        }
-        return int;
-    }
 
     return (
         <>
@@ -269,7 +260,7 @@ export default function StaffPage(props) {
                             <option value={"2"}>중구점</option>
                             <option value={"3"}>부평점</option>
                         </select>
-                        <Button variant="contained" onClick={() => {setOepnModal(true)}}>직원 등록</Button>
+                        <Button variant="contained" onClick={() => {setOpenModal(true)}}>직원 등록</Button>
                     </div>
                     <br/>
                     <table border={"1"} style={{width : "100%", textAlign : "center"}}>
@@ -310,7 +301,13 @@ export default function StaffPage(props) {
                         </tbody>
                     </table>
                 </div>
-                <StaticModal isOpen={openModal} onClose={()=> {setOepnModal(false)}} />;
+                <StaticModal 
+                    isOpen={openModal}
+                    title={"직원 등록"}
+                    openData={<StaffRegister staffFindAll={staffFindAll} onClose={() => setOpenModal(false)} />}
+                    onClose={()=> {setOpenModal(false)}}
+                    staffFindAll={staffFindAll}
+                />
             </div>
         </>
     );
