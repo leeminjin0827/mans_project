@@ -34,6 +34,9 @@ export default function StaffPage(props) {
     //     }
     // }
 
+    // 모달창 관련 코드
+    const [openModal, setOepnModal] = useState(false);
+
     // 출력 관련 state
     useEffect(() => {staffFindAll()}, []);
     const [staffInfoList, setStaffInfoList] = useState([]);
@@ -266,7 +269,7 @@ export default function StaffPage(props) {
                             <option value={"2"}>중구점</option>
                             <option value={"3"}>부평점</option>
                         </select>
-                        <Button variant="contained" onClick={() => { return <StaticModal />;}}>직원 등록</Button>
+                        <Button variant="contained" onClick={() => {setOepnModal(true)}}>직원 등록</Button>
                     </div>
                     <br/>
                     <table border={"1"} style={{width : "100%", textAlign : "center"}}>
@@ -307,6 +310,7 @@ export default function StaffPage(props) {
                         </tbody>
                     </table>
                 </div>
+                <StaticModal isOpen={openModal} onClose={()=> {setOepnModal(false)}} />;
             </div>
         </>
     );

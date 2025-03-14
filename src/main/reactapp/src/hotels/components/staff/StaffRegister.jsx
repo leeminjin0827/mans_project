@@ -29,7 +29,6 @@ export default function StaffRegister(props) {
 
     return (
         <>  
-            <Sidebar />
             <div className="mainBox">
                 <h1>직원 등록</h1>
                 <form>
