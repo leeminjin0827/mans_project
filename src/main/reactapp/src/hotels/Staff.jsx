@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Sidebar from "./components/Sidebar";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { Table } from "@mui/joy";
 import { useNavigate } from "react-router-dom";
 import StaticModal from "./components/StaticModal";
@@ -218,52 +218,54 @@ export default function StaffPage(props) {
                         </select>
                         <Button variant="contained" onClick={() => {setOpenModal(true)}}>직원 등록</Button>
                     </div>
-                    <br/>
-                    <Table id="staffTable" style={{width : "100%", textAlign : "center"}}>
-                        <thead>
-                            <tr>
-                                <th>직원 번호</th>
-                                <th>아이디</th>
-                                {/* <th>비밀번호</th> */}
-                                <th>이름</th>
-                                <th>전화번호</th>
-                                {/* <th>주소</th> */}
-                                {/* <th>입사일</th> */}
-                                {/* <th>퇴사일</th> */}
-                                <th>직급</th>
-                                {/* <th>연봉(만원)</th> */}
-                                <th>근무지</th>
-                                <th>퇴사 상태</th>
-                                <th>비고</th>
-                            </tr>
-                        </thead>
-                        <tbody border={"1"}>
-                            {
-                                staffInfoList.map((info, index) => {
-                                    return (
-                                        <tr key={index}>
-                                            <td id={"staffNumber" + info.staffNumber}>{info.staffNumber}</td>
-                                            <td><Button variant="text" sx={{textTransform : "none"}} onClick={() => {openDetalModal(info.staffNumber)}}>{info.id}</Button></td>
-                                            {/* <td>{info.password}</td> */}
-                                            <td>{info.name}</td>
-                                            <td>{info.phone}</td>
-                                            {/* <td>{info.address}</td> */}
-                                            {/* <td>{info.startDate}</td> */}
-                                            {/* <td>{info.endDate}</td> */}
-                                            <td>{changeStaffRank(info.staffRank)}</td>
-                                            {/* <td>{info.salary}</td> */}
-                                            <td>{changeWorkplace(info.hno)}</td>
-                                            <td>{changeResignationToString(info.resignation)}</td>
-                                            <td style={{width : "100%", padding : "10px", display : "flex", justifyContent : "space-evenly"}}>
-                                                <Button variant="contained" type="button" onClick={() => {openUpdateModal(info.staffNumber);}}>수정</Button>
-                                                <Button variant="contained" type="button" onClick={(event) => {resignationStaff(event, info.staffNumber);}}>퇴사</Button>
-                                            </td>
-                                        </tr>
-                                    );
-                                })
-                            }
-                        </tbody>
-                    </Table>
+                    <br/> {/* overflow: "auto", */}
+                    <Box sx={{ maxWidth: "100%" }}>
+                        <Table id="staffTable" sx={{tableLayout : "auto"}} style={{width : "100%", textAlign : "center"}}>
+                            <thead>
+                                <tr>
+                                    <th>직원 번호</th>
+                                    <th>아이디</th>
+                                    {/* <th>비밀번호</th> */}
+                                    <th>이름</th>
+                                    <th>전화번호</th>
+                                    {/* <th>주소</th> */}
+                                    <th>입사일</th>
+                                    {/* <th>퇴사일</th> */}
+                                    <th>직급</th>
+                                    {/* <th>연봉(만원)</th> */}
+                                    <th>근무지</th>
+                                    <th>퇴사 상태</th>
+                                    <th>비고</th>
+                                </tr>
+                            </thead>
+                            <tbody border={"1"}>
+                                {
+                                    staffInfoList.map((info, index) => {
+                                        return (
+                                            <tr key={index} style={{width : "100%"}}>
+                                                <td id={"staffNumber" + info.staffNumber}>{info.staffNumber}</td>
+                                                <td><Button variant="text" sx={{textTransform : "none"}} onClick={() => {openDetalModal(info.staffNumber)}}>{info.id}</Button></td>
+                                                {/* <td>{info.password}</td> */}
+                                                <td>{info.name}</td>
+                                                <td>{info.phone}</td>
+                                                {/* <td>{info.address}</td> */}
+                                                <td>{info.startDate}</td>
+                                                {/* <td>{info.endDate}</td> */}
+                                                <td>{changeStaffRank(info.staffRank)}</td>
+                                                {/* <td>{info.salary}</td> */}
+                                                <td>{changeWorkplace(info.hno)}</td>
+                                                <td>{changeResignationToString(info.resignation)}</td>
+                                                <td style={{width : "100%", padding : "10px", display : "flex", justifyContent : "space-evenly"}}>
+                                                    <Button variant="contained" type="button"  sx={{width : "5rem", height : "2.5rem"}} onClick={() => {openUpdateModal(info.staffNumber);}}>수정</Button>
+                                                    <Button variant="contained" type="button"  sx={{width : "5rem", height : "2.5rem"}} onClick={(event) => {resignationStaff(event, info.staffNumber);}}>퇴사</Button>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })
+                                }
+                            </tbody>
+                        </Table>
+                    </Box>
                 </div>
                 {/* 직원 등록 관련 모달 */}
                 <StaticModal 
