@@ -23,15 +23,9 @@ public class RoomOptionService {
         return roomOptionMapper.rOptionList();
     } // f end
 
-    // 등급 옵션 목록 수정
-    public boolean rOptionUpdate( RoomOptionDto roomOptionDto ){
-//        return roomOptionMapper.rOptionUpdate( roomOptionDto );
-        return true;
-    } // f end
-
     // 등급 옵션 목록 삭제
-    public boolean rOptionDelete( int rono ){
-        return roomOptionMapper.rOptionDelete( rono );
+    public boolean rOptionDelete( int rno , int opno  ){
+        return roomOptionMapper.rOptionDelete( rno , opno );
     } // f end
 
 } // f end
