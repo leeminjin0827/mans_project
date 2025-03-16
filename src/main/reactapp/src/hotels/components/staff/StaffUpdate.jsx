@@ -7,18 +7,18 @@ import { useEffect, useState } from "react";
 
 export default function StaffUpdate(props) {
 
+    // 부모컨포넌트로부터 받은 값
+    const info = props.staffUpdate;
     // 직급 관리 배열
     const [rankList, setRankList] = useState([0, 1, 2]);
     // 새로운 직급
-    const [newRank, setNewRank] = useState(0);
+    const [newRank, setNewRank] = useState(props.changeStaffRank(info.staffRank));
     // 근무지 관련 배열
     const [workplaceList, setWorkplaceList] = useState([]);
     // 새로운 근무지
-    const [newWorkplace, setNewWorkplace] = useState(0);
+    const [newWorkplace, setNewWorkplace] = useState(props.changeWorkplace(info.hno));
     // 근무지 정보 가져오기
     useEffect(() => {getWorkplace();}, []);
-    // 부모컨포넌트로부터 받은 값
-    const info = props.staffUpdate;
 
     // 입력값 관련 코드
     const [updateData, setUpdateData] = useState({
@@ -68,6 +68,7 @@ export default function StaffUpdate(props) {
     // console.log(updateData);
     // console.log(newRank);
     console.log(workplaceList);
+    console.log(updateData);
 
     return (
         <>

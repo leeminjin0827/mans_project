@@ -17,11 +17,13 @@ public class StaffController {
     @Autowired
     public StaffController(StaffService staffService) {this.staffService = staffService;}
 
+    // 유효성 검사 함수들
+
     /** 직원 등록 */
     @PostMapping("")
     public boolean staffRegister(@RequestBody() StaffDto staffDto) {
         // 공백, 탭, 개행문자 제거 전
-        System.out.println("staffDto = " + staffDto);
+        System.out.println("before staffDto = " + staffDto);
         // 공백, 탭, 개행문자 삭제
         staffDto.setId(staffDto.getId().trim());
         staffDto.setName(staffDto.getName().trim());
@@ -32,7 +34,7 @@ public class StaffController {
         //유효성 검사 시작
         System.out.println("staffDto = " + staffDto);
         // 아이디 확인
-        if(staffDto.getId() == null) {
+        if(staffDto.getId().isEmpty()) {
             System.out.println("유효성 검사 : 아이디 미입력 오류");
             return false;
         }
@@ -53,12 +55,12 @@ public class StaffController {
             }
         }
         // 이름 확인
-        if(staffDto.getName() == null) {
+        if(staffDto.getName().isEmpty()) {
             System.out.println("유효성 검사 : 이름 미입력 오류");
             return false;
         }
         // 전화번호 확인
-        if(staffDto.getPhone() == null) {
+        if(staffDto.getPhone().isEmpty()) {
             System.out.println("유효성 검사 : 전화번호 미입력 오류");
             return false;
         } else if(staffDto.getPhone().length() != 13) {
@@ -93,7 +95,7 @@ public class StaffController {
             }
         }
         // 주소 확인
-        if(staffDto.getAddress() == null) {
+        if(staffDto.getAddress().isEmpty()) {
             System.out.println("유효성 검사 : 주소 미입력 오류");
             return false;
         }
@@ -104,7 +106,6 @@ public class StaffController {
             return false;
         }
         // 유효성 검사 끝
-        // 문자열 양 끝의 공백, 탭, 개행문자 제거
         boolean result = staffService.staffRegister(staffDto);
         return result;
     }
@@ -127,6 +128,77 @@ public class StaffController {
     /** 직원 수정 */
     @PutMapping("")
     public boolean staffUpdate(@RequestBody() StaffDto staffDto) {
+        // 회원번호, 비밀번호, 이름, 전화번호, 주소, 입사일, 직급, 연봉, 근무지
+        // 공백, 탭, 개행문자 제거 전
+        System.out.println("before staffDto = " + staffDto);
+        // 공백, 탭, 개행문자 제거
+        staffDto.setPassword(staffDto.getPassword().trim());
+        staffDto.setName(staffDto.getName().trim());
+        staffDto.setPhone(staffDto.getPhone().trim());
+        staffDto.setAddress(staffDto.getAddress().trim());
+        staffDto.setStartDate(staffDto.getStartDate().trim());
+        // 유효성 검사 시작
+        System.out.println("staffDto = " + staffDto);
+        // 직원 번호 확인
+        if(staffDto.getStaffNumber() == 0) {
+            System.out.println("유효성 검사 : 직원 번호 오류");
+        }
+        // 비밀번호 확인
+
+        // 이름 확인
+        if(staffDto.getName().isEmpty()) {
+            System.out.println("유효성 검사 : 이름 미입력 오류");
+            return false;
+        }
+        // 전화번호 확인
+        if(staffDto.getPhone().isEmpty()) {
+            System.out.println("유효성 검사 : 전화번호 미입력 오류");
+            return false;
+        } else if(staffDto.getPhone().length() != 13) {
+            System.out.println("유효성 검사 : 전화번호 입력 수 오류");
+            return false;
+        }
+        String[] phone = staffDto.getPhone().split("-");
+        System.out.println(Arrays.toString(phone));
+        System.out.println(phone[0]);
+        if(phone.length != 3) {
+            System.out.println("유효성 검사 : 전화번호 입력 형식 오류");
+            return false;
+        } else if(!phone[0].equals("010")) {
+            System.out.println("유효성 검사 : 전화번호 010 오류");
+            return false;
+        }
+        for(int index = 1; index < phone.length; index++) {
+            String slice = phone[index];
+            int count = phone[index].length();
+            if(count == 4) {
+                for(int j = 0; j < count; j++) {
+                    String number = slice.charAt(j) + "";
+                    // 정규화 0~9의 숫자로 변환이 가능하면 true 불가능하면 false
+                    if(!number.matches("\\d")) {
+                        System.out.println("유효성 검사 : 전화번호 정규화 오류");
+                        return false;
+                    }
+                }
+            } else {
+                System.out.println("유효성 검사 : 전화번호 오류");
+                return false;
+            }
+        }
+        // 주소 확인
+        if(staffDto.getAddress().isEmpty()) {
+            System.out.println("유효성 검사 : 주소 미입력 오류");
+            return false;
+        }
+        // 입사일 확인 --> 만약 직원 등록 시 입사일을 Input이 아닌 Date Picker로 받게 되면 할 필요가 없음
+        // 직급 --> 유효성 검사가 필요한지 확인 필요
+        // 연봉 확인
+        if(staffDto.getSalary() == 0) {
+            System.out.println("유효성 검사 : 연봉 미입력 오류");
+            return false;
+        }
+        // 근무지 --> 유효성 검사가 필요한지 확인 필요
+        // 유효성 검사 끝
         boolean result = staffService.staffUpdate(staffDto);
         return result;
     }
@@ -134,6 +206,34 @@ public class StaffController {
     /** 직원 삭제(퇴직 처리) */
     @DeleteMapping("")
     public boolean staffDelete(@RequestParam(name = "staff_number") int staffNumber, @RequestParam(name = "end_date") String endDate) {
+        // 공백, 탭, 개행문자 제거
+        endDate = endDate.trim();
+        // 유효성 검사 시작
+        if(endDate.isEmpty()) {
+            System.out.println("유효성 검사 : 옳지 않는 입력값");
+            return false;
+        }
+        if(endDate.length() != 10) {
+            System.out.println("유효성 검사 : 잘못된 형식의 입력값");
+            return false;
+        }
+        String[] date = endDate.split("-");
+        System.out.println(Arrays.toString(date));
+        if(date.length != 3) {
+            System.out.println("유효성 검사 : 잘못된 입력 형식 오류");
+            return false;
+        }
+        for(int index = 0; index < date.length; index++) {
+            String tempString = date[index];
+            for(int j = 0; j < tempString.length(); j++) {
+                String tempChar = tempString.charAt(j) + "";
+                if(!tempChar.matches("\\d")) {
+                    System.out.println("유효성 검사 : 숫자 변환 정규화 오류");
+                    return false;
+                }
+            }
+        }
+        // 유효성 검사 끝
         boolean result = staffService.staffDelete(staffNumber, endDate);
         return result;
     }
