@@ -15,19 +15,31 @@ public class RoomOptionController {
     @Autowired
     private RoomOptionService roomOptionService;
 
-    // 등급 옵션 목록 추가
+    // 객실별 옵션 추가
     @PostMapping("")
     public boolean rOptionWrite( @RequestBody RoomOptionDto roomOptionDto){
         return roomOptionService.rOptionWrite( roomOptionDto );
     } // f end
 
-    // 등급 옵션 목록 전체조회
+    // 객실별 옵션 목록 전체조회
     @GetMapping("")
     public List<RoomOptionDto> rOptionList(){
         return roomOptionService.rOptionList();
     } // f end
 
-    // 등급 옵션 목록 삭제
+    // 객실별 옵션 목록 등록
+    @PutMapping("")
+    public boolean rOptionUpdate( @RequestBody RoomOptionDto roomOptionDto){
+        return roomOptionService.rOptionUpdate( roomOptionDto );
+    } // f end
+
+    // 객실별 옵션 목록 삭제
+    @DeleteMapping("/delete")
+    public boolean rOptionListDelete( @RequestParam("rno") int rno ){
+        return roomOptionService.rOptionListDelete( rno );
+    } // f end
+
+    // 객실별 옵션 삭제
     @DeleteMapping("")
     public boolean rOptionDelete( @RequestParam("rno") int rno , @RequestParam("opno") int opno ){
        return roomOptionService.rOptionDelete( rno , opno );

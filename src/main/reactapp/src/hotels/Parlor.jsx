@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
 import Sidebar from "./components/Sidebar";
+import { Box, Table } from "@mui/material";
 
 export default function ParlorPage( props ){
 
@@ -51,6 +52,8 @@ export default function ParlorPage( props ){
             if( response.data == true ){
                 alert("옵션을 수정했습니다.");
                 optionRead();
+                roomOptionRead();
+                roomRead();
             }else{
                 alert("옵션 수정 실패");
             }
@@ -68,6 +71,8 @@ export default function ParlorPage( props ){
                 if( response.data ) {
                     alert("삭제되었습니다.");
                     optionRead();
+                    roomOptionRead();
+                    roomRead();
                 }else{
                     alert("삭제실패");
                 }
@@ -123,8 +128,8 @@ export default function ParlorPage( props ){
             const response = await axios.put("http://localhost:8081/room/rating" , { rno , ratingName , bedCount , bedType } );
             if( response.data == true ){
                 alert("객실등급을 수정했습니다.");
-                ratingRead(); // 객실등급 전체조회
-                roomRead(); // 객실전체조회
+                roomOptionRead();
+                roomRead();
             }else{
                 alert("객실등급 수정 실패");
             }
@@ -141,7 +146,8 @@ export default function ParlorPage( props ){
                 const response = await axios.delete(`http://localhost:8081/room/rating?rno=${rno}`)
                 if( response.data ) {
                     alert("삭제되었습니다.");
-                    ratingRead(); // 객실등급 전체조회
+                    roomOptionRead();
+                    roomRead();
                 }else{
                     alert("삭제실패");
                 }
@@ -248,16 +254,34 @@ export default function ParlorPage( props ){
 
     // ------------------------------------------------ 객실별 옵션 ------------------------------------------------------------------------
 
+    // 객실별 옵션 목록 등록
+    const[ roomOptionListWrite , setRoomOptionListWrite ] = useState( { rno : '' , opno : '' })
+    const rolWriteInput = async () => {
+        const rno = prompt("목록에 등록할 객실등급 번호를 입력하세요.");
+        const opno = prompt("객실등급에 등록할 옵션번호을 입력하세요");
+        if( !rno || !opno ){ return; }
+        try{
+            const response = await axios.post("http://localhost:8081/room/option/set" , { rno , opno } )  
+            if( response.data == true ) {
+                alert("목록 등록 완료");
+                roomOptionRead();
+            }else{
+                alert("목록 등록 실패");
+            } // if end
+        }catch( error ) { console.log( error ); }
+    } // f end
+
     // 객실별 옵션 추가
     const [ roomOptionWrite , setRoomOptionWrite ] = useState( { opno : '' })
     const roWriteInput = async ( rno ) => {
         const opno = prompt("추가할 옵션 번호를 입력하세요.");
         if( !opno ) { return; }
         try{
-            const response = await axios.post("http://localhost:8081/room/option/set" , { rno , opno } )
+            const response = await axios.put("http://localhost:8081/room/option/set" , { rno , opno } )
             if( response.data == true ){
                 alert("성공했습니다.");
                 roomOptionRead();
+                roomRead();
             }else{
                 alert("실패");
             } // if end
@@ -302,6 +326,23 @@ export default function ParlorPage( props ){
         setRoomOptionList(roomOptionList);
     } // f end
 
+    // 객실별 옵션 목록 삭제
+    const [ roomOptionListDelete , setRoomOptionListDelete ] = useState( { rno : '' } )
+    const rolDeleteInput = async () => { // 나중에 rno 받을거면 추가
+        const rno = prompt("삭제할 목록 번호를 입력하세요");
+        if( !rno ){return;}
+        try{
+            const response = await axios.delete(`http://localhost:8081/room/option/set/delete?rno=${rno}`)
+            if( response.data == true ){
+                alert("목록 삭제 완료");
+                roomOptionRead();
+                roomRead();
+            }else{
+                alert("목록 삭제 실패");
+            } // if end
+        }catch(error) { console.log( error ); }
+    } // f end
+
     // 객실별 옵션 목록 옵션 삭제
     const [ roomOptionDelete , setRoomOptionDelete ] = useState({ rno : '' , opno : '' });
     const roDeleteInput = async (rno) => {
@@ -312,6 +353,7 @@ export default function ParlorPage( props ){
             if( response.data == true ) {
                 alert("삭제완료");
                 roomOptionRead();
+                roomRead();
             }else{
                 alert("삭제실패");
             } // if end
@@ -395,7 +437,8 @@ export default function ParlorPage( props ){
             <div>
                 <h3>객실별 옵션 목록</h3>
                 <div>
-                    
+                    <button onClick={ rolWriteInput } type="button">목록등록</button>
+                    <button onClick={ rolDeleteInput } type="button">목록삭제</button>
                 </div>
                 <table border={"1"}>
                     <thead>
@@ -429,12 +472,12 @@ export default function ParlorPage( props ){
                     </tbody>
                 </table>
             </div>
-            <div>
+            <Box style={{marginBottom : '50px' }}>
                 <h3>객실 목록</h3>
                 <div>
                     <button type="button" onClick={ mWriteInput }>등록</button>
                 </div>
-                <table border={"1"}>
+                <Table border={"1"}>
                         <thead>
                             <tr>
                                 <th>객실번호</th>
@@ -451,7 +494,7 @@ export default function ParlorPage( props ){
                             {
                                 roomList.map( ( room , i ) => {
                                     return(
-                                        <tr key={ i }>
+                                        <tr key={ i } style={{width : "100%"}}>
                                             <td>{room.rono}</td>
                                             <td>돌쇠</td>
                                             <td>{room.ratingName}</td>
@@ -468,8 +511,8 @@ export default function ParlorPage( props ){
                                 })
                             }
                         </tbody>
-                </table>
-            </div>
+                </Table>
+            </Box>
         </div>
     </>)
 } // c end

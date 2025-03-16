@@ -85,11 +85,13 @@ create table room(
 
 -- 객실별 옵션 관리 테이블
 create table room_options (
+    -- 객실별 옵션 관리 번호
+    ropno int unsigned auto_increment,
     -- 객실등급번호
     rno int unsigned ,
     -- 옵션번호
     opno int unsigned ,
-    constraint primary key(rno, opno),
+    constraint primary key(ropno),
     foreign key(rno) references rating(rno) on update cascade on delete cascade,
     foreign key(opno) references options(opno) on update cascade on delete cascade
 );

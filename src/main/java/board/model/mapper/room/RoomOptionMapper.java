@@ -8,17 +8,18 @@ import java.util.List;
 @Mapper
 public interface RoomOptionMapper {
 
-    // 등급 옵션 목록 추가 SQL
-    // 예 : rno 등급에 opno 옵션을 추가
+    // 객실별 옵션 목록 그 자체 추가 SQL
     @Insert(" insert ignore into room_options(rno, opno) values ( #{rno}, #{opno} ) ")
     boolean rOptionWrite( RoomOptionDto roomOptionDto );
 
     // 등급 옵션 목록 전체조회 SQL
-    @Select(" select * from room_options ro" +
-            " join rating rt on ro.rno = rt.rno" +
-            " join options o on ro.opno = o.opno" +
-            " order by ro.rno ASC")
+    @Select("SELECT rop.ropno, rop.rno, rop.opno, rt.rating_name, rt.bed_count, rt.bed_type, o.op_name " +
+            "FROM room_options rop " +
+            "JOIN rating rt ON rop.rno = rt.rno " +
+            "JOIN options o ON rop.opno = o.opno " +
+            "ORDER BY rop.rno ASC")
     @Results({
+            @Result(property = "ropno", column = "ropno"),
             @Result(property = "rno", column = "rno"),
             @Result(property = "opno", column = "opno"),
             @Result(property = "ratingName", column = "rating_name"),
@@ -28,8 +29,19 @@ public interface RoomOptionMapper {
     })
     List<RoomOptionDto> rOptionList();
 
-    // 등급 옵션 목록 삭제 SQL
-    @Delete(" delete from room_options where rno = #{rno} and opno = #{opno} ")
+    // 객실별 옵션 등록 SQL
+    @Update(" update room_options set opno = #{opno} where rno = #{rno} ")
+    boolean rOptionUpdate( RoomOptionDto roomOptionDto );
+
+    // 객실별 옵션 목록 삭제 SQL
+    @Delete(" delete from room_options where rno = #{rno}")
+    boolean rOptionListDelete( int rno );
+
+    // 객실별 옵션 목록 옵션 삭제 SQL
+    @Delete(" delete from room_options where ropno = #{ropno} and opno = #{opno} ")
     boolean rOptionDelete(int rno , int opno );
+    
+    // 객실별 옵션 목록 그 자체 삭제
+
 
 } // i end

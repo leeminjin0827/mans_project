@@ -24,6 +24,7 @@
   top : 0px;
   left : 15%;
   width : 100%;
+  max-width: 1530px; /* 가로 최대 길이 */
 }
 
 
