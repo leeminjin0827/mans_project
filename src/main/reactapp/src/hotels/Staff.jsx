@@ -37,7 +37,7 @@ export default function StaffPage(props) {
 
     // 수정 관련 state
     const [staffUpdate, setStaffUpdate] = useState(
-        {staffNumber : "", password : "", name : "", phone : "", address : "", startDate : "", staffRank : "", salary : "", hno : ""}
+        {staffNumber : "", id : "", password : "", name : "", phone : "", address : "", startDate : "", endDate : "", staffRank : "", salary : "", hno : "", resignation : ""}
     );
     // 추가 중
     /** 수정 모달창 관련 */
@@ -64,14 +64,17 @@ export default function StaffPage(props) {
             let list = staffInfoList[index];
             if(staffNumber == list.staffNumber) {
                 staffUpdate.staffNumber = list.staffNumber;
+                staffUpdate.id = list.id;
                 staffUpdate.password = list.password;
                 staffUpdate.name = list.name;
                 staffUpdate.phone = list.phone;
                 staffUpdate.address = list.address;
                 staffUpdate.startDate = list.startDate;
+                staffUpdate.endDate = list.endDate;
                 staffUpdate.staffRank = changeStaffRank(list.staffRank);
                 staffUpdate.salary = list.salary;
                 staffUpdate.hno = changeWorkplace(list.hno);
+                staffUpdate.resignation = list.resignation;
             }
         }
         setDetailModal(true);
@@ -209,8 +212,8 @@ export default function StaffPage(props) {
             <div className="mainBox">
                 <div style={{width : "100%"}}>
                     <h1>직원 관리</h1>
-                    <div style={{ padding : "0px 10px",display : "flex", justifyContent : "end"}}>
-                        <select value={selectOption} onChange={changeOption} style={{marginRight : "50px"}}>
+                    <div style={{ padding : "0px 10px", display : "flex", justifyContent : "end"}}>
+                        <select value={selectOption} onChange={changeOption} style={{marginRight : "50px", width : "7%", textAlign : "center"}}>
                             <option value={"0"}>전체</option>
                             <option value={"1"}>강남점</option>
                             <option value={"2"}>중구점</option>
@@ -300,7 +303,7 @@ export default function StaffPage(props) {
                     openData={
                         <StaffDetail 
                             onClose={() => setDetailModal(false)}
-                            staffUpdate={staffUpdate}
+                            staffDetail={staffUpdate}
                         />
                     }
                     onClose={() => {setDetailModal(false)}} 
