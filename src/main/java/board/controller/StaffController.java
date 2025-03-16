@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("/staff")
@@ -19,6 +20,91 @@ public class StaffController {
     /** 직원 등록 */
     @PostMapping("")
     public boolean staffRegister(@RequestBody() StaffDto staffDto) {
+        // 공백, 탭, 개행문자 제거 전
+        System.out.println("staffDto = " + staffDto);
+        // 공백, 탭, 개행문자 삭제
+        staffDto.setId(staffDto.getId().trim());
+        staffDto.setName(staffDto.getName().trim());
+        staffDto.setPhone(staffDto.getPhone().trim());
+        staffDto.setAddress(staffDto.getAddress().trim());
+        staffDto.setStartDate(staffDto.getStartDate().trim());
+
+        //유효성 검사 시작
+        System.out.println("staffDto = " + staffDto);
+        // 아이디 확인
+        if(staffDto.getId() == null) {
+            System.out.println("유효성 검사 : 아이디 미입력 오류");
+            return false;
+        }
+        // 공백, 탭, 개행문자를 제거
+        String id = staffDto.getId().replaceAll("\\s", "");
+        System.out.println("id : " + id);
+        if(!id.contains("hotels")) {
+            System.out.println("유효성 검사 : 아이디 hotels 미입력 오류");
+            return false;
+        }
+        String idNumber = id.substring(6);
+        for(int index = 0; index < idNumber.length(); index++) {
+            String number = idNumber.charAt(index) + "";
+            // 정규식 숫자로 변환이 되면 true 안되면 false
+            if(!number.matches("\\d")) {
+                System.out.println("유효성 검사 : 아이디 정규식 오류");
+                return false;
+            }
+        }
+        // 이름 확인
+        if(staffDto.getName() == null) {
+            System.out.println("유효성 검사 : 이름 미입력 오류");
+            return false;
+        }
+        // 전화번호 확인
+        if(staffDto.getPhone() == null) {
+            System.out.println("유효성 검사 : 전화번호 미입력 오류");
+            return false;
+        } else if(staffDto.getPhone().length() != 13) {
+            System.out.println("유효성 검사 : 전화번호 입력 수 오류");
+            return false;
+        }
+        String[] phone = staffDto.getPhone().split("-");
+        System.out.println(Arrays.toString(phone));
+        System.out.println(phone[0]);
+        if(phone.length != 3) {
+            System.out.println("유효성 검사 : 전화번호 입력 형식 오류");
+            return false;
+        } else if(!phone[0].equals("010")) {
+            System.out.println("유효성 검사 : 전화번호 010 오류");
+            return false;
+        }
+        for(int index = 1; index < phone.length; index++) {
+            String slice = phone[index];
+            int count = phone[index].length();
+            if(count == 4) {
+                for(int j = 0; j < count; j++) {
+                    String number = slice.charAt(j) + "";
+                    // 정규화 0~9의 숫자로 변환이 가능하면 true 불가능하면 false
+                    if(!number.matches("\\d")) {
+                        System.out.println("유효성 검사 : 전화번호 정규화 오류");
+                        return false;
+                    }
+                }
+            } else {
+                System.out.println("유효성 검사 : 전화번호 오류");
+                return false;
+            }
+        }
+        // 주소 확인
+        if(staffDto.getAddress() == null) {
+            System.out.println("유효성 검사 : 주소 미입력 오류");
+            return false;
+        }
+        // 입사일 확인 --> 만약 직원 등록 시 입사일을 Input이 아닌 Date Picker로 받게 되면 할 필요가 없음
+        // 연봉 확인
+        if(staffDto.getSalary() == 0) {
+            System.out.println("유효성 검사 : 연봉 미입력 오류");
+            return false;
+        }
+        // 유효성 검사 끝
+        // 문자열 양 끝의 공백, 탭, 개행문자 제거
         boolean result = staffService.staffRegister(staffDto);
         return result;
     }
