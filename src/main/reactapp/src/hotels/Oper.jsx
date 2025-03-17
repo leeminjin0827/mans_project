@@ -55,7 +55,7 @@ export default function Operatae(props){
     const [editFormData, setEditFormData] = useState({ hno : '' , address : '', hotel_number : '' , intro : ''});
 
     
-    
+
     const onUpdate = async (hno,address, hotel_number, intro) => {
         editFormData.address = prompt(`현재주소 : ${address}`, editFormData.address);
         editFormData.hotel_number= prompt(`현재 번호 : ${hotel_number}`, editFormData.hotel_number);
@@ -75,7 +75,13 @@ export default function Operatae(props){
                 
                 }else{alert("수정실패")}
             }
+                
+               
 
+            
+                
+                
+               
             
         } catch (error) {console.log(error);
             
@@ -112,12 +118,13 @@ export default function Operatae(props){
             <div className="mainBox">
                 <form>
                     <h2>관리자 정보페이지</h2>
-                    
-                    주소 : <input type="text" value={formData.address} name="address" onChange={formDataChange}/><br/>
-                    호텔 전화번호 : <input type="text" value={formData.hotel_number} name="hotel_number" onChange={formDataChange}/><br/>
-                    소개 : <input type="text" value={formData.intro} name="intro" onChange={formDataChange}/><br/>
-        
-                    <button type="button" onClick={onPost}>저장</button><br/><br/>
+                    <Box sx={{ py: 1, width: '20%',  display: 'grid', gap: 1, alignItems: 'center', flexWrap: 'wrap' }}>
+                    <Input size="md" placeholder="주소" type="text" value={formData.address} name="address" onChange={formDataChange}/>
+                    <Input size="md" placeholder="호텔 전화번호" type="text" value={formData.hotel_number} name="hotel_number" onChange={formDataChange}/>
+                    <Input size="md" placeholder="소개" type="text" value={formData.intro} name="intro" onChange={formDataChange}/>
+
+                    <Button size="sm" sx={{width: '16%'}} type="button" onClick={onPost}>저장</Button><br/><br/>
+                    </Box>
 
 
                 </form>
@@ -151,7 +158,7 @@ export default function Operatae(props){
 
             </div>
 
-                            {/* 0 1 1  위 반복문 예시 
+                            {/* 0 1 1  위 반복문 예시
 
                             <select value={ 0 } >
                                 <option value="0"> 하하</option>
