@@ -62,27 +62,27 @@ export default function Operatae(props){
         editFormData.intro = prompt(`현재 소개 : ${intro}`, editFormData.intro);
         editFormData.hno = hno;
         try {
-            
+
             if(editFormData.hotel_number == "" && editFormData.address == '' && editFormData.intro == ''){// 여기부분 수정 필요 전혀 걸러지지가 않음
                 alert("수정실패 공백을 넣을수 없습니다.")
-            
+
             } else if(editFormData.address != ""&& editFormData.address != '' && editFormData.intro != '') {
                 const response = await axios.put('http://localhost:8081/director', editFormData)
                 if(response.data == true){
                 alert("수정성공");
                 setEditFormData({hotel_number : '', intro : ''}); //초기화
                 onFindAll();
-                
-                }else{alert("수정실패")}
+            }else{
+                alert("수정실패");}
             }
-                
-               
 
-            
-                
-                
-               
-            
+
+
+
+
+
+
+
         } catch (error) {console.log(error);
             
         }
@@ -117,6 +117,7 @@ export default function Operatae(props){
             <Sidebar />
             <div className="mainBox">
                 <form>
+
                     <h2>관리자 정보페이지</h2>
                     <Box sx={{ py: 1, width: '20%',  display: 'grid', gap: 1, alignItems: 'center', flexWrap: 'wrap' }}>
                     <Input size="md" placeholder="주소" type="text" value={formData.address} name="address" onChange={formDataChange}/>
