@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
 import Sidebar from "./components/Sidebar";
-import { Box, Table } from "@mui/material";
+import { Box, Table } from "@mui/joy";
 
 export default function ParlorPage( props ){
 
@@ -165,7 +165,8 @@ export default function ParlorPage( props ){
         const rno = prompt("객실에 설정할 객실등급을 입력하세요.");
         if( !rno ) { return; }
         try{
-            const response = await axios.post("http://localhost:8081/room" , { rno } )
+            roomWrite.rno = rno;
+            const response = await axios.post("http://localhost:8081/room" , roomWrite )
             if( response.data == true ){
                 alert("객실 등록을 성공했습니다.");
                 roomRead();
@@ -194,13 +195,13 @@ export default function ParlorPage( props ){
     
         // 객실 번호별로 옵션을 그룹화
         const groupedRooms = response.data.reduce((acc, room) => {
-            if (acc[room.rno]) {
+            if (acc[room.rono]) {
                 // 기존 객실에 옵션 추가
-                acc[room.rno].options.push(room.opName);
+                acc[room.rono].options.push(room.opName);
             } else {
                 // 새로운 객실에 대한 옵션 추가
-                acc[room.rno] = {
-                    rono: room.rno,
+                acc[room.rono] = {
+                    rono: room.rono,
                     rno: room.rno,
                     ratingName: room.ratingName,
                     bedCount: room.bedCount,
@@ -477,11 +478,11 @@ export default function ParlorPage( props ){
                 <div>
                     <button type="button" onClick={ mWriteInput }>등록</button>
                 </div>
-                <Table border={"1"}>
+                <Table sx={{tableLayout : "auto"}}>
                         <thead>
                             <tr>
                                 <th>객실번호</th>
-                                <th>투숙객</th>
+                                <th>지점</th>
                                 <th>객실등급</th>
                                 <th>침대수</th>
                                 <th>침대유형</th>
@@ -493,6 +494,9 @@ export default function ParlorPage( props ){
                         <tbody>
                             {
                                 roomList.map( ( room , i ) => {
+                                    if(true) {
+                                        
+                                    }
                                     return(
                                         <tr key={ i } style={{width : "100%"}}>
                                             <td>{room.rono}</td>
@@ -516,61 +520,3 @@ export default function ParlorPage( props ){
         </div>
     </>)
 } // c end
-
-// 테이블 
-// import * as React from 'react';
-// import { DataGrid } from '@mui/x-data-grid';
-// import Paper from '@mui/material/Paper';
-
-// const columns = [
-//   { field: 'id', headerName: 'ID', width: 70 },
-//   { field: 'firstName', headerName: 'First name', width: 130 },
-//   { field: 'lastName', headerName: 'Last name', width: 130 },
-//   {
-//     field: 'age',
-//     headerName: 'Age',
-//     type: 'number',
-//     width: 90,
-//   },
-//   {
-//     field: 'fullName',
-//     headerName: 'Full name',
-//     description: 'This column has a value getter and is not sortable.',
-//     sortable: false,
-//     width: 160,
-//     valueGetter: (params) => {
-//       console.log('params:', params);
-//       if (!params || !params.row) return ''; 
-//       return `${params.row.firstName || ''} ${params.row.lastName || ''}`;
-//     },
-//   },
-// ];
-
-// const rows = [
-//   { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-//   { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-//   { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-//   { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-//   { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-//   { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-//   { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-//   { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-//   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-// ];
-
-// export default function ParlorPage() {
-//   console.log('Rows:', rows); // rows가 정상적으로 전달되는지 확인
-
-//   return (
-//     <Paper sx={{ height: 400, width: '100%' }}>
-//       <DataGrid
-//         rows={rows}
-//         columns={columns}
-//         initialState={{ pagination: { paginationModel: { page: 0, pageSize: 5 } } }}
-//         pageSizeOptions={[5, 10]}
-//         checkboxSelection
-//         sx={{ border: 0 }}
-//       />
-//     </Paper>
-//   );
-// }

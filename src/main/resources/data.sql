@@ -58,6 +58,8 @@ insert into operate(address, hotel_number, intro, state) values( '서울특별�
 insert into operate(address,hotel_number, intro, state) values( '인천광역시 부평구 부평대로 15' , '032-987-6543', '역근처의 교통의 편함과~~', '0' );
 -- 지점
 
+-- 1강남점 /2중구점 /3부평점
+
 --
 insert into user(id, password, name, phone, address) values
 ("admin", "admin123", "관리자", "010-0000-0000", "서울특별시 종로구"),

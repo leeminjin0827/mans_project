@@ -78,9 +78,15 @@ create table room(
     rono int unsigned auto_increment,
     -- 객실등급번호
     rno int unsigned ,
+    -- 호텔번호
+    hno int unsigned ,
+    -- 직원번호
+    staff_number int unsigned ,
     -- 회원 번호 추가 해야함 --
     constraint primary key(rono),
-    foreign key(rno) references rating(rno) on update cascade on delete cascade
+    foreign key(rno) references rating(rno) on update cascade on delete cascade,
+    foreign key(hno) references operate(hno) on update cascade on delete cascade,
+    foreign key(staff_number) references staff(staff_number) on update cascade on delete cascade
 );
 
 -- 객실별 옵션 관리 테이블
