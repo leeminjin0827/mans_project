@@ -19,6 +19,8 @@ export default function StaffUpdate(props) {
     const [newWorkplace, setNewWorkplace] = useState(props.changeWorkplace(info.hno));
     // 근무지 정보 가져오기
     useEffect(() => {getWorkplace();}, []);
+    // 사진 관리
+    const [newPhoto, setNewPhoto] = useState(null);
 
     // 입력값 관련 코드
     const [updateData, setUpdateData] = useState({
@@ -26,12 +28,34 @@ export default function StaffUpdate(props) {
         phone : info.phone, address : info.address, startDate : info.startDate,
         staffRank : info.staffRank, salary : info.salary, hno : info.hno
     });
-    const chageInput = (event) => {
+    const changeInput = (event) => {
         setUpdateData({...updateData, [event.target.name] : event.target.value});
+    }
+    const changeFile = (event) => {
+        setNewPhoto(event.target.files[0]);
     }
 
     /** 직원 정보 수정 */
     const staffInfoUpdate = async () => {
+        if(newPhoto != null) {
+            const formData = new FormData();
+            formData.append("file", newPhoto);
+            formData.append("staffNumber", updateData.staffNumber);
+            const header = {headers : {"Content-Type" : "multipart/form-data"}};
+            try {
+                const response1 = await axios.post("http://localhost:8081/api/file/staff/upload", formData, header);
+                console.log(response1.data);
+                if(response1.data) {
+                    console.log("사진 저장 성공");
+                } else {
+                    alert("사진 수정 실패");
+                    return;
+                }
+            } catch(e) {
+                console.log(e);
+                return;
+            }
+        }
         try {
             updateData.staffRank = newRank;
             updateData.hno = newWorkplace;
@@ -69,6 +93,7 @@ export default function StaffUpdate(props) {
     // console.log(newRank);
     console.log(workplaceList);
     console.log(updateData);
+    console.log(newPhoto);
 
     return (
         <>
@@ -77,23 +102,23 @@ export default function StaffUpdate(props) {
                 <tbody>
                     <tr>
                         <td>비밀번호 : </td>
-                        <td><Input variant="outlined" size="md" name="password" placeholder="••••••" value={updateData.password} onChange={chageInput} /></td>
+                        <td><Input variant="outlined" size="md" name="password" placeholder="••••••" value={updateData.password} onChange={changeInput} /></td>
                     </tr>
                     <tr>
                         <td>이 름 : </td>
-                        <td><Input variant="outlined" size="md" name="name" placeholder="" value={updateData.name} onChange={chageInput} /></td>
+                        <td><Input variant="outlined" size="md" name="name" placeholder="" value={updateData.name} onChange={changeInput} /></td>
                     </tr>
                     <tr>
                         <td>전화번호 : </td>
-                        <td><Input variant="outlined" size="md" name="phone" placeholder="010-XXXX-XXXX" value={updateData.phone} onChange={chageInput} /></td>
+                        <td><Input variant="outlined" size="md" name="phone" placeholder="010-XXXX-XXXX" value={updateData.phone} onChange={changeInput} /></td>
                     </tr>
                     <tr>
                         <td>주 소 : </td>
-                        <td><Input variant="outlined" size="md" name="address" placeholder="서울 강남구..." value={updateData.address} onChange={chageInput} /></td>
+                        <td><Input variant="outlined" size="md" name="address" placeholder="서울 강남구..." value={updateData.address} onChange={changeInput} /></td>
                     </tr>
                     <tr>
                         <td>입사일 : </td>
-                        <td><Input variant="outlined" size="md" name="startDate" placeholder="20XX-XX-XX" value={updateData.startDate} onChange={chageInput} /></td>
+                        <td><Input variant="outlined" size="md" name="startDate" placeholder="20XX-XX-XX" value={updateData.startDate} onChange={changeInput} /></td>
                     </tr>
                     <tr>
                         <td>직급 : </td>
@@ -116,7 +141,7 @@ export default function StaffUpdate(props) {
                     </tr>
                     <tr>
                         <td>연봉(만원) : </td>
-                        <td><Input variant="outlined" size="md" name="salary" placeholder="3200" value={updateData.salary} onChange={chageInput} /></td>
+                        <td><Input variant="outlined" size="md" name="salary" placeholder="3200" value={updateData.salary} onChange={changeInput} /></td>
                     </tr>
                     <tr>
                         <td>근무지 : </td>
@@ -135,6 +160,14 @@ export default function StaffUpdate(props) {
                                     })
                                 }
                             </Select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colSpan={"2"}>사진 변경</td>
+                    </tr>
+                    <tr>
+                        <td colSpan={"2"}>
+                            <Input type="file" name="myPhoto" onChange={changeFile} sx={{marginTop : "5px", padding : "5px"}} />
                         </td>
                     </tr>
                 </tbody>

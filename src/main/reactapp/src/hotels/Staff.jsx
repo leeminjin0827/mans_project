@@ -36,9 +36,12 @@ export default function StaffPage(props) {
     }
 
     // 수정 관련 state
-    const [staffUpdate, setStaffUpdate] = useState(
-        {staffNumber : "", id : "", password : "", name : "", phone : "", address : "", startDate : "", endDate : "", staffRank : "", salary : "", hno : "", resignation : ""}
-    );
+    const [staffUpdate, setStaffUpdate] = useState({
+        staffNumber : "", id : "", password : "", 
+        name : "", phone : "", address : "", 
+        startDate : "", endDate : "", staffRank : "", 
+        salary : "", hno : "", resignation : "", myPhoto : ""
+    });
     // 추가 중
     /** 수정 모달창 관련 */
     const openUpdateModal = (staffNumber) => {

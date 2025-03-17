@@ -2,27 +2,28 @@ drop database if exists man;
 create database man;
 use man;
 
-create table user (
--- 사용자 번호
-   user_number int unsigned auto_increment,
-   -- 사용자 아이디
-	id varchar(30) not null unique,
-	-- 사용자 비밀번호
-	password varchar(30) not null,
-	-- 사용자 이름
-	name varchar(15) not null,
-	-- 사용자 전화번호
-	phone varchar(13),
-	-- 사용자 주소
-	address text,
-	-- 관리자 상태 0이면 일반 사용자, 1이면 관리자
-	admin_state int unsigned default 0,
-	-- 가입 날짜
-	join_date datetime default now(),
-	-- 회원탈퇴 상태 0이면 탈퇴 1이면 미탈퇴
-	drop_state int unsigned default 0,
-	constraint primary key(user_number)
-);
+-- create table user (
+--    --사용자 번호
+--    user_number int unsigned auto_increment,
+--    -- 사용자 아이디
+--	id varchar(30) not null unique,
+--	-- 사용자 비밀번호
+--	password varchar(30) not null,
+--	-- 사용자 이름
+--	name varchar(15) not null,
+--	-- 사용자 전화번호
+--	phone varchar(13),
+--	-- 사용자 주소
+--	address text,
+--	-- 관리자 상태 0이면 일반 사용자, 1이면 관리자
+--	admin_state int unsigned default 0,
+--	-- 가입 날짜
+--	join_date datetime default now(),
+--	-- 회원탈퇴 상태 0이면 탈퇴 1이면 미탈퇴
+--	drop_state int unsigned default 0,
+--	constraint primary key(user_number)
+--);
+
 -- 고객센터 테이블
 -- create table senter(
 --    -- 문의번호(PK)
@@ -96,8 +97,16 @@ create table room_options (
     foreign key(opno) references options(opno) on update cascade on delete cascade
 );
 
-create table staff (
+create table operate(
+    hno int unsigned auto_increment,
+    address char(50),
+    hotel_number char(12),
+    intro longtext,
+    state int default 0,
+    constraint primary key(hno)
+);
 
+create table staff (
 	staff_number int unsigned auto_increment,
     id varchar(30) not null unique,
     password varchar(30) not null default "1234",
@@ -110,7 +119,9 @@ create table staff (
     salary int not null,
     resignation int default 0,
     hno int unsigned default 0,
-    constraint primary key(staff_number)
+    my_photo varchar(255) default "default.jpg",
+    constraint primary key(staff_number),
+    constraint foreign key(hno) references operate(hno)
 );
 
 create table commute (
@@ -121,13 +132,4 @@ create table commute (
     staff_number int unsigned not null,
     constraint primary key(commute_number),
     constraint foreign key(staff_number) references staff(staff_number)
-);
-
-create table operate(
-hno int unsigned auto_increment,
-address char(50),
-hotel_number char(12),
-intro longtext,
-state int default 0,
-constraint primary key(hno)
 );

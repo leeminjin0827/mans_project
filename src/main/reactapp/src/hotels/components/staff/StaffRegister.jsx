@@ -7,8 +7,14 @@ import axios from "axios";
 
 export default function StaffRegister(props) {
 
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1 < 10 ? "0" + (now.getMonth() + 1) : now.getMonth() + 1;
+    const day = now.getDate() < 10 ? "0" + now.getDate() : now.getDate();
+    console.log(`${year}-${month}-${day}`);
+
     const [staffInfo, setStaffInfo] = useState(
-        {id : "", name : "", phone : "", address : "", startDate : "2025-03-10", salary : ""}
+        {id : "", name : "", phone : "", address : "", startDate : `${year}-${month}-${day}`, salary : "", hno : "1", myPhoto : "default.jpg"}
     );
     const changeData = (event) => {
         setStaffInfo({...staffInfo, [event.target.name] : event.target.value});
@@ -19,7 +25,7 @@ export default function StaffRegister(props) {
             console.log(response.data);
             if(response.data == true) {
                 alert("등록 성공");
-                setStaffInfo({id : "", name : "", phone : "", address : "", startDate : "2025-03-10", salary : ""});
+                setStaffInfo({id : "", name : "", phone : "", address : "", startDate : `${year}-${month}-${day}`, salary : "", hno : "0", myPhoto : "default.jpg"});
                 props.staffFindAll();
                 props.onClose(false);
             } else {

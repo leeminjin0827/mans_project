@@ -29,5 +29,7 @@ public class StaffDto {
     private int resignation;
     // 직원 근무지
     private int hno;
+    // 직원 사진
+    private String myPhoto;
 
 }
