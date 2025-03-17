@@ -37,7 +37,7 @@ public class OperateService {
         return operateMapper.findOne(hno);
     }
 
-    //수정(전화번호, 소개)
+    //수정(전화번호, 소개 ,주소)
     public boolean Update(OperateDto operateDto){
         System.out.println("OperateService.Update");
         System.out.println("operateDto = " + operateDto);
@@ -45,20 +45,23 @@ public class OperateService {
         return operateMapper.Update(operateDto);
     }
 
-    //수정(점장,주소)
-    public  boolean alter(OperateDto operateDto){
-        System.out.println("OperateService.alter");
-        System.out.println("operateDto = " + operateDto);
-
-        return operateMapper.alter(operateDto);
-    }
+    //수정(주소)
+//    public  boolean alter(OperateDto operateDto){
+//        System.out.println("OperateService.alter");
+//        System.out.println("operateDto = " + operateDto);
+//
+//        return operateMapper.alter(operateDto);
+//    }
 
     //수정(상태변경)
     public boolean remove(int hno, int state){
         System.out.println("OperateService.remove");
-        System.out.println("hno = " + hno);
+        System.out.println("hno = " + hno + ", state = " + state);
 
-        return operateMapper.remove(hno , state);
+        OperateDto operateDto = new OperateDto(); // dto 만들어서 dto에 값을 넣으니 해결됨
+        operateDto.setHno(hno);
+        operateDto.setState(state);
+        return operateMapper.remove( operateDto);
 
     }
 
