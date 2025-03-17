@@ -44,5 +44,5 @@ public interface StaffMapper {
     /** 직원 삭제 */
 
     @Update("update staff set end_date = #{endDate}, resignation = 1 where staff_number = #{staffNumber}")
-    boolean staffDelete(int staffNumber, String endDate);
+    boolean staffDelete(@Param("staffNumber") int staffNumber,@Param("endDate") String endDate);
 }
