@@ -3,10 +3,41 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import { Box, Button, Input, Option, Select, Table } from "@mui/joy";
+import {useDaumPostcodePopup} from 'react-daum-postcode'; //daum 주소 검색 관련 hook?
 
 
 
 export default function Operatae(props){
+
+    const DaumPost = ({setAddress}) => {//npm install react-daum-postcode 다음 install 같은데 이거 교수님에게 물어보기
+        const postcodeScriptUrl = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+        const open = useDaumPostcodePopup(postcodeScriptUrl);
+    
+        const handleComplete = (data) => {
+            let fullAddress = data.address;
+            let extraAddress = '';
+            let localAddress = data.sido+' '+data.sigungu;
+    
+            if(data.addressType === 'R'){
+                if(data.bname !== ''){
+                    extraAddress += data.bname;
+                }
+                if(data.buildingName !== ''){
+                    extraAddress += (extraAddress !== ''?`, /${data.buildingName}` : data.buildingName);
+                }
+                fullAddress = fullAddress.replace(localAddress, '');
+                fullAddress += (extraAddress !== ''?`(${extraAddress})`: '');
+    
+            }//if end
+            setAddress(fullAddress) // setAddress를 호출하여 부모 컴포넌트의 상태를 업데이트
+    
+        };
+        const handleClick = () => {
+            open({onComplete : handleComplete});
+        }
+        return <div type = "button" onClick={handleClick}>주소 검색</div>;
+    };
+
     
     useEffect(() => {onFindAll()}, []) // 처음부터 전체 출력
 
@@ -118,6 +149,7 @@ export default function Operatae(props){
                     <h2>관리자 정보페이지</h2>
                     <Box sx={{ py: 1, width: '20%',  display: 'grid', gap: 1, alignItems: 'center', flexWrap: 'wrap' }}>
                     <Input size="md" placeholder="주소" type="text" value={formData.address} name="address" onChange={formDataChange}/>
+                    <button type="button" onClick={DaumPost}></button>
                     <Input size="md" placeholder="호텔 전화번호" type="text" value={formData.hotel_number} name="hotel_number" onChange={formDataChange}/>
                     <Input size="md" placeholder="소개" type="text" value={formData.intro} name="intro" onChange={formDataChange}/>
 
@@ -183,4 +215,3 @@ export default function Operatae(props){
             </>)
 
 }//f end
- 
