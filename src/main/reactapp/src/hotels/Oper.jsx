@@ -75,13 +75,7 @@ export default function Operatae(props){
                 
                 }else{alert("수정실패")}
             }
-                
-               
 
-            
-                
-                
-               
             
         } catch (error) {console.log(error);
             
