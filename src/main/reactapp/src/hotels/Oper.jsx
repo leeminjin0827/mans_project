@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
-import { Box, Button, Input } from "@mui/joy";
+import { Box, Button, Input, Option, Select, Table } from "@mui/joy";
 
 
 
@@ -73,13 +73,13 @@ export default function Operatae(props){
             if(editFormData.hotel_number == "" && editFormData.address == '' && editFormData.intro == ''){// 여기부분 수정 필요 전혀 걸러지지가 않음
                 alert("수정실패 공백을 넣을수 없습니다.")
 
-            } else if(editFormData.address != ""&& editFormData.address != '' && editFormData.intro != '') {
+            } else if(editFormData.address != "" && editFormData.address != '' && editFormData.intro != '') {
                 const response = await axios.put('http://localhost:8081/director', editFormData)
                 if(response.data == true){
                 alert("수정성공");
                 setEditFormData({hotel_number : '', intro : ''}); //초기화
                 onFindAll();
-            }else{
+            }else {
                 alert("수정실패");}
             }
         } catch (error) {console.log(error);
@@ -121,17 +121,18 @@ export default function Operatae(props){
                     <Input size="md" placeholder="호텔 전화번호" type="text" value={formData.hotel_number} name="hotel_number" onChange={formDataChange}/>
                     <Input size="md" placeholder="소개" type="text" value={formData.intro} name="intro" onChange={formDataChange}/>
 
-                    <Button size="sm" sx={{width: '16%'}} type="button" onClick={onPost}>저장</Button><br/><br/>
+                    <Button size="sm" sx={{width: '30%'}} type="button" onClick={onPost}>저장</Button><br/><br/>
                     </Box>
 
 
                 </form>
-                <table border={1}>
+                
+                <Table sx={{tableLayout : "auto"}}  >
                     <thead>
-                        <tr><th>번호</th><th>주소</th><th>호텔전화번호</th><th>소개</th><th>운영상태</th><th>수정</th></tr>
+                        <tr ><th>번호</th><th>주소</th><th>호텔전화번호</th><th>소개</th><th>운영상태</th><th>수정</th></tr>
                         
                     </thead>
-                    <tbody>
+                    <tbody border={1}>
                         {
                             boards.map((board, index) => {
 
@@ -140,22 +141,23 @@ export default function Operatae(props){
                                 <th>{board.address}</th>
                                 <th>{board.hotel_number}</th>
                                 <th>{board.intro}</th>
-                                <th><select value={stateDe[index]} onChange={ (e) => { stateChange( e, index) } } >
-                                    <option value={0}>운영중</option>
-                                   <option value={1}>임시휴업</option>
-                                    <option value={2}>폐점</option>
-                                    </select>
-                                    <button type="button" onClick={() =>{stateUpdate(board.hno, stateDe[index])}}>상태수정</button>
+                                <th>
+                                    <Select value={stateDe[index]} onChange={ (e) => { stateChange( e, index) } } >
+                                    <Option value={0}>운영중</Option>
+                                   <Option value={1}>임시휴업</Option>
+                                    <Option value={2}>폐점</Option>
+                                    </Select>
+                                    <Button size="sm" type="button" onClick={() =>{stateUpdate(board.hno, stateDe[index])}}>상태수정</Button>
                                     </th>
                                 
-                                <th><button type="butoon" onClick={() => onUpdate(board.hno, board.address, board.hotel_number ,board.intro)}>수정</button></th></tr>)// 여기 부분 onUpdate() 를 그냥 넣으니 연속 실행됨
+                                <th><Button type="butoon" onClick={() => onUpdate(board.hno, board.address, board.hotel_number ,board.intro)}>수정</Button></th></tr>);// 여기 부분 onUpdate() 를 그냥 넣으니 연속 실행됨
                             })
 
                         }
 
                     </tbody>
-                </table>
-
+                </Table>
+                             
             </div>
 
                             {/* 0 1 1  위 반복문 예시
