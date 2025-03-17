@@ -51,8 +51,8 @@ create table user (
 
 -- 옵션테이블
 create table options(
-   -- 옵션식별번호
-   opno int unsigned auto_increment ,
+   -- 옵션번호
+    opno int unsigned auto_increment ,
     -- 옵션명
     op_name varchar(255) not null ,
     constraint primary key(opno)
@@ -60,8 +60,8 @@ create table options(
 
 -- 객실등급 테이블
 create table rating(
-   -- 객실등급번호
-   rno int unsigned auto_increment,
+    -- 객실등급번호
+    rno int unsigned auto_increment,
     -- 객실등급
     rating_name varchar(30) not null,
     -- 침대수
@@ -69,21 +69,35 @@ create table rating(
     -- 침대유형
     bed_type varchar(30) not null,
     -- 제공옵션
-    rating_option varchar(30) not null,
     constraint primary key(rno)
 );
 
 -- 객실 테이블
 create table room(
-   rono int unsigned auto_increment,
+    -- 객실번호
+    rono int unsigned auto_increment,
+    -- 객실등급번호
     rno int unsigned ,
-    opno int unsigned ,
+    -- 회원 번호 추가 해야함 --
     constraint primary key(rono),
-    foreign key(rno) references rating(rno) on update cascade  on delete  cascade,
-    foreign key(opno) references options(opno) on update cascade  on delete  cascade
+    foreign key(rno) references rating(rno) on update cascade on delete cascade
+);
+
+-- 객실별 옵션 관리 테이블
+create table room_options (
+    -- 객실별 옵션 관리 번호
+    ropno int unsigned auto_increment,
+    -- 객실등급번호
+    rno int unsigned ,
+    -- 옵션번호
+    opno int unsigned ,
+    constraint primary key(ropno),
+    foreign key(rno) references rating(rno) on update cascade on delete cascade,
+    foreign key(opno) references options(opno) on update cascade on delete cascade
 );
 
 create table staff (
+
 	staff_number int unsigned auto_increment,
     id varchar(30) not null unique,
     password varchar(30) not null default "1234",

@@ -19,11 +19,26 @@
 }
 
 .mainBox {
-  margin : 50px 0px 0px 50px;
+  padding : 2.5%;
+  /* margin : 50px 0px 0px 50px; */
   position : absolute;
   top : 0px;
   left : 15%;
   width : 100%;
+  max-width: 1530px; /* 가로 최대 길이 */
+  width : 80%;
+}
+
+#staffTable  th {
+  text-align : center;
+  vertical-align : middle;
+  text-overflow : clip;
+}
+
+#staffTable  td {
+  text-align : center;
+  vertical-align : middle;
+  text-overflow : ellipsis;
 }
 
 

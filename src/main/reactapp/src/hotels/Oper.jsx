@@ -54,6 +54,12 @@ export default function Operatae(props){
     //주소 소개 , 폰번호 변경 데이터
     const [editFormData, setEditFormData] = useState({ hno : '' , address : '', hotel_number : '' , intro : ''});
 
+    const editChange = (e) => {
+        console.log(e.target);
+        console.log(e.target.name);
+        console.log(e.target.value);
+        setEditFormData({...editFormData, [e.target.name] : e.target.value});
+    }
     
 
     const onUpdate = async (hno,address, hotel_number, intro) => {
@@ -75,14 +81,6 @@ export default function Operatae(props){
             }else{
                 alert("수정실패");}
             }
-
-
-
-
-
-
-
-
         } catch (error) {console.log(error);
             
         }
@@ -90,8 +88,8 @@ export default function Operatae(props){
     }
     const temp = [];
 
-    const [stateDe, setStateDe] = useState(temp); 
-    //  [ 0 : 운영중 , 1:임시휴업 , 2: 폐업 ] 
+    const [stateDe, setStateDe] = useState(temp);
+    //  [ 0 : 운영중 , 1:임시휴업 , 2: 폐업 ]
     //          0           1           2
     //   index  0           1           2
     const stateChange = (e , index ) => {
@@ -110,14 +108,13 @@ export default function Operatae(props){
     }
 
 
-   
+    }
     
 
     return(<>
             <Sidebar />
             <div className="mainBox">
                 <form>
-
                     <h2>관리자 정보페이지</h2>
                     <Box sx={{ py: 1, width: '20%',  display: 'grid', gap: 1, alignItems: 'center', flexWrap: 'wrap' }}>
                     <Input size="md" placeholder="주소" type="text" value={formData.address} name="address" onChange={formDataChange}/>
@@ -137,7 +134,7 @@ export default function Operatae(props){
                     <tbody>
                         {
                             boards.map((board, index) => {
-                                
+
                                 return(<tr key={board.hno}>
                                 <th>{board.hno}</th>
                                 <th>{board.address}</th>
@@ -153,7 +150,9 @@ export default function Operatae(props){
                                 
                                 <th><button type="butoon" onClick={() => onUpdate(board.hno, board.address, board.hotel_number ,board.intro)}>수정</button></th></tr>)// 여기 부분 onUpdate() 를 그냥 넣으니 연속 실행됨
                             })
+
                         }
+
                     </tbody>
                 </table>
 
@@ -178,7 +177,7 @@ export default function Operatae(props){
                                 <option value="1"> 카카 </option>
                             </select> */}
 
-    
+
             </>)
 
 }//f end

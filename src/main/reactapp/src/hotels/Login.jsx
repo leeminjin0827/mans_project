@@ -16,6 +16,7 @@ import { styled } from '@mui/material/styles';
 import axios from "axios";
 import { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
+import "./login.css";
 
 
 
@@ -69,32 +70,32 @@ export default function SignInCard() {
   };
 
   // 로그인 버튼 클릭 시 실행되는 코드
-  const validateInputs = () => {
-    const id = document.getElementById('id');
-    const password = document.getElementById('password');
+  // const validateInputs = () => {
+  //   const id = document.getElementById('id');
+  //   const password = document.getElementById('password');
 
-    let isValid = true;
+  //   let isValid = true;
 
-    if (!id.value || !/\S+@\S+\.\S+/.test(id.value)) {
-      setIdError(true);
-      setIdErrorMessage('유효한 아이디를 입력하세요');
-      isValid = false;
-    } else {
-      setIdError(false);
-      setIdErrorMessage('');
-    }
+  //   if (!id.value || !/\S+@\S+\.\S+/.test(id.value)) {
+  //     setIdError(true);
+  //     setIdErrorMessage('유효한 아이디를 입력하세요');
+  //     isValid = false;
+  //   } else {
+  //     setIdError(false);
+  //     setIdErrorMessage('');
+  //   }
 
-    if (!password.value) {
-      setPasswordError(true);
-      setPasswordErrorMessage('비밀번호를 입력해주세요');
-      isValid = false;
-    } else {
-      setPasswordError(false);
-      setPasswordErrorMessage('');
-    }
+  //   if (!password.value) {
+  //     setPasswordError(true);
+  //     setPasswordErrorMessage('비밀번호를 입력해주세요');
+  //     isValid = false;
+  //   } else {
+  //     setPasswordError(false);
+  //     setPasswordErrorMessage('');
+  //   }
 
-    return isValid;
-  };
+  //   return isValid;
+  // };
   //추가
   // 아이디와 비밀번호를 변수에 담는 코드
   const changeInput = (event) => {
@@ -104,7 +105,7 @@ export default function SignInCard() {
   }
   // 서버에 로그인 요청 하는 코드
   const loginReq = async () => {
-    validateInputs();
+    //validateInputs();
     try {
       const response = await axios.post("http://localhost:8081/staff/login", info);
       console.log(response.data);
@@ -120,7 +121,7 @@ export default function SignInCard() {
   }
   console.log(info);
   return (
-    <Card variant="outlined" style={{display : "flex", justifyContent : "center", alignItems : "center"}}>
+    <Card variant="outlined">
         <Typography component="h1" variant="h4" sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}>
             로그인
         </Typography>
@@ -163,7 +164,6 @@ export default function SignInCard() {
                     type="password"
                     id="password"
                     autoComplete="current-password"
-                    autoFocus
                     required
                     fullWidth
                     variant="outlined"
@@ -173,9 +173,9 @@ export default function SignInCard() {
                 />
             </FormControl>
             <Box sx={{textAlign : "end"}}>
-                <Button variant="text" color="black" onClick={() => {alert("관리자에게 문의하세요");}}>아이디 / 비밀번호 찾기</Button>
+                <Button disableFocusRipple tabIndex={-1} variant="text" color="black" onClick={() => {alert("관리자에게 문의하세요");}}>아이디 / 비밀번호 찾기</Button>
             </Box>
-            <Button type="submit" fullWidth variant="contained" onClick={loginReq}>
+            <Button type="button" disableFocusRipple fullWidth variant="contained" onClick={loginReq}>
                 로그인
             </Button>
         </Box>

@@ -18,7 +18,7 @@ public class RatingDto {
     private int bedCount;
     // 침대유형
     private String bedType;
-    // 객실 옵션
-    private String ratingOption;
+//    // 객실 옵션
+//    private String ratingOption;
 
 } // c end

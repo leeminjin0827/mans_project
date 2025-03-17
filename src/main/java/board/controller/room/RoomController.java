@@ -2,6 +2,7 @@ package board.controller.room;
 
 import board.model.dto.room.RatingDto;
 import board.model.dto.room.RoomDto;
+import board.model.dto.room.RoomOptionDto;
 import board.service.room.RatingService;
 import board.service.room.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class RoomController {
     @Autowired
     private RoomService roomService;
 
-    // 옵션 등록
+    // 객실 등록
     @PostMapping("")
     public boolean roomWrite( @RequestBody RoomDto roomDto ){
         boolean result = roomService.roomWrite(roomDto);
