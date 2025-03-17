@@ -20,9 +20,12 @@
 
 .mainBox {
   padding : 2.5%;
+  /* margin : 50px 0px 0px 50px; */
   position : absolute;
   top : 0px;
   left : 15%;
+  width : 100%;
+  max-width: 1530px; /* 가로 최대 길이 */
   width : 80%;
 }
 
@@ -71,7 +74,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  
   cursor: pointer;
   transition: border-color 0.25s;
 }

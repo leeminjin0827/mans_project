@@ -2,6 +2,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
+import { Box, Button, Input } from "@mui/joy";
+
 
 
 export default function Operatae(props){
@@ -37,6 +39,11 @@ export default function Operatae(props){
         try {
             const response = await axios.get('http://localhost:8081/director');
             setBoards(response.data);
+            console.log(response.data);
+            for(let index = 0; index < response.data.length; index++) {
+                stateDe[index] = response.data[index].state;
+                console.log(stateDe[index]);
+            }
         } catch (error) {console.log(error);
             
         }
@@ -46,7 +53,7 @@ export default function Operatae(props){
     
 
     //주소 소개 , 폰번호 변경 데이터
-    const [editFormData, setEditFormData] = useState({ hno : '' , hotel_number : '' , intro : ''});
+    const [editFormData, setEditFormData] = useState({ hno : '' , address : '', hotel_number : '' , intro : ''});
 
     const editChange = (e) => {
         console.log(e.target);
@@ -55,44 +62,53 @@ export default function Operatae(props){
         setEditFormData({...editFormData, [e.target.name] : e.target.value});
     }
     
-    const onUpdate = async (hno, hotel_number, intro) => {
+
+    const onUpdate = async (hno,address, hotel_number, intro) => {
+        editFormData.address = prompt(`현재주소 : ${address}`, editFormData.address);
         editFormData.hotel_number= prompt(`현재 번호 : ${hotel_number}`, editFormData.hotel_number);
         editFormData.intro = prompt(`현재 소개 : ${intro}`, editFormData.intro);
-
+        editFormData.hno = hno;
         try {
-                editFormData.hno = hno;
-            const response = await axios.put('http://localhost:8081/director', editFormData)
-            if(response.data == true && editFormData != ''){// 여기부분 수정 필요 전혀 걸러지지가 않음
+
+            if(editFormData.hotel_number == "" && editFormData.address == '' && editFormData.intro == ''){// 여기부분 수정 필요 전혀 걸러지지가 않음
+                alert("수정실패 공백을 넣을수 없습니다.")
+
+            } else if(editFormData.address != ""&& editFormData.address != '' && editFormData.intro != '') {
+                const response = await axios.put('http://localhost:8081/director', editFormData)
+                if(response.data == true){
                 alert("수정성공");
                 setEditFormData({hotel_number : '', intro : ''}); //초기화
                 onFindAll();
             }else{
-                alert("수정실패");
+                alert("수정실패");}
             }
         } catch (error) {console.log(error);
             
         }
 
     }
+    const temp = [];
 
-
-    const [stateDe, setState] = useState(Array(boards.length));
-
-    const stateChange = (e) => {
+    const [stateDe, setStateDe] = useState(temp);
+    //  [ 0 : 운영중 , 1:임시휴업 , 2: 폐업 ]
+    //          0           1           2
+    //   index  0           1           2
+    const stateChange = (e , index ) => {
         console.log(e.target);
         // console.log(e.target.name);
         console.log(e.target.value);
-        setState(e.target.value);
+        stateDe[index] = e.target.value;
 
-       
+        setStateDe( [...stateDe ] );
     }
-    const stateUpdate = (hno ,state) => {
-        let response =  axios.delete(`http://localhost:8081/director?hno=${hno}&state=${state}`)
-        if(response.data == true){alert('변경성공'); setState({hno : '' , state : ''}); onFindAll();}
+    const stateUpdate = async (hno ,state) => {
+        let response = await axios.delete(`http://localhost:8081/director?hno=${hno}&state=${state}`)
+        console.log(response.data);
+        if(response.data == true){alert('변경성공');  onFindAll();}
         else{alert('변경실패');}
-
-
     }
+
+
     
 
     return(<>
@@ -100,12 +116,13 @@ export default function Operatae(props){
             <div className="mainBox">
                 <form>
                     <h2>관리자 정보페이지</h2>
-                    
-                    주소 : <input type="text" value={formData.address} name="address" onChange={formDataChange}/><br/>
-                    호텔 전화번호 : <input type="text" value={formData.hotel_number} name="hotel_number" onChange={formDataChange}/><br/>
-                    소개 : <input type="text" value={formData.intro} name="intro" onChange={formDataChange}/><br/>
-        
-                    <button type="button" onClick={onPost}>저장</button><br/><br/>
+                    <Box sx={{ py: 1, width: '20%',  display: 'grid', gap: 1, alignItems: 'center', flexWrap: 'wrap' }}>
+                    <Input size="md" placeholder="주소" type="text" value={formData.address} name="address" onChange={formDataChange}/>
+                    <Input size="md" placeholder="호텔 전화번호" type="text" value={formData.hotel_number} name="hotel_number" onChange={formDataChange}/>
+                    <Input size="md" placeholder="소개" type="text" value={formData.intro} name="intro" onChange={formDataChange}/>
+
+                    <Button size="sm" sx={{width: '16%'}} type="button" onClick={onPost}>저장</Button><br/><br/>
+                    </Box>
 
 
                 </form>
@@ -117,20 +134,21 @@ export default function Operatae(props){
                     <tbody>
                         {
                             boards.map((board, index) => {
-                                console.log(index);
-                                return(<tr key={board.hno}><th>{board.hno}</th>
+
+                                return(<tr key={board.hno}>
+                                <th>{board.hno}</th>
                                 <th>{board.address}</th>
                                 <th>{board.hotel_number}</th>
                                 <th>{board.intro}</th>
-                                <th><select value={stateDe[index]} onChange={stateChange}>
+                                <th><select value={stateDe[index]} onChange={ (e) => { stateChange( e, index) } } >
                                     <option value={0}>운영중</option>
-                                    <option value={1}>임시휴업</option>
+                                   <option value={1}>임시휴업</option>
                                     <option value={2}>폐점</option>
                                     </select>
-                                    <button type="button" onClick={stateUpdate}>상태수정</button>
+                                    <button type="button" onClick={() =>{stateUpdate(board.hno, stateDe[index])}}>상태수정</button>
                                     </th>
                                 
-                                <th><button type="butoon" onClick={() => onUpdate(board.hno, board.hotel_number ,board.intro)}>수정</button></th></tr>)// 여기 부분 onUpdate() 를 그냥 넣으니 연속 실행됨
+                                <th><button type="butoon" onClick={() => onUpdate(board.hno, board.address, board.hotel_number ,board.intro)}>수정</button></th></tr>)// 여기 부분 onUpdate() 를 그냥 넣으니 연속 실행됨
                             })
 
                         }
@@ -139,7 +157,27 @@ export default function Operatae(props){
                 </table>
 
             </div>
-    
+
+                            {/* 0 1 1  위 반복문 예시
+
+                            <select value={ 0 } >
+                                <option value="0"> 하하</option>
+                                <option value="1"> 카카 </option>
+                            </select>
+
+
+                            <select value={ 1 } >
+                                <option value="0"> 하하</option>
+                                <option value="1"> 카카 </option>
+                            </select>
+
+
+                            <select value={ 1 } >
+                                <option value="0"> 하하</option>
+                                <option value="1"> 카카 </option>
+                            </select> */}
+
+
             </>)
 
 }//f end
