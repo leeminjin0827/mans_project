@@ -33,28 +33,35 @@ export default function StaffDetail(props) {
 
     return (
         <>
-            <div>
-                <Divider />
-                <div style={{padding : "10px 0px", width : "100%", height : "250px", textAlign : "center"}}>
-                    <img src={photoPath} style={{width : "250px", height : "250px"}} />
+            <div style={{maxHeight : "70vh", overflowY : "auto"}}>
+                <div style={{padding : "10px 0px", width : "100%", textAlign : "center"}}>
+                    <img 
+                        src={photoPath} 
+                        style={{
+                            width : "200px", height : "200px", 
+                            border : "solid 1px grey", borderRadius : "10px", boxShadow : "4px 4px 4px grey"
+                        }} 
+                    />
                 </div>
                 <Divider />
-                <table style={{padding : "20px", textAlign : "start"}}>
-                    <tbody>
-                        {
-                            infoName.map((info, index) => {
-                                return <tr key={index}>
-                                    <td>
-                                        {info} : 
-                                    </td>
-                                    <td>
-                                        <Input variant="outlined" readOnly slotProps={{input : {tabIndex : -1}}} value={staffDetail[staffInfo[index]] != null ? staffDetail[staffInfo[index]] : "미정"} />
-                                    </td>
-                                </tr>
-                            })
-                        }
-                    </tbody>
-                </table>
+                <div style={{overflow : "auto", }}>
+                    <table style={{padding : "20px", textAlign : "start"}}>
+                        <tbody>
+                            {
+                                infoName.map((info, index) => {
+                                    return <tr key={index}>
+                                        <td>
+                                            {info} : 
+                                        </td>
+                                        <td>
+                                            <Input variant="outlined" readOnly slotProps={{input : {tabIndex : -1}}} value={staffDetail[staffInfo[index]] != null ? staffDetail[staffInfo[index]] : "미정"} />
+                                        </td>
+                                    </tr>
+                                })
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </>
     );

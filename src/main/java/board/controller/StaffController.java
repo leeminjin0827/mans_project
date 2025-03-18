@@ -127,7 +127,7 @@ public class StaffController {
 
     /** 직원 수정 */
     @PutMapping("")
-    public boolean staffUpdate(@RequestBody() StaffDto staffDto) {
+    public boolean staffUpdate(StaffDto staffDto) {
         // 회원번호, 비밀번호, 이름, 전화번호, 주소, 입사일, 직급, 연봉, 근무지
         // 공백, 탭, 개행문자 제거 전
         System.out.println("before staffDto = " + staffDto);

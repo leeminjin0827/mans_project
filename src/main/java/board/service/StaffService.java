@@ -15,8 +15,14 @@ import java.util.ArrayList;
 public class StaffService {
 
     private final StaffMapper staffMapper;
+    private final StaffFileService staffFileService;
     @Autowired
-    public StaffService(StaffMapper staffMapper) {this.staffMapper = staffMapper;}
+    public StaffService(StaffMapper staffMapper, StaffFileService staffFileService) {
+        this.staffMapper = staffMapper;
+        this.staffFileService = staffFileService;
+    }
+
+
 
     /** 직원 등록 */
     public boolean staffRegister(StaffDto staffDto) {
@@ -46,6 +52,14 @@ public class StaffService {
     public boolean staffUpdate(StaffDto staffDto) {
         // 유효성 검사 시작
         // 유효성 검사 종료
+        try {
+            if(staffDto.getUploadFile() != null) {
+                String fileName = staffFileService.uploadPhoto(staffDto.getUploadFile());
+                staffDto.setMyPhoto(fileName);
+            }
+        } catch(Exception e) {
+            return false;
+        }
         boolean result = staffMapper.staffUpdate(staffDto);
         return result;
     }

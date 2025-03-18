@@ -119,7 +119,7 @@ create table staff (
     salary int not null,
     resignation int default 0,
     hno int unsigned default 0,
-    my_photo varchar(255) default "default.jpg",
+    my_photo varchar(255) not null default "default.jpg",
     constraint primary key(staff_number),
     constraint foreign key(hno) references operate(hno)
 );

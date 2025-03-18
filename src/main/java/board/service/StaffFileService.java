@@ -15,6 +15,7 @@ import java.net.URLEncoder;
 import java.util.UUID;
 
 @Service
+//@Transactional
 public class StaffFileService {
 
     // 현재 작업 최상위 폴더 경로를 반환
@@ -27,7 +28,7 @@ public class StaffFileService {
 
     /** 파일 업로드 */
     @Transactional(rollbackFor = Exception.class)
-    public boolean uploadPhoto(MultipartFile multipartFile, int staffNumber) {
+    public String uploadPhoto(MultipartFile multipartFile) {
         boolean result = false;
         System.out.println("확장자 = " + multipartFile.getContentType());
         System.out.println("용량 = " + multipartFile.getSize());
@@ -42,21 +43,11 @@ public class StaffFileService {
         File file = new File(filePath);
         try {
             multipartFile.transferTo(file);
-            System.out.println("file = " + file);
-            System.out.println("before fileName = " + fileName);
-            StaffDto staffDto = new StaffDto();
-            staffDto.setStaffNumber(staffNumber);
-            staffDto.setMyPhoto(fileName);
-            System.out.println(staffDto.getStaffNumber());
-            System.out.println(staffDto.getMyPhoto());
-
-            result = staffFileMapper.uploadPhoto(staffDto);
-            System.out.println("result = " + result);
         } catch(IOException e) {
             System.out.println(e);
-            return result;
+            return null;
         }
-        return result;
+        return fileName;
     }
 
     /** 파일 경로 찾기 */

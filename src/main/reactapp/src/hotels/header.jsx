@@ -24,6 +24,8 @@ import Operatae from "./Oper";
 import ParlorPage from "./Parlor";
 import StaffPage from "./Staff";
 import SignInCard from "./Login";
+import DaumAddress from "./components/staff/DaumAddress";
+
 
 
 
@@ -36,6 +38,7 @@ export default function PermanentDrawerLeft() {
         <Route path="/oper" element={ <Operatae />} />
         <Route path="/parlor" element={ <ParlorPage />} />
         <Route path="/staff" element={ <StaffPage />} />
+        <Route path="/address" element={<DaumAddress />} />
       </Routes>
     </BrowserRouter>
   );

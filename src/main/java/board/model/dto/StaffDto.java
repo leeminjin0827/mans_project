@@ -1,6 +1,7 @@
 package board.model.dto;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @NoArgsConstructor @AllArgsConstructor
 @Getter @Setter @ToString
@@ -31,5 +32,7 @@ public class StaffDto {
     private int hno;
     // 직원 사진
     private String myPhoto;
+    // 직원 사진 바이너리 파일
+    private MultipartFile uploadFile;
 
 }

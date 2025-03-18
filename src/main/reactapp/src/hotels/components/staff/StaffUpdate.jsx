@@ -2,6 +2,8 @@ import { Divider, Input, Option, Select } from "@mui/joy";
 import { Button } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
+// 임시 추가
+import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 
 
 
@@ -19,8 +21,10 @@ export default function StaffUpdate(props) {
     const [newWorkplace, setNewWorkplace] = useState(props.changeWorkplace(info.hno));
     // 근무지 정보 가져오기
     useEffect(() => {getWorkplace();}, []);
-    // 사진 관리
+    // 사진 관리 (파일 객체)
     const [newPhoto, setNewPhoto] = useState(null);
+    // 사진 미리보기(바이너리)
+    const [preview, setPreview] = useState(null);
 
     // 입력값 관련 코드
     const [updateData, setUpdateData] = useState({
@@ -32,46 +36,59 @@ export default function StaffUpdate(props) {
         setUpdateData({...updateData, [event.target.name] : event.target.value});
     }
     const changeFile = (event) => {
-        setNewPhoto(event.target.files[0]);
+        const file = event.target.files[0];
+        setNewPhoto(file);
+        if(file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                // console.log(reader.result);
+                setPreview(reader.result);
+            }
+            reader.readAsDataURL(file);
+        } else {
+            setPreview(null);
+        }
+        
     }
 
     /** 직원 정보 수정 */
     const staffInfoUpdate = async () => {
+        updateData.staffRank = newRank;
+        updateData.hno = newWorkplace;
+        const formData = new FormData();
+        formData.append("staffNumber", updateData.staffNumber);
+        formData.append("password", updateData.password);
+        formData.append("name", updateData.name);
+        formData.append("phone", updateData.phone);
+        formData.append("address", updateData.address);
+        formData.append("startDate", updateData.startDate);
+        formData.append("staffRank", updateData.staffRank);
+        formData.append("salary", updateData.salary);
+        formData.append("hno", updateData.hno);
         if(newPhoto != null) {
-            const formData = new FormData();
-            formData.append("file", newPhoto);
-            formData.append("staffNumber", updateData.staffNumber);
+            if(newPhoto) {
+                formData.append("uploadFile", newPhoto);
+            }
             const header = {headers : {"Content-Type" : "multipart/form-data"}};
+            console.log("실행2222");
+            // FormData에 데이터 들어갔는지 확인하는 부분
+            for (const x of formData.entries()) {
+                console.log(x);
+            };
+            // FormData에 데이터 들어갔는지 확인하는 부분
             try {
-                const response1 = await axios.post("http://localhost:8081/api/file/staff/upload", formData, header);
-                console.log(response1.data);
-                if(response1.data) {
-                    console.log("사진 저장 성공");
+                const response = await axios.put("http://localhost:8081/staff", formData, header);
+                console.log(response.data);
+                if(response.data) {
+                    alert("사진 저장 성공");
                 } else {
-                    alert("사진 수정 실패");
-                    return;
+                    alert("사진 저장 실패");
+                    return
                 }
             } catch(e) {
                 console.log(e);
                 return;
             }
-        }
-        try {
-            updateData.staffRank = newRank;
-            updateData.hno = newWorkplace;
-            console.log("확인 체크");
-            console.log(updateData);
-            const response = await axios.put("http://localhost:8081/staff", updateData);
-            console.log(response.data);
-            if(response.data == true) {
-                alert("수정 성공");
-                props.staffFindAll();
-                props.onClose();
-            } else {
-                alert("수정 실패");
-            }
-        } catch(e) {
-            console.log(e);
         }
     }
 
@@ -97,7 +114,7 @@ export default function StaffUpdate(props) {
 
     return (
         <>
-            <Divider />
+        <div style={{maxHeight : "70vh", overflowY : "auto"}}>
             <table style={{padding : "20px", textAlign : "start"}}>
                 <tbody>
                     <tr>
@@ -167,15 +184,28 @@ export default function StaffUpdate(props) {
                     </tr>
                     <tr>
                         <td colSpan={"2"}>
-                            <Input type="file" name="myPhoto" onChange={changeFile} sx={{marginTop : "5px", padding : "5px"}} />
+                            <Input type="file" name="myPhoto" onChange={changeFile} slotProps={{ input: { accept: "image/*" } }}  sx={{marginTop : "5px", padding : "5px"}} />
                         </td>
                     </tr>
                 </tbody>
             </table>
+
+            <div style={{textAlign : "center", width : "100%"}}>
+                <FormControl component="fieldset" sx={{width : "80%", minHeight : "200px", padding : "10px", textAlign : "center", border : "solid 1px black"}}>
+                    <FormLabel component="legend" sx={{textAlign : "center"}}>미리보기</FormLabel>
+                    <div style={{textAlign : "center"}}>
+                    {
+                        preview && (<img src={preview} style ={{width : 200, border : "solid 1px grey", borderRadius : "10px", boxShadow : "4px 4px 4px grey"}} />)
+                    }
+                    </div>
+                </FormControl>
+            </div>
+            <br/>
             <Divider />
             <div style={{textAlign : "end", paddingTop : "15px"}}>
                 <Button variant="contained" type="button" onClick={staffInfoUpdate}>수정</Button>
             </div>
+        </div>
         </>
     );
 }

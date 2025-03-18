@@ -7,7 +7,8 @@ import org.apache.ibatis.annotations.*;
 public interface StaffFileMapper {
 
     /** 파일 업로드 */
-    @Update("update staff set my_photo = #{myPhoto} where staff_number = #{staffNumber}")
+//    @Options(flushCache = Options.FlushCachePolicy.TRUE)
+    @Update("update staff set my_photo = #{myPhoto} where staff_number=#{staffNumber}")
     boolean uploadPhoto(StaffDto staffDto);
 
     /** 파일 경로 찾기 */

@@ -16,9 +16,9 @@ public class StaffFileController {
 
     /** 파일 업로드 */
     @PostMapping("/upload")
-    public boolean uploadPhoto(@RequestParam(name = "file") MultipartFile multipartFile, @RequestParam(name = "staffNumber") int staffNumber) {
+    public String uploadPhoto(@RequestParam(name = "file") MultipartFile multipartFile, @RequestParam(name = "staffNumber") int staffNumber) {
         System.out.println("multipartFile = " + multipartFile + ", staffNumber = " + staffNumber);
-        boolean result = staffFileService.uploadPhoto(multipartFile, staffNumber);
+        String result = staffFileService.uploadPhoto(multipartFile);
         return result;
     }
 
