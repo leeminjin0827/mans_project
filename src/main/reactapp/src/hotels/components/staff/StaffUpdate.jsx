@@ -65,30 +65,32 @@ export default function StaffUpdate(props) {
         formData.append("staffRank", updateData.staffRank);
         formData.append("salary", updateData.salary);
         formData.append("hno", updateData.hno);
+        if(newPhoto) {
+            formData.append("uploadFile", newPhoto);
+        }
+        const header = {headers : {"Content-Type" : "multipart/form-data"}};
+        console.log("실행2222");
+        // FormData에 데이터 들어갔는지 확인하는 부분
+        for (const x of formData.entries()) {
+            console.log(x);
+        };
+        // FormData에 데이터 들어갔는지 확인하는 부분
+        try {
+            const response = await axios.put("http://localhost:8081/staff", formData, header);
+            console.log(response.data);
+            if(response.data) {
+                alert("수정 성공");
+                props.staffFindAll();
+                props.onClose(false);
+            } else {
+                alert("수정 실패");
+                return
+            }
+        } catch(e) {
+            console.log(e);
+            return;
+        }
         if(newPhoto != null) {
-            if(newPhoto) {
-                formData.append("uploadFile", newPhoto);
-            }
-            const header = {headers : {"Content-Type" : "multipart/form-data"}};
-            console.log("실행2222");
-            // FormData에 데이터 들어갔는지 확인하는 부분
-            for (const x of formData.entries()) {
-                console.log(x);
-            };
-            // FormData에 데이터 들어갔는지 확인하는 부분
-            try {
-                const response = await axios.put("http://localhost:8081/staff", formData, header);
-                console.log(response.data);
-                if(response.data) {
-                    alert("사진 저장 성공");
-                } else {
-                    alert("사진 저장 실패");
-                    return
-                }
-            } catch(e) {
-                console.log(e);
-                return;
-            }
         }
     }
 
@@ -115,6 +117,7 @@ export default function StaffUpdate(props) {
     return (
         <>
         <div style={{maxHeight : "70vh", overflowY : "auto"}}>
+            <Divider style={{margin : "0px 15px"}} />
             <table style={{padding : "20px", textAlign : "start"}}>
                 <tbody>
                     <tr>
@@ -191,8 +194,8 @@ export default function StaffUpdate(props) {
             </table>
 
             <div style={{textAlign : "center", width : "100%"}}>
-                <FormControl component="fieldset" sx={{width : "80%", minHeight : "200px", padding : "10px", textAlign : "center", border : "solid 1px black"}}>
-                    <FormLabel component="legend" sx={{textAlign : "center"}}>미리보기</FormLabel>
+                <FormControl component="fieldset" sx={{width : "80%", minHeight : "200px", padding : "10px", textAlign : "center", border : "solid 1px black", borderRadius : "10px"}}>
+                    <FormLabel component="legend" sx={{padding : "0px 10px", textAlign : "center"}}>미리보기</FormLabel>
                     <div style={{textAlign : "center"}}>
                     {
                         preview && (<img src={preview} style ={{width : 200, border : "solid 1px grey", borderRadius : "10px", boxShadow : "4px 4px 4px grey"}} />)
@@ -201,8 +204,8 @@ export default function StaffUpdate(props) {
                 </FormControl>
             </div>
             <br/>
-            <Divider />
-            <div style={{textAlign : "end", paddingTop : "15px"}}>
+            <Divider style={{margin : "0px 15px"}} />
+            <div style={{textAlign : "end", paddingTop : "15px", paddingRight : "15px", marginBottom : "15px"}}>
                 <Button variant="contained" type="button" onClick={staffInfoUpdate}>수정</Button>
             </div>
         </div>

@@ -8,14 +8,15 @@ export default function StaffDetail(props) {
 
     useEffect(() => {myPhoto();}, []);
 
+
     const infoName = ["직원 번호", "아이디", "비밀번호", "이름", "전화번호", "주소", "입사일", "퇴사일", "직급", "연봉", "근무지", "퇴사 유무"];
     const staffInfo = ["staffNumber", "id", "password", "name", "phone", "address", "startDate", "endDate", "staffRank", "salary", "hno", "resignation"];
 
     const staffDetail = props.staffDetail;
-    staffDetail["resignation"] = staffDetail["resignation"] == 0 ? "근무" : "퇴사";
+    staffDetail["endDate"] = staffDetail["endDate"] == null ? "미정" : staffDetail["endDate"];
     // 본인 사진 경로
     const basePath = "http://localhost:8081/upload/staff/"
-    const [photoPath, setPhotoPath] = useState();
+    const [photoPath, setPhotoPath] = useState(null);
     // const photoPath = "http://localhost:8081/upload/staff/default.jpg";
     // const photoPath = "C:/Users/silen/IdeaProjects/mans_project/build/resources/main/static/upload/staff/default.jpg";
     
@@ -31,6 +32,9 @@ export default function StaffDetail(props) {
         }
     }
 
+    console.log(staffDetail);
+    console.log(`staffDetail["resignation"] : ${staffDetail["resignation"]}`);
+
     return (
         <>
             <div style={{maxHeight : "70vh", overflowY : "auto"}}>
@@ -43,22 +47,29 @@ export default function StaffDetail(props) {
                         }} 
                     />
                 </div>
-                <Divider />
-                <div style={{overflow : "auto", }}>
+                <Divider style={{margin : "0px 15px"}} />
+                <div style={{overflow : "auto" }}>
                     <table style={{padding : "20px", textAlign : "start"}}>
                         <tbody>
                             {
                                 infoName.map((info, index) => {
+                                    if(index == infoName.length-1) { return; }
                                     return <tr key={index}>
                                         <td>
                                             {info} : 
                                         </td>
                                         <td>
-                                            <Input variant="outlined" readOnly slotProps={{input : {tabIndex : -1}}} value={staffDetail[staffInfo[index]] != null ? staffDetail[staffInfo[index]] : "미정"} />
+                                            <Input variant="outlined" readOnly slotProps={{input : {tabIndex : -1}}} value={staffDetail[staffInfo[index]]} />
                                         </td>
                                     </tr>
                                 })
                             }
+                            <tr>
+                                <td>퇴사 유무 : </td>
+                                <td>
+                                    <Input variant="outlined" readOnly slotProps={{input : {tabIndex : -1}}} value={staffDetail["resignation"] == 0 ? "근무" : "퇴사"} />
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

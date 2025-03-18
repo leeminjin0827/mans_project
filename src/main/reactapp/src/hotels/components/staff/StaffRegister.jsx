@@ -26,7 +26,7 @@ export default function StaffRegister(props) {
             console.log(response.data);
             if(response.data == true) {
                 alert("등록 성공");
-                setStaffInfo({id : "", name : "", phone : "", address : "", startDate : `${year}-${month}-${day}`, salary : "", hno : "0", myPhoto : "default.jpg"});
+                setStaffInfo({id : "", name : "", phone : "", address : "", startDate : `${year}-${month}-${day}`, salary : "", hno : "1", myPhoto : "default.jpg"});
                 props.staffFindAll();
                 props.onClose(false);
             } else {
@@ -68,7 +68,7 @@ export default function StaffRegister(props) {
     return (
         <>  
             <div style={{maxHeight : "70vh", overflowY : "auto"}}>
-                <Divider />
+                <Divider style={{margin : "0px 15px"}} />
                 <table style={{padding : "20px", textAlign : "start"}}>
                     <tbody>
                         <tr>
@@ -132,8 +132,8 @@ export default function StaffRegister(props) {
                         </tr>
                     </tbody>
                 </table>
-                <Divider />
-                <div style={{textAlign : "end", paddingTop : "15px"}}>
+                <Divider style={{margin : "0px 15px"}} />
+                <div style={{textAlign : "end", paddingTop : "15px", paddingRight : "15px"}}>
                     <Button variant="contained" type="button" onClick={register}>등록</Button>
                 </div>
             </div>

@@ -300,6 +300,7 @@ export default function StaffPage(props) {
                     }
                     onClose={()=> {setUpdateModal(false)}}
                 />
+                {/* 직원 상세보기 관련 모달 */}
                 <StaticModal 
                     isOpen={detailModal}
                     title={"직원 정보 상세보기"}

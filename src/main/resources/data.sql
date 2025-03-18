@@ -1,4 +1,5 @@
 -- 지점
+-- 서울 호텔 샘플 데이터
 insert into operate(address, hotel_number, intro, state) values( '강남구 선릉로85길 6' ,  '02-234-6576', '안녕하세요~~ 우리는 ~~~ 입니다~~~' , '0'  );
 -- 서울 호텔 샘플 데이터
 insert into operate(address, hotel_number, intro, state) values( '서울특별시 중구 세종대로 99' , '02-1234-5678', '깔끔하고 아름다운~~~', '0'  );

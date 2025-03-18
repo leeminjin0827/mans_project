@@ -52,15 +52,18 @@ public class StaffService {
     public boolean staffUpdate(StaffDto staffDto) {
         // 유효성 검사 시작
         // 유효성 검사 종료
+        boolean result = false;
         try {
             if(staffDto.getUploadFile() != null) {
                 String fileName = staffFileService.uploadPhoto(staffDto.getUploadFile());
                 staffDto.setMyPhoto(fileName);
+                result = staffMapper.staffUpdateAll(staffDto);
+            } else {
+                result = staffMapper.staffUpdate(staffDto);
             }
         } catch(Exception e) {
             return false;
         }
-        boolean result = staffMapper.staffUpdate(staffDto);
         return result;
     }
 

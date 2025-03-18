@@ -35,11 +35,19 @@ public interface StaffMapper {
     })
     ArrayList<StaffDto> staffFindDetail(int hno);
 
-    /** 직원 수정 */
+    /** 직원 수정(사진 포함) */
     @Update("update staff set " +
             "password = #{password}, name = #{name}, phone = #{phone}, " +
             "address = #{address}, start_date = #{startDate}, staff_rank = #{staffRank}, " +
             "salary = #{salary}, hno = #{hno}, my_photo = #{myPhoto} " +
+            "where staff_number = #{staffNumber}")
+    boolean staffUpdateAll(StaffDto staffDto);
+
+    /** 직원 수정(사진 미포함) */
+    @Update("update staff set " +
+            "password = #{password}, name = #{name}, phone = #{phone}, " +
+            "address = #{address}, start_date = #{startDate}, staff_rank = #{staffRank}, " +
+            "salary = #{salary}, hno = #{hno} " +
             "where staff_number = #{staffNumber}")
     boolean staffUpdate(StaffDto staffDto);
 
