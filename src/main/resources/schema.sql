@@ -103,6 +103,7 @@ create table operate(
     hotel_number char(12),
     intro longtext,
     state int default 0,
+    mimg varchar(255) not null,
     constraint primary key(hno)
 );
 

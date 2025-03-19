@@ -20,7 +20,7 @@ public class OperateController {
     // state 안넣는 이유 : 등록을 하는것은 운영을 할때 하는것이기 때문
     //address api사용할지 고민하기
     @PostMapping("")
-    public boolean conFine(@RequestBody OperateDto operateDto){
+    public boolean conFine(OperateDto operateDto){
         System.out.println("OperateController.conFine");
         System.out.println("operateDto = " + operateDto);
 
