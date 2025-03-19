@@ -9,35 +9,7 @@ import {useDaumPostcodePopup} from 'react-daum-postcode'; //daum 주소 검색 �
 
 export default function Operatae(props){
 
-    const DaumPost = ({setAddress}) => {//npm install react-daum-postcode 다음 install 같은데 이거 교수님에게 물어보기
-        const postcodeScriptUrl = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
-        const open = useDaumPostcodePopup(postcodeScriptUrl);
-    
-        const handleComplete = (data) => {
-            let fullAddress = data.address;
-            let extraAddress = '';
-            let localAddress = data.sido+' '+data.sigungu;
-    
-            if(data.addressType === 'R'){
-                if(data.bname !== ''){
-                    extraAddress += data.bname;
-                }
-                if(data.buildingName !== ''){
-                    extraAddress += (extraAddress !== ''?`, /${data.buildingName}` : data.buildingName);
-                }
-                fullAddress = fullAddress.replace(localAddress, '');
-                fullAddress += (extraAddress !== ''?`(${extraAddress})`: '');
-    
-            }//if end
-            setAddress(fullAddress) // setAddress를 호출하여 부모 컴포넌트의 상태를 업데이트
-    
-        };
-        const handleClick = () => {
-            open({onComplete : handleComplete});
-        }
-        return <div type = "button" onClick={handleClick}>주소 검색</div>;
-    };
-
+   
     
     useEffect(() => {onFindAll()}, []) // 처음부터 전체 출력
 
@@ -107,6 +79,9 @@ export default function Operatae(props){
             alert("등록성공"); onFindAll();
         }else{alert("등록실패")}
     }
+
+
+
 
 
 
