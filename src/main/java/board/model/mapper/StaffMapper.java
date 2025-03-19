@@ -47,7 +47,7 @@ public interface StaffMapper {
     /** 직원 수정(사진 미포함) */
     @Update("update staff set " +
             "password = #{password}, name = #{name}, phone = #{phone}, " +
-            "address1 = #{address1}, address2 = #{address2}, address3 = #{address3} " +
+            "address1 = #{address1}, address2 = #{address2}, address3 = #{address3}, " +
             "start_date = #{startDate}, staff_rank = #{staffRank}, " +
             "salary = #{salary}, hno = #{hno} " +
             "where staff_number = #{staffNumber}")

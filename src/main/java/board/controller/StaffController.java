@@ -136,6 +136,8 @@ public class StaffController {
         staffDto.setName(staffDto.getName().trim());
         staffDto.setPhone(staffDto.getPhone().trim());
         staffDto.setAddress1(staffDto.getAddress1().trim());
+        staffDto.setAddress2(staffDto.getAddress2().trim());
+        staffDto.setAddress3(staffDto.getAddress3().trim());
         staffDto.setStartDate(staffDto.getStartDate().trim());
         // 유효성 검사 시작
         System.out.println("staffDto = " + staffDto);

@@ -122,7 +122,7 @@ export default function StaffRegister(props) {
                         </tr>
                         <tr>
                             <td colSpan={"2"}>
-                                <Input variant="outlined" type="text" name="address1" value={address} placeholder="도로명주소" onChange={tempp} />
+                                <Input variant="outlined" type="text" name="address1" readOnly value={address} placeholder="도로명주소" onChange={tempp} />
                             </td>
                         </tr>
                         <tr>

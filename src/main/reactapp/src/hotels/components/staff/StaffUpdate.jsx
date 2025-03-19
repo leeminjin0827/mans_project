@@ -28,9 +28,9 @@ export default function StaffUpdate(props) {
 
     // 입력값 관련 코드
     const [updateData, setUpdateData] = useState({
-        staffNumber : info.staffNumber, password : info.password, name : info.name,
-        phone : info.phone, address1 : info.address1, address3 : info.address3, startDate : info.startDate,
-        staffRank : info.staffRank, salary : info.salary, hno : info.hno
+        staffNumber : info.staffNumber, password : info.password, name : info.name, phone : info.phone, 
+        address1 : info.address1, address2 : info.address2 == null ? "" : info.address2, address3 : info.address3 == null ? "" : info.address3, 
+        startDate : info.startDate, staffRank : info.staffRank, salary : info.salary, hno : info.hno
     });
     const changeInput = (event) => {
         setUpdateData({...updateData, [event.target.name] : event.target.value});
@@ -61,8 +61,8 @@ export default function StaffUpdate(props) {
         formData.append("name", updateData.name);
         formData.append("phone", updateData.phone);
         formData.append("address1", address);
-        formData.append("address2", updateData.address2);
-        formData.append("address3", updateData.address3);
+        formData.append("address2", updateData.address2 == null ? "" : updateData.address2);
+        formData.append("address3", zonecode);
         formData.append("startDate", updateData.startDate);
         formData.append("staffRank", updateData.staffRank);
         formData.append("salary", updateData.salary);
@@ -71,7 +71,6 @@ export default function StaffUpdate(props) {
             formData.append("uploadFile", newPhoto);
         }
         const header = {headers : {"Content-Type" : "multipart/form-data"}};
-        console.log("실행2222");
         // FormData에 데이터 들어갔는지 확인하는 부분
         for (const x of formData.entries()) {
             console.log(x);
@@ -91,8 +90,6 @@ export default function StaffUpdate(props) {
         } catch(e) {
             console.log(e);
             return;
-        }
-        if(newPhoto != null) {
         }
     }
 
@@ -117,8 +114,8 @@ export default function StaffUpdate(props) {
     console.log(newPhoto);
 
     // 임시 추가
-    const [address, setAddress] = useState("");
-    const [zonecode, setZonecode] = useState("");
+    const [address, setAddress] = useState(updateData.address1);
+    const [zonecode, setZonecode] = useState(updateData.address3 == null ? "" : updateData.address3);
     useEffect(() => {
         const messageHandler = (event) => {
             console.log("자식 창에서 받은 메시지 : ", event.data);
@@ -134,9 +131,14 @@ export default function StaffUpdate(props) {
         }
     }, []);
 
-    const tempp = (event) => {
+    const changeAdress1 = (event) => {
         console.log(event.target.value);
         setAddress(event.target.value);
+    }
+    const changeZonecode = (event) => {
+        console.log(event.target.value);
+        setZonecode(event.target.value);
+        setUpdateData({...updateData, address3 : event.target.value});
     }
 
     return (
@@ -159,7 +161,7 @@ export default function StaffUpdate(props) {
                     </tr>
                     <tr>
                         <td rowSpan={"2"} style={{paddingTop : "5px", alignContent : "start"}}>주 소 : </td>
-                        <td><Input variant="outlined" size="md" name="address3" readOnly placeholder="우편주소" value={zonecode} /></td>
+                        <td><Input variant="outlined" size="md" name="address3" readOnly placeholder="우편주소" value={zonecode} onChange={changeZonecode} /></td>
                         <td>
                             <Button
                                 variant="contained"
@@ -180,11 +182,11 @@ export default function StaffUpdate(props) {
                         </td>
                     </tr>
                     <tr>
-                        <td colSpan={"2"}><Input variant="outlined" size="md" name="address1" placeholder="도로명주소" value={address} onChange={tempp} /></td>
+                        <td colSpan={"2"}><Input variant="outlined" size="md" name="address1" placeholder="도로명주소" readOnly value={address} onChange={changeAdress1} /></td>
                     </tr>
                     <tr>
                         <td>상세주소 : </td>
-                        <td colSpan={"2"}><Input variant="outlined" size="md" name="address2" placeholder="상세주소" value={updateData.address} onChange={changeInput} /></td>
+                        <td colSpan={"2"}><Input variant="outlined" size="md" name="address2" placeholder="상세주소" value={updateData.address2} onChange={changeInput} /></td>
                     </tr>
                     <tr>
                         <td>입사일 : </td>

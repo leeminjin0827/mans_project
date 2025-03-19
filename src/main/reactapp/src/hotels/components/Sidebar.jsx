@@ -118,7 +118,7 @@ export default function Sidebar(props) {
                         <Divider /> {/* 사이드바 border */}
                         <List>
                             <ListItem disablePadding>
-                            <ListItemButton component={Link} to="/parlor">
+                            <ListItemButton component={Link} to="/" onClick={() => {alert("하이요")}}>
                                 <ListItemIcon>
                                 <MeetingRoomIcon />
                                 </ListItemIcon>
