@@ -24,6 +24,7 @@ export default function Operatae(props){
 
     setProfile(file)
 
+        // 이미지 미리보기 
     if(file){
         //4. 파일 읽기 객체 선언
         const reader = new FileReader(); // js객체 : 파일 읽기 객체
@@ -199,22 +200,22 @@ export default function Operatae(props){
     return(<>
             <Sidebar />
             <div className="mainBox">
-                <form>
+                <form style={{float : 'left'}}>
                     <h2>관리자 정보페이지</h2>
-                    <Box sx={{ py: 1, width: '20%',  display: 'grid', gap: 1, alignItems: 'center', flexWrap: 'wrap' }}>
+                    <Box sx={{ py: 1, width: '25%',  display: 'grid', gap: 1, alignItems: 'center', flexWrap: 'wrap' }}>
                     <div>
-                    <Input size="md" placeholder="주소" type="text" value={dataInfo.address} name="address" onChange={formDataChange}/>
+                    <Input sx={{ width: '150%' }} readOnly size="md" placeholder="주소" type="text" value={dataInfo.address} name="address" onChange={formDataChange}/>
                     <Button size="sm" type="button" onClick={handleClick}>검색</Button>
                     </div>
-                    <Input size="md" placeholder="호텔 전화번호" type="text" value={dataInfo.hotel_number} name="hotel_number" onChange={formDataChange}/>
-                    <Input size="md" placeholder="소개" type="text" value={dataInfo.intro} name="intro" onChange={formDataChange}/>
-                    <input type="file" accept="imge/*" onChange={onFileChange}/>
+                    <Input sx={{ width: '150%' }}size="md" placeholder="호텔 전화번호" type="text" value={dataInfo.hotel_number} name="hotel_number" onChange={formDataChange}/>
+                    <Input sx={{ width: '150%' }}size="md" placeholder="소개" type="text" value={dataInfo.intro} name="intro" onChange={formDataChange}/>
+                    <input sx={{ width: '150%' }}type="file" accept="imge/*" onChange={onFileChange}/>
                     <Button size="sm" sx={{width: '30%'}} type="button" onClick={OnSignup}>저장</Button><br/><br/>
                     </Box>
-
-
                 </form>
-
+                    <div style={{ marginLeft: '30%'}}>
+                    {preview && (<><img src={preview} style={{with:"500px", height:"300px"}}/></>)}
+                    </div>
 
 
                 <Table sx={{tableLayout : "auto"}}  >
