@@ -171,7 +171,7 @@ export default function Operatae(props){
                     <h2>관리자 정보페이지</h2>
                     <Box sx={{ py: 1, width: '20%',  display: 'grid', gap: 1, alignItems: 'center', flexWrap: 'wrap' }}>
                     <Input size="md" placeholder="주소" type="text" value={dataInfo.address} name="address" onChange={formDataChange}/>
-                    <button type="button" onClick={DaumPost}></button>
+                    {/* <button type="button" onClick={DaumPost}></button> */}
                     <Input size="md" placeholder="호텔 전화번호" type="text" value={dataInfo.hotel_number} name="hotel_number" onChange={formDataChange}/>
                     <Input size="md" placeholder="소개" type="text" value={dataInfo.intro} name="intro" onChange={formDataChange}/>
                     <input type="file" accept="imge/*" onChange={onFileChange}/> <br/>
