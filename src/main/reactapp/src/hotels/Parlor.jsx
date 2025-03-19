@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react"
 import Sidebar from "./components/Sidebar";
 import { Box, Table } from "@mui/joy";
+import { Button } from "@mui/material";
 
 export default function ParlorPage( props ){
 
@@ -128,6 +129,7 @@ export default function ParlorPage( props ){
             const response = await axios.put("http://localhost:8081/room/rating" , { rno , ratingName , bedCount , bedType } );
             if( response.data == true ){
                 alert("객실등급을 수정했습니다.");
+                ratingRead();
                 roomOptionRead();
                 roomRead();
             }else{
@@ -146,6 +148,7 @@ export default function ParlorPage( props ){
                 const response = await axios.delete(`http://localhost:8081/room/rating?rno=${rno}`)
                 if( response.data ) {
                     alert("삭제되었습니다.");
+                    ratingRead();
                     roomOptionRead();
                     roomRead();
                 }else{
@@ -160,13 +163,14 @@ export default function ParlorPage( props ){
     // ------------------------------------------------ 객실  ------------------------------------------------------------------------
 
     // 객실 등록
-    const [ roomWrite , setRoomWrite ] = useState( { rno : '' })
+    const [ roomWrite , setRoomWrite ] = useState( { rno : '' , hno : '' , staffNumber : '' })
     const mWriteInput = async () => {
+        const hno = prompt("호텔 지점번호를 입력해주세요.");
         const rno = prompt("객실에 설정할 객실등급을 입력하세요.");
+        const staffNumber = prompt("객실을 담당할 직원번호를 입력해주세요.");
         if( !rno ) { return; }
         try{
-            roomWrite.rno = rno;
-            const response = await axios.post("http://localhost:8081/room" , roomWrite )
+            const response = await axios.post("http://localhost:8081/room" , { rno , hno , staffNumber } )
             if( response.data == true ){
                 alert("객실 등록을 성공했습니다.");
                 roomRead();
@@ -186,10 +190,6 @@ export default function ParlorPage( props ){
     console.log( "객실 목록 ")
     console.log( roomList );
 
-    // const roomRead = async () => {
-    //     const response = await axios.get("http://localhost:8081/room");
-    //     setRoomList( response.data );
-    // } // f end
     const roomRead = async () => {
         const response = await axios.get("http://localhost:8081/room");
     
@@ -202,10 +202,13 @@ export default function ParlorPage( props ){
                 // 새로운 객실에 대한 옵션 추가
                 acc[room.rono] = {
                     rono: room.rono,
+                    hno: room.hno,
+                    staffNumber: room.staffNumber,
                     rno: room.rno,
                     ratingName: room.ratingName,
                     bedCount: room.bedCount,
                     bedType: room.bedType,
+                    name: room.name,
                     options: room.opName ? [room.opName] : [],  // 첫 번째 옵션 추가
                 };
             }
@@ -242,15 +245,18 @@ export default function ParlorPage( props ){
     // 객실 삭제
     const [ roomDelete , setRoomDelete] = useState({ rono : '' })
     const mDeleteInput = async ( rono ) => {
-        try{
-            const response = await axios.delete(`http://localhost:8081/room?rono=${rono}`)
-            if( response.data == true ){
-                alert("삭제완료");
-                roomRead();
-            }else{
-                alert("삭제실패")
-            } // if end
-        }catch ( error ) { console.log( error ); }
+        const real = confirm("정말 삭제 하시겠습니까?");
+        if( real == true ){
+            try{
+                const response = await axios.delete(`http://localhost:8081/room?rono=${rono}`)
+                if( response.data == true ){
+                    alert("삭제완료");
+                    roomRead();
+                }else{
+                    alert("삭제실패")
+                } // if end
+            }catch ( error ) { console.log( error ); }
+        } // if end
     } // f end
 
     // ------------------------------------------------ 객실별 옵션 ------------------------------------------------------------------------
@@ -278,7 +284,7 @@ export default function ParlorPage( props ){
         const opno = prompt("추가할 옵션 번호를 입력하세요.");
         if( !opno ) { return; }
         try{
-            const response = await axios.put("http://localhost:8081/room/option/set" , { rno , opno } )
+            const response = await axios.post ("http://localhost:8081/room/option/set" , { rno , opno } )
             if( response.data == true ){
                 alert("성공했습니다.");
                 roomOptionRead();
@@ -289,59 +295,60 @@ export default function ParlorPage( props ){
         }catch(error) { console.log( error ); }
     } // f end
 
-    // 객실별 옵션 목록 조회
-    useEffect( () => {
+    // 객실별 옵션 조회
+    useEffect(() => {
         console.log('객실별 옵션 전체조회 실행');
         roomOptionRead();
+    }, []);
 
-    } , [] )
-    const [ roomOptionList , setRoomOptionList ] = useState([]);
-    console.log( "객실별 옵션 목록 ")
+    const [roomOptionList, setRoomOptionList] = useState([]);
+    console.log("객실별 옵션 목록")
     console.log( roomOptionList );
 
     const roomOptionRead = async () => {
-        const response = await axios.get('http://localhost:8081/room/option/set');
-    
-        // 객실별로 옵션을 그룹화
-        const groupedRooms = response.data.reduce((acc, room) => {
-            // 객실 번호가 이미 존재하면 옵션만 추가
-            if (acc[room.rno]) {
-                acc[room.rno].options.push(room.opName);
-            } else {
-                // 객실 번호가 없다면 새로 객체를 생성
-                acc[room.rno] = {
-                    rono: room.rono,
-                    rno: room.rno,
-                    ratingName: room.ratingName,
-                    bedCount: room.bedCount,
-                    bedType: room.bedType,
-                    opno : room.opno,
-                    options: [room.opName],
-                };
-            }
-            return acc;
-        }, {});
-    
-        // 객체를 배열로 변환
-        const roomOptionList = Object.values(groupedRooms);
-        setRoomOptionList(roomOptionList);
-    } // f end
+        try {
+            const response = await axios.get('http://localhost:8081/room/option/set');
+            setRoomOptionList(response.data);
+        } catch (error) { console.error(error); }
+    };
+
+    // 객실 옵션을 rno 기준으로 그룹화
+    const groupedRoomOptions = roomOptionList.reduce((acc, room) => {
+        if (acc[room.rno]) {
+            acc[room.rno].options.push(room.opName);
+        } else {
+            acc[room.rno] = {
+            rno: room.rno,
+            ratingName: room.ratingName,
+            bedCount: room.bedCount,
+            bedType: room.bedType,
+            options: [room.opName]
+            };
+        }
+        return acc;
+    }, {});
+
+    // 객체 → 배열 변환
+    const mergedRoomOptions = Object.values(groupedRoomOptions);
 
     // 객실별 옵션 목록 삭제
     const [ roomOptionListDelete , setRoomOptionListDelete ] = useState( { rno : '' } )
     const rolDeleteInput = async () => { // 나중에 rno 받을거면 추가
         const rno = prompt("삭제할 목록 번호를 입력하세요");
         if( !rno ){return;}
-        try{
-            const response = await axios.delete(`http://localhost:8081/room/option/set/delete?rno=${rno}`)
-            if( response.data == true ){
-                alert("목록 삭제 완료");
-                roomOptionRead();
-                roomRead();
-            }else{
-                alert("목록 삭제 실패");
-            } // if end
-        }catch(error) { console.log( error ); }
+        const real = confirm("정말 삭제하시겠습니까?");
+        if( real == true ){
+            try{
+                const response = await axios.delete(`http://localhost:8081/room/option/set/delete?ropno=${rno}`)
+                if( response.data == true ){
+                    alert("목록 삭제 완료");
+                    roomOptionRead();
+                    roomRead();
+                }else{
+                    alert("목록 삭제 실패");
+                } // if end
+            }catch(error) { console.log( error ); }
+        } // if end
     } // f end
 
     // 객실별 옵션 목록 옵션 삭제
@@ -360,6 +367,25 @@ export default function ParlorPage( props ){
             } // if end
         }catch( error ) { console.log( error ); }
     } // f end
+
+    // 호텔명 함수
+    const hnoChange = (hno) =>{
+        let result;
+        if( typeof hno === "number" ){
+            switch(hno){
+                case 1:
+                    result = "강남점";
+                    break;
+                case 2:
+                    result = "중구점";
+                    break;
+                case 3:
+                    result = "부평점";
+                    break;
+            }
+        }console.log( result ); return result;
+    } // f end
+
 
     // ------------------------------------------------ return ------------------------------------------------------------------------
 
@@ -454,10 +480,10 @@ export default function ParlorPage( props ){
                     </thead>
                     <tbody>
                         {
-                            roomOptionList.map( ( roomop , i ) => {
+                            mergedRoomOptions.map( ( roomop , i ) => {
                                 return(
-                                    <tr key={ i }>
-                                        <td> {roomop.rno} </td>
+                                    <tr key={ roomop.rno }>
+                                        <td> {roomop.rno}</td>
                                         <td> {roomop.ratingName} </td>
                                         <td> {roomop.bedCount} </td>
                                         <td> {roomop.bedType} </td>
@@ -475,10 +501,16 @@ export default function ParlorPage( props ){
             </div>
             <Box style={{marginBottom : '50px' }}>
                 <h3>객실 목록</h3>
-                <div>
-                    <button type="button" onClick={ mWriteInput }>등록</button>
+                <div style={{ padding : "0px 10px", display : "flex", justifyContent : "end"}}>
+                    <select style={{marginRight : "50px", width : "7%", textAlign : "center"}}>
+                        <option value={"0"}>전체</option>
+                        <option value={"1"}>강남점</option>
+                        <option value={"2"}>중구점</option>
+                        <option value={"3"}>부평점</option>
+                    </select>
+                    <Button variant="contained" type="button" onClick={mWriteInput}>객실 등록</Button>
                 </div>
-                <Table sx={{tableLayout : "auto"}}>
+                <Table id="tableAll" sx={{tableLayout : "auto"}}>
                         <thead>
                             <tr>
                                 <th>객실번호</th>
@@ -488,7 +520,7 @@ export default function ParlorPage( props ){
                                 <th>침대유형</th>
                                 <th>객실옵션</th>
                                 <th>담당자</th>
-                                <th>기능</th>
+                                <th>비고</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -500,15 +532,15 @@ export default function ParlorPage( props ){
                                     return(
                                         <tr key={ i } style={{width : "100%"}}>
                                             <td>{room.rono}</td>
-                                            <td>돌쇠</td>
+                                            <td>{hnoChange(room.hno)}</td>
                                             <td>{room.ratingName}</td>
                                             <td>{room.bedCount}</td>
                                             <td>{room.bedType}</td>
                                             <td>{room.options}</td>
-                                            <td>홍길동</td>
+                                            <td>{room.name}</td>
                                             <td>
-                                                <button onClick={ () => mUpdateInput(room.rono) } type="button">수정</button>
-                                                <button onClick={ () => mDeleteInput(room.rono) } type="button">삭제</button>
+                                                <Button variant="contained" type="button"  sx={{width : "5rem", height : "2.5rem"}} onClick={() => {mUpdateInput(room.rono);}}>수정</Button>
+                                                <Button variant="contained" type="button"  sx={{width : "5rem", height : "2.5rem" , marginLeft : "10px"}} onClick={() => {mDeleteInput(room.rono);}}>삭제</Button>
                                             </td>
                                         </tr>
                                     )

@@ -29,19 +29,23 @@
   width : 80%;
 }
 
-#staffTable  th {
+#staffTable  th, #tableAll th {
   text-align : center;
   vertical-align : middle;
   text-overflow : clip;
 }
 
-#staffTable  td {
+#staffTable  td, #tableAll td {
   text-align : center;
   vertical-align : middle;
   text-overflow : ellipsis;
 }
 
-
+#tableAll{
+  table-layout: auto;
+  width: 100%;
+  text-align: center;
+}
 
 /* #region 기존 */
 

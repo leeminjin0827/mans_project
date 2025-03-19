@@ -13,7 +13,7 @@ public class RoomOptionService {
     @Autowired
     private RoomOptionMapper roomOptionMapper;
 
-    // 객실별 옵션 추가
+    // 객실별 옵션/목록 추가
     public boolean rOptionWrite(RoomOptionDto roomOptionDto ){
         return roomOptionMapper.rOptionWrite( roomOptionDto );
     } // f end
@@ -21,11 +21,6 @@ public class RoomOptionService {
     // 객실별 옵션 목록 전체조회
     public List<RoomOptionDto> rOptionList(){
         return roomOptionMapper.rOptionList();
-    } // f end
-
-    // 객실별 옵션 등록
-    public boolean rOptionUpdate( RoomOptionDto roomOptionDto ){
-        return roomOptionMapper.rOptionUpdate( roomOptionDto );
     } // f end
 
     // 객실별 옵션 목록 삭제
