@@ -14,19 +14,30 @@ export default function StaffRegister(props) {
     console.log(`${year}-${month}-${day}`);
 
     const [staffInfo, setStaffInfo] = useState(
-        {id : "", name : "", phone : "", address : "", startDate : `${year}-${month}-${day}`, salary : "", hno : "1", myPhoto : "default.jpg"}
+        {
+            id : "", name : "", phone : "", 
+            address1 : "", address2 : "", address3 : "",
+            startDate : `${year}-${month}-${day}`, salary : "", hno : "1", 
+            myPhoto : "default.jpg"
+        }
     );
     const changeData = (event) => {
         setStaffInfo({...staffInfo, [event.target.name] : event.target.value});
     }
     const register = async () => {
         try {
-            staffInfo.address = address + " " + staffInfo.address;
+            staffInfo.address1 = address;
+            staffInfo.address3 = zonecode;
             const response = await axios.post("http://localhost:8081/staff", staffInfo);
             console.log(response.data);
             if(response.data == true) {
                 alert("등록 성공");
-                setStaffInfo({id : "", name : "", phone : "", address : "", startDate : `${year}-${month}-${day}`, salary : "", hno : "1", myPhoto : "default.jpg"});
+                setStaffInfo({
+                    id : "", name : "", phone : "", 
+                    address1 : "", address2 : "", address3 : "",
+                    startDate : `${year}-${month}-${day}`, salary : "", hno : "1", 
+                    myPhoto : "default.jpg"
+                });
                 props.staffFindAll();
                 props.onClose(false);
             } else {
@@ -111,13 +122,13 @@ export default function StaffRegister(props) {
                         </tr>
                         <tr>
                             <td colSpan={"2"}>
-                                <Input variant="outlined" type="text" name="bigaddress" value={address} placeholder="도로명주소" onChange={tempp} />
+                                <Input variant="outlined" type="text" name="address1" value={address} placeholder="도로명주소" onChange={tempp} />
                             </td>
                         </tr>
                         <tr>
                             <td>상세주소 : </td>
                             <td colSpan={"2"}>
-                                <Input variant="outlined" type="text" name="address" value={staffInfo.address} placeholder="상세주소" onChange={changeData} />
+                                <Input variant="outlined" type="text" name="address2" value={staffInfo.address2} placeholder="상세주소" onChange={changeData} />
                             </td>
                         </tr>
                         <tr>

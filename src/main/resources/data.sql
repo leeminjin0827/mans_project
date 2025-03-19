@@ -82,7 +82,7 @@ insert into room_options (rno, opno) values
 (9, 1), (9, 2), (9, 3), (9, 4), (9, 5), (9, 6), (9, 7), (9, 8), (9, 9), (9, 10);
 
 -- 직원
-insert into staff(id, name, phone, address, start_date, staff_rank, salary, hno) values
+insert into staff(id, name, phone, address1, start_date, staff_rank, salary, hno) values
 ("hotels1958", "김민준", "010-1947-5823", "서울 강남구", "2020-02-10", 0, 4300, 1),
 ("hotels3691", "이서준", "010-3658-9172", "서울 강남구", "2020-02-10", 1, 3900, 1),
 ("hotels7243", "김도윤", "010-7281-4396", "서울 강남구", "2020-02-10", 2, 2800, 1),

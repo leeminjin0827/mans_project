@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public interface StaffMapper {
 
     /** 직원 등록 */
-    @Insert("insert into staff(id, name, phone, address, start_date, staff_rank, salary, hno, my_photo) values " +
-            "(#{id}, #{name}, #{phone}, #{address}, #{startDate}, 2, #{salary}, #{hno}, #{myPhoto})")
+    @Insert("insert into staff(id, name, phone, address1, address2, address3, start_date, staff_rank, salary, hno, my_photo) values " +
+            "(#{id}, #{name}, #{phone}, #{address1}, #{address2}, #{address3}, #{startDate}, 2, #{salary}, #{hno}, #{myPhoto})")
     boolean staffRegister(StaffDto staffDto);
 
     /** 직원 전체 조회 */
@@ -38,7 +38,8 @@ public interface StaffMapper {
     /** 직원 수정(사진 포함) */
     @Update("update staff set " +
             "password = #{password}, name = #{name}, phone = #{phone}, " +
-            "address = #{address}, start_date = #{startDate}, staff_rank = #{staffRank}, " +
+            "address1 = #{address1}, address2 = #{address2}, address3 = #{address3}, " +
+            "start_date = #{startDate}, staff_rank = #{staffRank}, " +
             "salary = #{salary}, hno = #{hno}, my_photo = #{myPhoto} " +
             "where staff_number = #{staffNumber}")
     boolean staffUpdateAll(StaffDto staffDto);
@@ -46,7 +47,8 @@ public interface StaffMapper {
     /** 직원 수정(사진 미포함) */
     @Update("update staff set " +
             "password = #{password}, name = #{name}, phone = #{phone}, " +
-            "address = #{address}, start_date = #{startDate}, staff_rank = #{staffRank}, " +
+            "address1 = #{address1}, address2 = #{address2}, address3 = #{address3} " +
+            "start_date = #{startDate}, staff_rank = #{staffRank}, " +
             "salary = #{salary}, hno = #{hno} " +
             "where staff_number = #{staffNumber}")
     boolean staffUpdate(StaffDto staffDto);

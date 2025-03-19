@@ -16,8 +16,12 @@ public class StaffDto {
     private String name;
     // 직원 전화번호
     private String phone;
-    // 직원 주소
-    private String address;
+    // 직원  도로명 주소
+    private String address1;
+    // 직원 상세 주소
+    private String address2;
+    // 직원 우편주소
+    private String address3;
     // 직원 입사일
     private String startDate;
     // 직원 퇴사일

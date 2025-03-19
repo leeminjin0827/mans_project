@@ -10,7 +10,7 @@ export default function StaffDetail(props) {
 
 
     const infoName = ["직원 번호", "아이디", "비밀번호", "이름", "전화번호", "주소", "입사일", "퇴사일", "직급", "연봉", "근무지", "퇴사 유무"];
-    const staffInfo = ["staffNumber", "id", "password", "name", "phone", "address", "startDate", "endDate", "staffRank", "salary", "hno", "resignation"];
+    const staffInfo = ["staffNumber", "id", "password", "name", "phone", "address1", "startDate", "endDate", "staffRank", "salary", "hno", "resignation"];
 
     const staffDetail = props.staffDetail;
     staffDetail["endDate"] = staffDetail["endDate"] == null ? "미정" : staffDetail["endDate"];
@@ -27,6 +27,7 @@ export default function StaffDetail(props) {
             console.log(response.data);
             setPhotoPath(basePath + response.data);
             console.log(photoPath);
+            staffDetail["address1"] = staffDetail["address1"] + " " + (staffDetail["address2"] == null ? "" : staffDetail["address2"]);
         } catch(e) {
             console.log(e);
         }
