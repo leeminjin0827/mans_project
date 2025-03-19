@@ -1,6 +1,6 @@
-package board.controller.file.fileController;
+package board.controller;
 
-import board.controller.file.fileService.FileService;
+import board.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

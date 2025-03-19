@@ -1,4 +1,4 @@
-package board.controller.file.fileService;
+package board.service;
 
 
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ public class FileService {
 
     String baseDir = System.getProperty("user.dir"); //현재 최상위 폴더 반환
 
-    String uploadPath = baseDir+"/build/resources/main/static/upload";
+    String uploadPath = baseDir+"/build/resources/main/static/upload/";
 
 
     public String fileUpload(MultipartFile multipartFile){

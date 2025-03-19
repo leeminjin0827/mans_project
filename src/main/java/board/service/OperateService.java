@@ -2,24 +2,39 @@ package board.service;
 
 import board.model.dto.OperateDto;
 import board.model.mapper.OperateMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Service
+@RequiredArgsConstructor
 public class OperateService {
 
-    @Autowired
-    private OperateMapper operateMapper;
+
+    private final OperateMapper operateMapper;
+    private final FileService fileService;
 
     //등록
     public  boolean conFine(OperateDto operateDto){
         System.out.println("OperateService.conFine");
         System.out.println("operateDto = " + operateDto);
+        try{
+            if (operateDto.getUploadfile() == null){
+            }else {
+                String filename = fileService.fileUpload(operateDto.getUploadfile());
+                operateDto.setMimg(filename);
+                System.out.println("filename = " + filename);
+            }
+            boolean result = operateMapper.conFine(operateDto);
+            System.out.println("result = " + result);
+            System.out.println("operateDto = " + operateDto);
+            return result;
+        } catch (Exception e) {
+            return false;
+        }
 
 
-        return operateMapper.conFine(operateDto);
     }
 
     //전체출력
