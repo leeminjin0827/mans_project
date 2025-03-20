@@ -107,7 +107,7 @@ export default function SignInCard() {
   const loginReq = async () => {
     //validateInputs();
     try {
-      const response = await axios.post("http://localhost:8081/staff/login", info);
+      const response = await axios.post("http://localhost:8081/staff/login", info, {withCredentials : true});
       console.log(response.data);
       if(response.data) {
         alert("로그인 성공");

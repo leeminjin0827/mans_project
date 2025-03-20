@@ -10,7 +10,6 @@ import java.util.Arrays;
 
 @RestController
 @RequestMapping("/staff")
-@CrossOrigin("http://localhost:5173")
 public class StaffController {
 
     private final StaffService staffService;

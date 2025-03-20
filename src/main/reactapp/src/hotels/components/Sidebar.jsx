@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as React from 'react';
 // mul import
 import Box from '@mui/material/Box';
@@ -20,6 +20,7 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import StarBorder from '@mui/icons-material/StarBorder';
 import AddIcon from '@mui/icons-material/Add';
+import axios from "axios";
 
 
 
@@ -35,6 +36,23 @@ export default function Sidebar(props) {
         setOpenParlor(!openParlor);
       }
     };
+
+    // 로그아웃 버튼 클릭 시 로그아웃 하는 함수
+    const navigate = useNavigate();
+    const logout = async () => {
+        try {
+            const response = await axios.get("http://localhost:8081/staff/logout", {withCredentials : true});
+            alert(response.data);
+            if(response.data) {
+                alert("로그아웃 성공");
+                navigate("/");
+            } else {
+                alert("로그아웃 실패");
+            }
+        } catch(e) {
+            console.log(e);
+        }
+    }
 
     return (
         <>
@@ -101,6 +119,7 @@ export default function Sidebar(props) {
                                     </ListItemButton>
                                 </List>
                             </Collapse>
+                            {/* 로그아웃 부분 */}
                             <ListItemButton component={Link} to="/staff">
                                 <ListItemIcon>
                                 <PersonIcon />
@@ -118,7 +137,7 @@ export default function Sidebar(props) {
                         <Divider /> {/* 사이드바 border */}
                         <List>
                             <ListItem disablePadding>
-                            <ListItemButton component={Link} to="/" onClick={() => {alert("하이요")}}>
+                            <ListItemButton onClick={logout}>
                                 <ListItemIcon>
                                 <MeetingRoomIcon />
                                 </ListItemIcon>
