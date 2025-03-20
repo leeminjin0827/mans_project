@@ -1,4 +1,6 @@
 import { Divider, Input } from "@mui/joy"
+import { Button } from "@mui/material"
+import axios from "axios"
 import { useState } from "react"
 
 export default function RoomRatingRegister( props ){
@@ -15,6 +17,7 @@ export default function RoomRatingRegister( props ){
                 alert("목록 등록 완료");
                 setRoomOptionListWrite( { rno: '' , opno: '' })
                 props.roomOptionRead();
+                props.onClose();
             }else{
                 alert("목록 등록 실패");
             } // if end
@@ -27,15 +30,18 @@ export default function RoomRatingRegister( props ){
                 <tbody>
                     <tr>
                         <td> 객실 등급 : </td>
-                        <td> <Input variant="outlined" type="text" name="rno" value={roomOptionListWrite.rno} /> </td>
+                        <td> <Input variant="outlined" type="text" name="rno" value={roomOptionListWrite.rno} onChange={roChange} /> </td>
                     </tr>
                     <tr>
                         <td> 옵션 번호 : </td>
-                        <td> <Input variant="outlined" type="text" name="opno" value={roomOptionListWrite.opno} /> </td>
+                        <td> <Input variant="outlined" type="text" name="opno" value={roomOptionListWrite.opno} onChange={roChange} /> </td>
                     </tr>
                 </tbody>
             </table>
             <Divider />
+            <div style={{textAlign : "end" , paddingTop : "15px" }}>
+                <Button variant="contained" type="button" onClick={write}>등록</Button>
+            </div>
         </div>
     </>)
 } // c end

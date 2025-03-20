@@ -18,14 +18,13 @@ import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import StarBorder from '@mui/icons-material/StarBorder';
 import AddIcon from '@mui/icons-material/Add';
 
 
 
 const drawerWidth = "15%";
 
-export default function Sidebar(props) {
+export default function Sidebar({setOptionWriteModal,setRatingWriteModal,setRoomOptionWriteModal}) {
 
     // 각 항목에 대한 open 상태 관리
     const [openParlor, setOpenParlor] = React.useState(false);  // 지점별객실관리 항목에 대한 상태
@@ -81,23 +80,23 @@ export default function Sidebar(props) {
                             </ListItemButton>
                             <Collapse in={openParlor} timeout="auto" unmountOnExit>
                                 <List component="div" disablePadding>
-                                    <ListItemButton sx={{ pl: 4 }}>
+                                    <ListItemButton sx={{ pl: 4 }} onClick={() => setOptionWriteModal(true)}>
                                         <ListItemIcon>
                                             <AddIcon />
                                         </ListItemIcon>
                                         <ListItemText primary="옵션등록" />
                                     </ListItemButton>
-                                    <ListItemButton sx={{ pl: 4 }}>
+                                    <ListItemButton sx={{ pl: 4 }} onClick={() => setRatingWriteModal(true)}>
                                         <ListItemIcon>
                                             <AddIcon />
                                         </ListItemIcon>
                                         <ListItemText primary="객실등급등록" />
                                     </ListItemButton>
-                                    <ListItemButton sx={{ pl: 4 }}>
+                                    <ListItemButton sx={{ pl: 4 }} onClick={() => setRoomOptionWriteModal(true)}>
                                         <ListItemIcon>
                                             <AddIcon />
                                         </ListItemIcon>
-                                        <ListItemText primary="객실등록" />
+                                        <ListItemText primary="객실별 옵션 등록" />
                                     </ListItemButton>
                                 </List>
                             </Collapse>

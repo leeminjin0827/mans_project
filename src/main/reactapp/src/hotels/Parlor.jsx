@@ -6,13 +6,31 @@ import { Button } from "@mui/material";
 import StaticModal from "./components/StaticModal";
 import OptionRegister from "./components/room/OptionRegister";
 import RoomRatingRegister from "./components/room/RoomRatingRegister";
+import RatingRegister from "./components/room/RatingRegister";
 
 export default function ParlorPage( props ){
 
+    // ------------------------------------------------ 모달 ------------------------------------------------------------------------
+
     // 옵션 등록 모달
     const [optionWriteModal , setOptionWriteModal] = useState(false);
+    // 객실 등급 등록 모달
+    const [ratingWriteModal , setRatingWriteModal] = useState(false);
     // 객실별 옵션 등록 모달
     const [roomOptionWriteModal , setRoomOptionWriteModal ] = useState(false);
+
+    // 모달 열림/닫힘 상태
+    const [omodals , setOmodals ] = useState(false);
+    const [rmodals , setRmodals ] = useState(false);
+    const [romodals , setRomodals ] = useState(false);
+    // 모달 열기
+    const oOpenModal = () => { setOmodals(true); }
+    const rOpenModal = () => { setRmodals(true); }
+    const roOpenModal = () => { setRomodals(true); }
+    // 모달 닫기
+    const oCloseModal = () => { setOmodals(false); }
+    const rCloseModal = () => { setRmodals(false); }
+    const roCloseModal = () => { setRomodals(false); }
 
     // ------------------------------------------------ 옵션 ------------------------------------------------------------------------
     
@@ -386,114 +404,137 @@ export default function ParlorPage( props ){
     // ------------------------------------------------ return ------------------------------------------------------------------------
 
     return(<>
-        <Sidebar />
+        <Sidebar
+            setOptionWriteModal={setOptionWriteModal}
+            setRatingWriteModal={setRatingWriteModal}
+            setRoomOptionWriteModal={setRoomOptionWriteModal}
+            />
         <div className="mainBox">
         <h1>객실 관리 페이지</h1>
-            <div style={{ display: 'flex' }}>
+            <div>
                 <div style={{ marginRight: '20px' }}>
-                    <h3>옵션목록</h3>
-                    <div>
-                        <button onClick={() => {setOptionWriteModal(true)}} type="button">등록</button>
-                        <button type="button" onClick={ oUpdateInput }>수정</button>
-                    </div>
-                    <table border={"1"}>
-                        <thead>
-                            <tr>
-                                <th>옵션번호</th>
-                                <th>옵션명</th>
-                                <th>비고</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                optionList.map( ( option , i ) => {
-                                    return(
-                                        <tr key={ i }>
-                                            <td> { option.opno } </td>
-                                            <td> { option.opName } </td>
-                                            <td>
-                                                <button type="button" onClick={ () => oDeleteInput(option.opno) }>삭제</button>
-                                            </td>
+                    <Button onClick={oOpenModal}>옵션목록</Button>
+                    <StaticModal
+                        isOpen={omodals}
+                        onClose={oCloseModal}
+                        title="옵션 목록"
+                        openData={
+                            <div>
+                                <table border={"1"}>
+                                    <thead>
+                                        <tr>
+                                            <th>옵션번호</th>
+                                            <th>옵션명</th>
+                                            <th>비고</th>
                                         </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </table>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            optionList.map( ( option , i ) => {
+                                                return(
+                                                    <tr key={ i }>
+                                                        <td> { option.opno } </td>
+                                                        <td> { option.opName } </td>
+                                                        <td>
+                                                            <button type="button" onClick={ oUpdateInput }>수정</button>
+                                                            <button type="button" onClick={ () => oDeleteInput(option.opno) }>삭제</button>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    />
                 </div>
                 <div>
-                    <h3>객실등급목록</h3>
-                    <div>
-                        <button type="button" onClick={ rWriteInput }>등록</button>
-                        <button type="button" onClick={ rUpdateInput }>수정</button>
-                    </div>
-                    <table border={"1"}>
-                        <thead>
-                            <tr>
-                                <th>등급번호</th>
-                                <th>등급명</th>
-                                <th>침대수</th>
-                                <th>침대종류</th>
-                                <th>기능</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                ratingList.map( ( rating , i ) => {
-                                    return(
-                                        <tr key={ i }>
-                                            <td> { rating.rno } </td>
-                                            <td> { rating.ratingName } </td>
-                                            <td> { rating.bedCount } </td>
-                                            <td> { rating.bedType } </td>
-                                            <td>
-                                                <button type="button" onClick={ () => rDeleteInput(rating.rno) }>삭제</button>
-                                            </td>
+                    <Button onClick={rOpenModal}>객실등급</Button>
+                    <StaticModal 
+                        isOpen={rmodals}
+                        onClose={rCloseModal}
+                        title="등급 목록"
+                        openData={
+                            <div>
+                                <table border={"1"}>
+                                    <thead>
+                                        <tr>
+                                            <th>등급번호</th>
+                                            <th>등급명</th>
+                                            <th>침대수</th>
+                                            <th>침대종류</th>
+                                            <th>기능</th>
                                         </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </table>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            ratingList.map( ( rating , i ) => {
+                                                return(
+                                                    <tr key={ i }>
+                                                        <td> { rating.rno } </td>
+                                                        <td> { rating.ratingName } </td>
+                                                        <td> { rating.bedCount } </td>
+                                                        <td> { rating.bedType } </td>
+                                                        <td>
+                                                            <button type="button" onClick={ rUpdateInput }>수정</button>
+                                                            <button type="button" onClick={ () => rDeleteInput(rating.rno) }>삭제</button>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    />
                 </div>
             </div>
             <div>
-                <h3>객실별 옵션 목록</h3>
                 <div>
-                <button onClick={() => {setRoomOptionWriteModal(true)}} type="button">등록</button>
-                    <button onClick={ rolDeleteInput } type="button">목록삭제</button>
-                </div>
-                <table border={"1"}>
-                    <thead>
-                        <tr>
-                            <th>옵션번호</th>
-                            <th>객실등급</th>
-                            <th>침대수</th>
-                            <th>침대유형</th>
-                            <th>객실옵션</th>
-                            <th>기능</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            mergedRoomOptions.map( ( roomop , i ) => {
-                                return(
-                                    <tr key={ roomop.rno }>
-                                        <td> {roomop.rno}</td>
-                                        <td> {roomop.ratingName} </td>
-                                        <td> {roomop.bedCount} </td>
-                                        <td> {roomop.bedType} </td>
-                                        <td> {roomop.options.join(",")} </td>
-                                        <td>
-                                            <button onClick={ () => roWriteInput(roomop.rno) } type="button">추가</button>
-                                            <button onClick={ () => roDeleteInput(roomop.rno) } type="button">삭제</button>
-                                        </td>
-                                    </tr>
-                                )
-                            })
+                    <Button onClick={ roOpenModal }>객실별 옵션 목록</Button>
+                    <StaticModal 
+                        isOpen={romodals}
+                        onClose={roCloseModal}
+                        title="객실별 옵션 목록"
+                        openData={
+                            <div>
+                                <table border={"1"}>
+                                    <thead>
+                                        <tr>
+                                            <th>옵션번호</th>
+                                            <th>객실등급</th>
+                                            <th>침대수</th>
+                                            <th>침대유형</th>
+                                            <th>객실옵션</th>
+                                            <th>기능</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            mergedRoomOptions.map( ( roomop , i ) => {
+                                                return(
+                                                    <tr key={ roomop.rno }>
+                                                        <td> {roomop.rno}</td>
+                                                        <td> {roomop.ratingName} </td>
+                                                        <td> {roomop.bedCount} </td>
+                                                        <td> {roomop.bedType} </td>
+                                                        <td> {roomop.options.join(",")} </td>
+                                                        <td>
+                                                            <button onClick={ () => roWriteInput(roomop.rno) } type="button">추가</button>
+                                                            <button onClick={ () => roDeleteInput(roomop.rno) } type="button">삭제</button>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         }
-                    </tbody>
-                </table>
+                    />
+                </div>
             </div>
             <Box style={{marginBottom : '50px' }}>
                 <h3>객실 목록</h3>
@@ -556,6 +597,18 @@ export default function ParlorPage( props ){
                     />
                 }
                 onClose={() => {setOptionWriteModal(false)}}
+            />
+            { /* 객실 등급 등록 모달 */}
+            <StaticModal
+                isOpen={ratingWriteModal}
+                title={"객실 등급 등록"}
+                openData={
+                    <RatingRegister 
+                        ratingRead={ratingRead}
+                        onClose={ () => setRatingWriteModal(false) }
+                    />
+                }
+                onClose={ () => { setRatingWriteModal(false) }}
             />
             { /* 객실별 옵션 등록 모달 */}
             <StaticModal 
