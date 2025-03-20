@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("findAll")
+@RequestMapping("findall")
 @CrossOrigin("http://localhost:5173")
 @RequiredArgsConstructor
-public class FindAllController {
+public class HomeController {
 
     private final OperateService operateService;
     private final StaffService staffService;
@@ -32,7 +32,7 @@ public class FindAllController {
        System.out.println("result = " + result);
        return result;
    }
-
+    // hno 살리자
     @GetMapping("/operone")// 등록 호텔 개별조회
     public OperateDto findOne(@RequestParam("hno") int hno){
         System.out.println("OperateController.findOne");
@@ -41,7 +41,7 @@ public class FindAllController {
         return operateService.findOne(hno);
     }
 
-   @GetMapping("/staff")// 스태프 전체조회
+   @GetMapping("/staffs")// 스태프 전체조회
     public ArrayList<StaffDto> staffFin(){
        System.out.println("FindAllController.staffFin");
 
@@ -50,6 +50,7 @@ public class FindAllController {
        return result;
    }
 
+   // hno 살리자
     /** 직원 지점별 조회 */
     @GetMapping("/stffone")
     public ArrayList<StaffDto> staffone(@RequestParam(name = "hno") int hno) {
@@ -57,9 +58,9 @@ public class FindAllController {
         return result;
     }
 
-
+    // 이건 그대로
         // 객실등급 전체조회
-        @GetMapping("rating")
+        @GetMapping("/rating")
         public List<RatingDto> rating(){
             List<RatingDto> list = ratingService.ratingList();
             return list;

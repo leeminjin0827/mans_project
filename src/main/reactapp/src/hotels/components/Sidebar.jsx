@@ -55,7 +55,7 @@ export default function Sidebar(props) {
                 >
                     <div>
                         <Toolbar>
-                            <Link to="/allFind">
+                            <Link to="/home">
                             <img src="/logo2.png" alt="Logo" style={{ maxWidth: '150px' }} />
                             </Link>
                         </Toolbar>
