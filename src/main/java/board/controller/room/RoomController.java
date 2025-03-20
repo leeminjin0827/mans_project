@@ -24,7 +24,7 @@ public class RoomController {
 
     // 객실 등록
     @PostMapping("")
-    public boolean roomWrite( @RequestBody RoomDto roomDto ){
+    public boolean roomWrite( RoomDto roomDto ){
         boolean result = roomService.roomWrite(roomDto);
         return result;
     } // f end

@@ -67,14 +67,14 @@ export default function Sidebar(props) {
                             aria-labelledby="nested-list-subheader"
                         >
                             <ListItemButton component={Link} to="/oper">
-                            <ListItemIcon>
-                                <LocationCityIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="지점관리" />
+                                <ListItemIcon>
+                                    <LocationCityIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="지점관리" />
                             </ListItemButton>
                             <ListItemButton component={Link} to="/parlor" onClick={ () => handleClick('parlor')}>
                                 <ListItemIcon>
-                                <DoorBackIcon />
+                                    <DoorBackIcon />
                                 </ListItemIcon>
                                 <ListItemText primary="지점별객실관리" />
                                 {openParlor ? <ExpandLess /> : <ExpandMore />}

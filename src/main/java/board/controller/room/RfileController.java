@@ -1,6 +1,7 @@
 package board.controller.room;
 
 import board.service.room.RfileService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,16 +23,20 @@ public class RfileController {
     } // f end
 
     // [2] 다운로드
+    // http://localhost:8081/room/file
     @GetMapping("")
-    public void rFileDownload(){
+    public void rFileDownload(@RequestParam String filename , HttpServletResponse resp ){
         System.out.println("RfileController.rFileDownload");
+        rfileService.rFileDownload( filename , resp );
     } // f end
 
     // [3] 삭제
+    // http://localhost:8081/room/file
     @DeleteMapping("")
-    public boolean rFileDelete(){
+    public boolean rFileDelete(@RequestParam String filename ){
         System.out.println("RfileController.rFileDelete");
-        return true;
+        boolean result = rfileService.rFileDelete( filename );
+        return result;
     } // f end
 
 } // c end

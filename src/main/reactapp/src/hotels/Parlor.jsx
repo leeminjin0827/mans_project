@@ -3,29 +3,18 @@ import { useEffect, useState } from "react"
 import Sidebar from "./components/Sidebar";
 import { Box, Table } from "@mui/joy";
 import { Button } from "@mui/material";
+import StaticModal from "./components/StaticModal";
+import OptionRegister from "./components/room/OptionRegister";
+import RoomRatingRegister from "./components/room/RoomRatingRegister";
 
 export default function ParlorPage( props ){
 
+    // 옵션 등록 모달
+    const [optionWriteModal , setOptionWriteModal] = useState(false);
+    // 객실별 옵션 등록 모달
+    const [roomOptionWriteModal , setRoomOptionWriteModal ] = useState(false);
+
     // ------------------------------------------------ 옵션 ------------------------------------------------------------------------
-
-    // 옵션 등록
-    // 입력 받은 데이터를 저장하는 state 변수
-    const [ optionWrite , setOptionWrite ] = useState( { op_name : '' } )
-    const oWriteInput = async () => {
-        const opName = prompt("추가할 옵션을 입력하세요.");
-        if( !opName ) { return; } // 입력값이 없을시 종료
-        console.log( opName );
-
-        try{
-            const response = await axios.post("http://localhost:8081/room/option" , { opName } );
-            if( response.data == true ){
-                alert("옵션을 추가했습니다.");
-                optionRead(); // 새로고침
-            }else{
-                alert("옵션 추가 실패");
-            }
-        }catch( error ) { console.log( error ); }
-    } // f end
     
     // 옵션 조회
     useEffect( () => {
@@ -163,7 +152,11 @@ export default function ParlorPage( props ){
     // ------------------------------------------------ 객실  ------------------------------------------------------------------------
 
     // 객실 등록
+        // 입력받은 첨부파일
+    const [ profile , setProfile ] = useState(null);
+    const [ preview , setPreview ] = useState(null);    
     const [ roomWrite , setRoomWrite ] = useState( { rno : '' , hno : '' , staffNumber : '' })
+        // 객실정보(첨부파일X)
     const mWriteInput = async () => {
         const hno = prompt("호텔 지점번호를 입력해주세요.");
         const rno = prompt("객실에 설정할 객실등급을 입력하세요.");
@@ -179,6 +172,9 @@ export default function ParlorPage( props ){
             } // if end
         }catch( error ) { console.log( error ); }
     } // f end
+        // 첨부파일
+    
+
 
     // 객실 전체 조회
     useEffect(() => {
@@ -397,7 +393,7 @@ export default function ParlorPage( props ){
                 <div style={{ marginRight: '20px' }}>
                     <h3>옵션목록</h3>
                     <div>
-                        <button type="button" onClick={ oWriteInput }>등록</button>
+                        <button onClick={() => {setOptionWriteModal(true)}} type="button">등록</button>
                         <button type="button" onClick={ oUpdateInput }>수정</button>
                     </div>
                     <table border={"1"}>
@@ -464,7 +460,7 @@ export default function ParlorPage( props ){
             <div>
                 <h3>객실별 옵션 목록</h3>
                 <div>
-                    <button onClick={ rolWriteInput } type="button">목록등록</button>
+                <button onClick={() => {setRoomOptionWriteModal(true)}} type="button">등록</button>
                     <button onClick={ rolDeleteInput } type="button">목록삭제</button>
                 </div>
                 <table border={"1"}>
@@ -549,6 +545,30 @@ export default function ParlorPage( props ){
                         </tbody>
                 </Table>
             </Box>
+            { /* 옵션 등록 모달 */}
+            <StaticModal
+                isOpen={optionWriteModal}
+                title={"옵션 등록"}
+                openData={
+                    <OptionRegister 
+                        optionRead={optionRead}
+                        onClose={() => setOptionWriteModal(false)}
+                    />
+                }
+                onClose={() => {setOptionWriteModal(false)}}
+            />
+            { /* 객실별 옵션 등록 모달 */}
+            <StaticModal 
+                isOpen={roomOptionWriteModal}
+                title={"객실별 옵션 등록"}
+                openData={
+                    <RoomRatingRegister 
+                    roomOptionRead={roomOptionRead}
+                    onClose={() => setRoomOptionWriteModal(false)}
+                    />
+                }
+                onClose={ () => { setRoomOptionWriteModal(false)}}
+            />
         </div>
     </>)
 } // c end

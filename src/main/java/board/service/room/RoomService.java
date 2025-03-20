@@ -8,7 +8,9 @@ import board.model.mapper.room.RatingMapper;
 import board.model.mapper.room.RoomMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,10 +18,32 @@ public class RoomService {
 
     @Autowired
     private RoomMapper roomMapper;
+    private RfileService rfileService;
 
     // 객실 등록
     public boolean roomWrite(RoomDto roomDto){
-        return roomMapper.roomWrite(roomDto);
+        try {
+            // 업로드된 파일명을 저장할 리스트 생성
+            List<String> filenames = new ArrayList<>();
+            // 첨부파일 존재여부 검사
+            if (roomDto.getRuploadfiles() != null && !roomDto.getRuploadfiles().isEmpty() ) {
+                for(MultipartFile file : roomDto.getRuploadfiles() ){
+                    if( !file.isEmpty() ){ // false : 파일이 있다.
+                        String filename = rfileService.rFileUpload(file);
+                        if( filename != null ){
+                            filenames.add(filename);
+                        } // if end
+                    } // if end
+                } // for end
+            } // if end
+            // 업로드된 파일명이 있을경우 처리
+            if( !filenames.isEmpty() ){
+                // 파일명을 문자열로 합쳐서 DB에 저장
+                String filenamesString = String.join("," , filenames );
+                roomDto.setRimg(filenamesString);
+            } // if end
+            return roomMapper.roomWrite(roomDto);
+        }catch (Exception e ) { return false; }
     } // f end
 
     // 객실 전체조회
