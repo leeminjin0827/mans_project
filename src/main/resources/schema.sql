@@ -77,11 +77,21 @@ create table rating(
 create table room(
     -- 객실번호
     rono int unsigned auto_increment,
+    -- 호실
+    rname varchar(5) not null ,
     -- 객실등급번호
     rno int unsigned ,
+    -- 호텔번호
+    hno int unsigned ,
+    -- 직원번호
+    staff_number int unsigned ,
+    -- 객실 이미지
+    rimg varchar(255) default null ,
     -- 회원 번호 추가 해야함 --
     constraint primary key(rono),
-    foreign key(rno) references rating(rno) on update cascade on delete cascade
+    foreign key(rno) references rating(rno) on update cascade on delete cascade,
+    foreign key(hno) references operate(hno) on update cascade on delete cascade,
+    foreign key(staff_number) references staff(staff_number)
 );
 
 -- 객실별 옵션 관리 테이블
@@ -133,4 +143,21 @@ create table commute (
     staff_number int unsigned not null,
     constraint primary key(commute_number),
     constraint foreign key(staff_number) references staff(staff_number)
+);
+-- 예약 테이블
+create table reservation(
+    -- 예약번호
+    reno int unsigned auto_increment,
+    -- 예약자 이름
+    resname varchar(20) not null ,
+    -- 예약자 전화번호
+    resphone varchar(13) not null ,
+    -- 입실날짜
+    resstart date not null ,
+    -- 퇴실날짜
+    resend date not null ,
+    -- 객실 번호
+    rono int unsigned,
+    constraint primary key(reno),
+    foreign key(rono) references room(rono) on update cascade on delete cascade
 );

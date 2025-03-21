@@ -15,7 +15,7 @@ import java.util.List;
 @CrossOrigin("http://localhost:5173")
 // http://localhost:8081/room
 // http://localhost:8081/room?rono=#
-// POST // { "rno" : 5 , "opno" : 1 }
+// POST // { "rno" : 5 , "hno" : 1 , "staffNumber" : 1 }
 
 public class RoomController {
 
@@ -24,7 +24,7 @@ public class RoomController {
 
     // 객실 등록
     @PostMapping("")
-    public boolean roomWrite( @RequestBody RoomDto roomDto ){
+    public boolean roomWrite( RoomDto roomDto ){
         boolean result = roomService.roomWrite(roomDto);
         return result;
     } // f end
@@ -37,6 +37,7 @@ public class RoomController {
     } // f end
 
     // 객실 수정
+    // { "rono" : 1 , "rno" : 9 , "staff_number" : 2 }
     @PutMapping("")
     public boolean roomUpdate( @RequestBody RoomDto roomDto ){
         boolean result = roomService.roomUpdate(roomDto);
