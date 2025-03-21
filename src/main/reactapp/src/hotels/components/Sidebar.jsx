@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as React from 'react';
 // mul import
 import Box from '@mui/material/Box';
@@ -15,6 +15,7 @@ import LocationCityIcon from '@mui/icons-material/LocationCity';
 import PersonIcon from '@mui/icons-material/Person';
 import DoorBackIcon from '@mui/icons-material/DoorBack';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import MonitorIcon from '@mui/icons-material/Monitor';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -73,9 +74,7 @@ export default function Sidebar(props) {
                 >
                     <div>
                         <Toolbar>
-                            <Link to="/home">
                             <img src="/logo2.png" alt="Logo" style={{ maxWidth: '150px' }} />
-                            </Link>
                         </Toolbar>
 
                         <Divider /> {/* 사이드바 border */}
@@ -121,7 +120,7 @@ export default function Sidebar(props) {
                                     </ListItemButton>
                                 </List>
                             </Collapse>
-                            {/* 로그아웃 부분 */}
+                            {/* 직원 관리 */}
                             <ListItemButton className="staffLink" component={Link} to="/staff">
                                 <ListItemIcon>
                                     <PersonIcon />
