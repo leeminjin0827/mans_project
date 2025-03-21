@@ -59,8 +59,8 @@ export default function Home(props){
     
     }
     console.log(opers);
-    
 
+   
 
 
 
@@ -81,26 +81,55 @@ export default function Home(props){
         <Button size="sm" type="button" onClick={() => {operone(value) ,staffone(value)}}>조회</Button>
         </Stack>
         <Stack spacing={2} direction="row" sx={{width:'150%'}}>
-            사진
+            
         <Divider orientation="vertical"></Divider>
         <div>
-            stapp출력
-            <h3>운영 정보</h3>
-            {opers && opers.length > 0 ? ( // opers가 undefined가 아니고 길이가 0보다 큰 경우
-                opers.map((oper, index) => (
-                    <div key={index}>
-                        {/* oper 객체의 속성들을 원하는 방식으로 출력 */}
-                        <p>이름: {oper.name}</p>
-                        <p>정보: {oper.info}</p>
-                        {/* 다른 속성들 출력 */}
-                    </div>
-                ))
-            ) : (
-                <p>운영 정보가 없습니다.</p>
-            )}
-        </div>
-     
+           
+        <h3>운영 정보</h3>
+           { opers && (<>
+                <div>
+                    {
+                         
+                    <table border={1}>
+                       
+                    <tbody>
+                    <tr>
+                    <td>주소 : {opers.address}</td>
+                    </tr>
+                    <tr>
+                    <td>호텔 번호 : {opers.hotel_number}</td>
+                    </tr>
+                    <tr>
+                    <td>소개 : {opers.intro}</td>
+                    </tr> 
+                    </tbody>
 
+                    </table>
+
+                    }
+                </div>        
+           </>)
+             }{/*함수종료*/}
+        </div>
+             
+        <div>
+        <h3>직원정보</h3>
+        { stappas && stappas.map((stapp, index) => {
+
+            return(<>           
+            <table border={1}>
+                <tbody>
+                    <tr>
+                        <td>이름 :{stapp.name}</td>
+                        <td>번호 :{stapp.phone}</td>
+                        <td>주소 :{stapp.address}</td>
+                    </tr>
+                </tbody>
+            </table>       
+            </>)
+        }) 
+        }
+        </div>
             
     </Stack>
     </div>
