@@ -10,77 +10,59 @@ import { Button, Option, Select } from "@mui/joy";
 
 export default function Home(props){
 
-    //useEffect(()=> {operListAll()}, [])
-   // useEffect(()=> {staffFinAll()}, [])
-   // useEffect(()=> {ratingAll()}, [])
+   
+        
 
 
-    const[operList , setOperList] = useState([]);
-    const[staffList, setStaffList] = useState([]);
-    const[ratingList, setRatingList] = useState([]);
-    console.log(operList);
-    console.log(staffList);
-    console.log(ratingList);
-
-    const operListAll = async ()=> {
-        try {
-            const response = await axios.get('http://localhost:8081/findall/oper');
-            setOperList(response.data);
-            console.log(response.data);
-            for(let i =0; i < response.data.length; i++){
-               operList[i] = response.data[i];
-                console.log(operList[i]);
-            }
-            
-        } catch (error) {
-            console.log(error);
-        }
-
-    }
-
-        const [stappas , setStappas] = useState([]);
     
-    const staffFinAll = async () => {
+
+   //select hno 가져옴 value에 저장
+    const [value , setValue ] = useState('');
+    const valueChanege = (e , newvalue) =>{
+      
+        setValue(newvalue);
+      
+    }
+    console.log(value);
+    
+   
+
+    const [stappas , setStappas] = useState(); 
+    
+    const staffone = async (value) => {
         try {
-            const response = await axios.get("http://localhost:8081/findall/staffs");
+            let temp = Number(value)
+            const response = await axios.get(`http://localhost:8081/findall/stffone?hno=${temp}`);
             // console.log(response.data);
-            setStaffList(response.data);
+            setStappas(response.data);
            
         } catch(e) {
             console.log(e);
         }
     
     }
+    console.log(stappas);
 
-    const ratingAll = async ()=> {
+
+    const [opers , setOpers] = useState();
+     
+    const operone = async (value) => {
         try {
-            const response = await axios.get('http://localhost:8081/findall/rating');
-            setRatingList(response.data);
-            console.log(response.data);
-            for(let i =0; i < response.data.length; i++){
-               ratingList[i] = response.data[i];
-                console.log(ratingList[i]);
-            }
-            
-        } catch (error) {
-            console.log(error);
+            let temp = Number(value)
+            const response = await axios.get(`http://localhost:8081/findall/operone?hno=${temp}`);
+            // console.log(response.data);
+            setOpers(response.data);
+           
+        } catch(e) {
+            console.log(e);
         }
-
+    
     }
-
+    console.log(opers);
     
 
-   
-    const [value , setValue ] = useState('');
-    const valueChanege = (e , newvalue) =>{
-      
-     
-       
-       setValue(newvalue);
-       
-        
-    }
-    console.log(value);
+
+
 
 
     return(<>
@@ -96,12 +78,30 @@ export default function Home(props){
         
         <Divider orientation="vertical"></Divider>
 
-        <Button size="sm" type="button">조회</Button>
+        <Button size="sm" type="button" onClick={() => {operone(value) ,staffone(value)}}>조회</Button>
         </Stack>
         <Stack spacing={2} direction="row" sx={{width:'150%'}}>
             사진
         <Divider orientation="vertical"></Divider>
-            내용
+        <div>
+            stapp출력
+            <h3>운영 정보</h3>
+            {opers && opers.length > 0 ? ( // opers가 undefined가 아니고 길이가 0보다 큰 경우
+                opers.map((oper, index) => (
+                    <div key={index}>
+                        {/* oper 객체의 속성들을 원하는 방식으로 출력 */}
+                        <p>이름: {oper.name}</p>
+                        <p>정보: {oper.info}</p>
+                        {/* 다른 속성들 출력 */}
+                    </div>
+                ))
+            ) : (
+                <p>운영 정보가 없습니다.</p>
+            )}
+        </div>
+     
+
+            
     </Stack>
     </div>
 

@@ -3,6 +3,7 @@ package board.controller;
 import board.model.dto.OperateDto;
 import board.model.dto.StaffDto;
 import board.model.dto.room.RatingDto;
+import board.service.HomService;
 import board.service.OperateService;
 import board.service.StaffService;
 import board.service.room.RatingService;
@@ -23,6 +24,7 @@ public class HomeController {
     private final StaffService staffService;
     private final RoomOptionService roomOptionService;
     private final RatingService ratingService;
+    private final HomService homService;
 
    @GetMapping("/oper") // 등록 호텔
    public ArrayList<OperateDto> operFin(){
@@ -54,7 +56,7 @@ public class HomeController {
     /** 직원 지점별 조회 */
     @GetMapping("/stffone")
     public ArrayList<StaffDto> staffone(@RequestParam(name = "hno") int hno) {
-        ArrayList<StaffDto> result = staffService.staffFindDetail(hno);
+        ArrayList<StaffDto> result = homService.staffone(hno);
         return result;
     }
 
