@@ -39,6 +39,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     // 웹소켓 라이브러리
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    // json 라이브러리
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.0'
 }
 
 tasks.named('test') {
