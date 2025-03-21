@@ -15,8 +15,9 @@ export default function RoomRegister( props ){
     }
     // 첨부파일
     const onfileChange = (e) => { console.log( e.target.files[0] );
-        const file = e.target.files[0];
-        setProfile(file);
+        const files = e.target.files;
+        console.log( files );
+        setProfile(files);
     } // f end
     const write = async () => {
         // formData 객체 생성
@@ -27,7 +28,9 @@ export default function RoomRegister( props ){
         formData.append( 'rno' , roomWrite.rno );
         formData.append( 'staffNumber' , roomWrite.staffNumber );
         if( profile ){
-            formData.append( 'uploadfile' , profile );
+            Array.from(profile).forEach((files) => {
+                formData.append( 'ruploadfiles' , files );
+            });
         }
         const option = { headers : { "Content-Type" : "multipart/form-data" }}
         const response = await axios.post("http://localhost:8081/room" , formData , option )
@@ -67,8 +70,8 @@ export default function RoomRegister( props ){
                     </tr>
                     <tr>
                         <td> 객실사진 </td>
-                        <td> <Input onChange={onfileChange} variant="outlined" type="file" name="rimg" /> </td>
-                    </tr>
+                        <td> <Input onChange={onfileChange} variant="outlined" type="file" name="rimg" slotProps={{ input : { multiple : true } }} /> </td>
+                    </tr> 
                 </tbody>
             </table>
             <Divider />
