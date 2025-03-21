@@ -2,9 +2,9 @@
 -- 서울 호텔 샘플 데이터
 insert into operate(address, hotel_number, intro, state , mimg) values( '강남구 선릉로85길 6' ,  '02-234-6576', '안녕하세요~~ 우리는 ~~~ 입니다~~~' , '0' ,'default.jpg' );
 -- 서울 호텔 샘플 데이터
-insert into operate(address, hotel_number, intro, state, mimg) values( '서울특별시 중구 세종대로 99' , '02-1234-5678', '깔끔하고 아름다운~~~', '0', 'default.jpg' );
+insert into operate(address, hotel_number, intro, state, mimg) values( '서울특별시 중구 세종대로 99' , '02-1234-5678', '깔끔하고 아름다운~~~', '0', 'default2.jpg' );
 -- 인천 부평 호텔 샘플 데이터
-insert into operate(address,hotel_number, intro, state, mimg) values( '인천광역시 부평구 부평대로 15' , '032-987-6543', '역근처의 교통의 편함과~~', '0','default.jpg' );
+insert into operate(address,hotel_number, intro, state, mimg) values( '인천광역시 부평구 부평대로 15' , '032-987-6543', '역근처의 교통의 편함과~~', '0','default3.jpg' );
 -- 지점
 
 -- 1강남점 /2중구점 /3부평점
