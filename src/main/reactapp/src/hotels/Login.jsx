@@ -99,8 +99,6 @@ export default function SignInCard() {
   //추가
   // 아이디와 비밀번호를 변수에 담는 코드
   const changeInput = (event) => {
-    console.log("event.target.name : " + event.target.name);
-    console.log("event.target.value : " + event.target.value);
     setInfo({...info, [event.target.name] : event.target.value});
   }
   // 서버에 로그인 요청 하는 코드
@@ -119,7 +117,9 @@ export default function SignInCard() {
       console.log(e);
     }
   }
-  console.log(info);
+
+  // console.log(info);
+
   return (
     <Card variant="outlined">
         <Typography component="h1" variant="h4" sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}>

@@ -15,6 +15,7 @@ import LocationCityIcon from '@mui/icons-material/LocationCity';
 import PersonIcon from '@mui/icons-material/Person';
 import DoorBackIcon from '@mui/icons-material/DoorBack';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import MonitorIcon from '@mui/icons-material/Monitor';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -119,12 +120,19 @@ export default function Sidebar(props) {
                                     </ListItemButton>
                                 </List>
                             </Collapse>
-                            {/* 로그아웃 부분 */}
+                            {/* 직원 관리 */}
                             <ListItemButton component={Link} to="/staff">
                                 <ListItemIcon>
                                 <PersonIcon />
                                 </ListItemIcon>
                                 <ListItemText primary="직원관리" />
+                            </ListItemButton>
+                            {/* 객실 예약 현황 */}
+                            <ListItemButton component={Link} to="/reservation/room">
+                                <ListItemIcon>
+                                <MonitorIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="객실 예약 현황" />
                             </ListItemButton>
                         </List>
 
