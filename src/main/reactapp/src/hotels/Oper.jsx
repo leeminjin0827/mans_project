@@ -14,8 +14,6 @@ export default function Operatae(props){
 
     //입력받은 데이터를 저장하는 변수
     const[dataInfo, setDataInfo] = useState({ address : '',hotel_number: '', intro : ''});
-
-
     const[profile , setProfile] = useState(null); //업로드 파일을 파일객체로로 저장하는 state 변수
     const[preview , setPreview] = useState(null); //업로드 파일을 바이트로 저장하는 state 변수
     const onFileChange = (event) => { console.log(event.target.files[0])
@@ -42,13 +40,28 @@ export default function Operatae(props){
 
 }
 
+    const [phoneNumberError, setPhoneNumberError] = useState(''); // 전화번호 검사를 저장하는곳
+
+
     //입력받은 데이터를 렌더링
     const formDataChange = (e) => {
         console.log(e.target);
         console.log(e.target.name);
         console.log(e.target.value);
+        
 
-        setDataInfo({...dataInfo, [e.target.name] : e.target.value});
+        setDataInfo({...dataInfo, [e.target.name] : e.target.value}); 
+
+    if (e.target.name === 'hotel_number') {
+        const phoneRegex = /^\d{2,3}-\d{3,4}-\d{4}$/;
+        if (!phoneRegex.test(e.target.value)) {
+            setPhoneNumberError('전화번호 형식이 올바르지 않습니다. (예: 02-123-4567 또는 010-1234-5678)');
+        } else {
+            setPhoneNumberError(''); // 유효하면 에러 메시지 초기화
+        }
+    }
+
+        
     }
 
     //현재 state 변수를 스프링 서버에게 보내기, axios
@@ -63,6 +76,10 @@ export default function Operatae(props){
     // }
 
     const OnSignup = async () => {
+        if (phoneNumberError) {
+            alert('전화번호 형식을 확인해주세요.');
+            return;
+        }
         //formdata 객체 만들기
         const formData = new FormData();
         formData.append('address' , dataInfo.address );
@@ -107,14 +124,8 @@ export default function Operatae(props){
      const handleClick = () => {
        open({ onComplete: handleComplete });
      };
-     //
+     
  
-
-
-
-
-
-
 
 
 
@@ -207,7 +218,7 @@ export default function Operatae(props){
                     <Input sx={{ width: '150%' }} readOnly size="md" placeholder="주소" type="text" value={dataInfo.address} name="address" onChange={formDataChange}/>
                     <Button size="sm" type="button" onClick={handleClick}>검색</Button>
                     </div>
-                    <Input sx={{ width: '150%' }}size="md" placeholder="호텔 전화번호" type="text" value={dataInfo.hotel_number} name="hotel_number" onChange={formDataChange}/>
+                    <Input sx={{ width: '150%' }}size="md" placeholder="호텔 전화번호" type="text" value={dataInfo.hotel_number} name="hotel_number" onChange={formDataChange}/>{phoneNumberError && <div style={{ color: 'red' , fontSize: '12px' }}>{phoneNumberError}</div>}
                     <Input sx={{ width: '150%' }}size="md" placeholder="소개" type="text" value={dataInfo.intro} name="intro" onChange={formDataChange}/>
                     <input sx={{ width: '150%' }}type="file" accept="imge/*" onChange={onFileChange}/>
                     <Button size="sm" sx={{width: '30%'}} type="button" onClick={OnSignup}>저장</Button><br/><br/>

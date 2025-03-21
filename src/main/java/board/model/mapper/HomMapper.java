@@ -11,7 +11,7 @@ import java.util.ArrayList;
 @Mapper
 public interface HomMapper {
 
-    @Select("select name, phone ,address,start_date, staff_rank from staff where hno = #{hno}" )
+    @Select("select name, phone ,address1,start_date, staff_rank from staff where hno = #{hno}" )
     public ArrayList<StaffDto> staffone(int hno);
 
 
