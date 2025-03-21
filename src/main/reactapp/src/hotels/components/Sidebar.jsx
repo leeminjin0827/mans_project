@@ -13,9 +13,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
 import PersonIcon from '@mui/icons-material/Person';
+import MonitorIcon from '@mui/icons-material/Monitor';
 import DoorBackIcon from '@mui/icons-material/DoorBack';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
-import MonitorIcon from '@mui/icons-material/Monitor';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -43,7 +43,6 @@ export default function Sidebar(props) {
     const logout = async () => {
         try {
             const response = await axios.get("http://localhost:8081/staff/logout", {withCredentials : true});
-            alert(response.data);
             if(response.data) {
                 alert("로그아웃 성공");
                 navigate("/");
@@ -74,7 +73,9 @@ export default function Sidebar(props) {
                 >
                     <div>
                         <Toolbar>
+                            <Link to="/home">
                             <img src="/logo2.png" alt="Logo" style={{ maxWidth: '150px' }} />
+                            </Link>
                         </Toolbar>
 
                         <Divider /> {/* 사이드바 border */}

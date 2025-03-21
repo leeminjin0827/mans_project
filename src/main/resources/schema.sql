@@ -22,7 +22,7 @@ use man;
 --	-- 회원탈퇴 상태 0이면 탈퇴 1이면 미탈퇴
 --	drop_state int unsigned default 0,
 --	constraint primary key(user_number)
---);
+-- );
 
 -- 고객센터 테이블
 -- create table senter(
@@ -73,27 +73,6 @@ create table rating(
     constraint primary key(rno)
 );
 
--- 객실 테이블
-create table room(
-    -- 객실번호
-    rono int unsigned auto_increment,
-    -- 호실
-    rname varchar(5) not null ,
-    -- 객실등급번호
-    rno int unsigned ,
-    -- 호텔번호
-    hno int unsigned ,
-    -- 직원번호
-    staff_number int unsigned ,
-    -- 객실 이미지
-    rimg varchar(255) default null ,
-    -- 회원 번호 추가 해야함 --
-    constraint primary key(rono),
-    foreign key(rno) references rating(rno) on update cascade on delete cascade,
-    foreign key(hno) references operate(hno) on update cascade on delete cascade,
-    foreign key(staff_number) references staff(staff_number)
-);
-
 -- 객실별 옵션 관리 테이블
 create table room_options (
     -- 객실별 옵션 관리 번호
@@ -135,6 +114,27 @@ create table staff (
     my_photo varchar(255) not null default "default.jpg",
     constraint primary key(staff_number),
     constraint foreign key(hno) references operate(hno)
+);
+
+-- 객실 테이블
+create table room(
+    -- 객실번호
+    rono int unsigned auto_increment,
+    -- 호실
+    rname varchar(5) not null ,
+    -- 객실등급번호
+    rno int unsigned ,
+    -- 호텔번호
+    hno int unsigned ,
+    -- 직원번호
+    staff_number int unsigned ,
+    -- 객실 이미지
+    rimg varchar(255) default null ,
+    -- 회원 번호 추가 해야함 --
+    constraint primary key(rono),
+    foreign key(rno) references rating(rno) on update cascade on delete cascade,
+    foreign key(hno) references operate(hno) on update cascade on delete cascade,
+    foreign key(staff_number) references staff(staff_number)
 );
 
 create table commute (
