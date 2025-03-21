@@ -10,7 +10,6 @@ import {useDaumPostcodePopup} from 'react-daum-postcode'; //daum 주소 검색 �
 export default function Operatae(props){
 
 
-
     useEffect(() => {onFindAll()}, []) // 처음부터 전체 출력
 
     //입력받은 데이터를 저장하는 변수
@@ -25,6 +24,7 @@ export default function Operatae(props){
 
     setProfile(file)
 
+        // 이미지 미리보기 
     if(file){
         //4. 파일 읽기 객체 선언
         const reader = new FileReader(); // js객체 : 파일 읽기 객체
@@ -82,6 +82,38 @@ export default function Operatae(props){
 
 
 
+    // 주소 api
+     //
+     const open = useDaumPostcodePopup('https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js');
+
+     const handleComplete = (data) => {
+       let fullAddress = data.address;
+       let extraAddress = '';
+   
+       if (data.addressType === 'R') {
+         if (data.bname !== '') {
+           extraAddress += data.bname;
+         }
+         if (data.buildingName !== '') {
+           extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+         }
+         fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+       }
+   
+       console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+       setDataInfo( { ...dataInfo , 'address' : fullAddress })
+     };
+   
+     const handleClick = () => {
+       open({ onComplete: handleComplete });
+     };
+     //
+ 
+
+
+
+
+
 
 
 
@@ -93,7 +125,7 @@ export default function Operatae(props){
             setBoards(response.data);
             console.log(response.data);
             for(let index = 0; index < response.data.length; index++) {
-                stateDe[index] = response.data[index].state;
+                stateDe[index] = response.data[index].state == 0 ? '운영중' : response.data[index].state == 1 ? '임시휴업' : '폐점';
                 console.log(stateDe[index]);
             }
         } catch (error) {console.log(error);
@@ -140,21 +172,22 @@ export default function Operatae(props){
 
     }
 
-    const [stateDe, setStateDe] = useState([ 0 , 0 , 0 , 0 ]);
+    const [stateDe, setStateDe] = useState([]);
     console.log( stateDe )
     //  [ 0 : 운영중 , 1:임시휴업 , 2: 폐업 ]
     //          0           1           2
     //   index  0           1           2
-    const stateChange = (e , index ) => {
-        console.log( index )
-        console.log(e.target);
-        // console.log(e.target.name);
-        console.log(e.target.value);
-        stateDe[index] = e.target.value;
-
+    const stateChange = (e , newvalue, index ) => {
+        // console.log( index )
+        // console.log(e.target);
+        // // console.log(e.target.name);
+        // console.log(e.target.value);
+        // stateDe[index] = e.target.value; mui select가 target을 인식을 못함
+        stateDe[index] = newvalue;
         setStateDe( [...stateDe ] );
     }
     const stateUpdate = async (hno ,state) => {
+        state = state =='운영중' ? 0 : state == '임시휴업' ? 1:2;
         let response = await axios.delete(`http://localhost:8081/director?hno=${hno}&state=${state}`)
         console.log(response.data);
         if(response.data == true){alert('변경성공');  onFindAll();}
@@ -167,20 +200,22 @@ export default function Operatae(props){
     return(<>
             <Sidebar />
             <div className="mainBox">
-                <form>
+                <form style={{float : 'left'}}>
                     <h2>관리자 정보페이지</h2>
-                    <Box sx={{ py: 1, width: '20%',  display: 'grid', gap: 1, alignItems: 'center', flexWrap: 'wrap' }}>
-                    <Input size="md" placeholder="주소" type="text" value={dataInfo.address} name="address" onChange={formDataChange}/>
-                    {/* <button type="button" onClick={DaumPost}></button> */}
-                    <Input size="md" placeholder="호텔 전화번호" type="text" value={dataInfo.hotel_number} name="hotel_number" onChange={formDataChange}/>
-                    <Input size="md" placeholder="소개" type="text" value={dataInfo.intro} name="intro" onChange={formDataChange}/>
-                    <input type="file" accept="imge/*" onChange={onFileChange}/> <br/>
+                    <Box sx={{ py: 1, width: '25%',  display: 'grid', gap: 1, alignItems: 'center', flexWrap: 'wrap' }}>
+                    <div>
+                    <Input sx={{ width: '150%' }} readOnly size="md" placeholder="주소" type="text" value={dataInfo.address} name="address" onChange={formDataChange}/>
+                    <Button size="sm" type="button" onClick={handleClick}>검색</Button>
+                    </div>
+                    <Input sx={{ width: '150%' }}size="md" placeholder="호텔 전화번호" type="text" value={dataInfo.hotel_number} name="hotel_number" onChange={formDataChange}/>
+                    <Input sx={{ width: '150%' }}size="md" placeholder="소개" type="text" value={dataInfo.intro} name="intro" onChange={formDataChange}/>
+                    <input sx={{ width: '150%' }}type="file" accept="imge/*" onChange={onFileChange}/>
                     <Button size="sm" sx={{width: '30%'}} type="button" onClick={OnSignup}>저장</Button><br/><br/>
                     </Box>
-
-
                 </form>
-
+                    <div style={{ marginLeft: '30%'}}>
+                    {preview && (<><img src={preview} style={{with:"500px", height:"300px"}}/></>)}
+                    </div>
 
 
                 <Table sx={{tableLayout : "auto"}}  >
@@ -198,10 +233,10 @@ export default function Operatae(props){
                                 <th>{board.hotel_number}</th>
                                 <th>{board.intro}</th>
                                 <th>
-                                    <Select value={ stateDe[index] } onChange={ (e) => { stateChange( e, index) } } >
-                                        <Option value={0}>운영중</Option>
-                                        <Option value={1}>임시휴업</Option>
-                                        <Option value={2}>폐점</Option>
+                                    <Select sx={{ width: '150px' }}   value={ stateDe[index] } onChange={ (e , newvalue) => { stateChange( e, newvalue , index) } } >
+                                        <Option value="운영중">운영중 </Option>
+                                        <Option value="임시휴업">임시휴업</Option>
+                                        <Option value="폐점">폐점 </Option>
                                     </Select>
                                     <Button size="sm" type="button" onClick={() =>{stateUpdate(board.hno, stateDe[index])}}>상태수정</Button>
                                     </th>

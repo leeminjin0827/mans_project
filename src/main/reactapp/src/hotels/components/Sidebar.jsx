@@ -73,7 +73,9 @@ export default function Sidebar(props) {
                 >
                     <div>
                         <Toolbar>
+                            <Link to="/home">
                             <img src="/logo2.png" alt="Logo" style={{ maxWidth: '150px' }} />
+                            </Link>
                         </Toolbar>
 
                         <Divider /> {/* 사이드바 border */}
