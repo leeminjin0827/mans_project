@@ -65,13 +65,13 @@ export default function Sidebar({setOptionWriteModal,setRatingWriteModal,setRoom
                             component="nav"
                             aria-labelledby="nested-list-subheader"
                         >
-                            <ListItemButton component={Link} to="/oper">
+                            <ListItemButton className="operLink" component={Link} to="/oper">
                                 <ListItemIcon>
                                     <LocationCityIcon />
                                 </ListItemIcon>
                                 <ListItemText primary="지점관리" />
                             </ListItemButton>
-                            <ListItemButton component={Link} to="/parlor" onClick={ () => handleClick('parlor')}>
+                            <ListItemButton className="parlorLink" component={Link} to="/parlor" onClick={ () => handleClick('parlor')}>
                                 <ListItemIcon>
                                     <DoorBackIcon />
                                 </ListItemIcon>
@@ -100,9 +100,9 @@ export default function Sidebar({setOptionWriteModal,setRatingWriteModal,setRoom
                                     </ListItemButton>
                                 </List>
                             </Collapse>
-                            <ListItemButton component={Link} to="/staff">
+                            <ListItemButton className="staffLink" component={Link} to="/staff">
                                 <ListItemIcon>
-                                <PersonIcon />
+                                    <PersonIcon />
                                 </ListItemIcon>
                                 <ListItemText primary="직원관리" />
                             </ListItemButton>

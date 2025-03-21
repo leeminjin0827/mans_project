@@ -7,6 +7,7 @@ import StaticModal from "./components/StaticModal";
 import OptionRegister from "./components/room/OptionRegister";
 import RoomRatingRegister from "./components/room/RoomRatingRegister";
 import RatingRegister from "./components/room/RatingRegister";
+import RoomRegister from "./components/room/RoomRegister";
 
 export default function ParlorPage( props ){
 
@@ -18,6 +19,8 @@ export default function ParlorPage( props ){
     const [ratingWriteModal , setRatingWriteModal] = useState(false);
     // 객실별 옵션 등록 모달
     const [roomOptionWriteModal , setRoomOptionWriteModal ] = useState(false);
+    // 객실 등록 모달
+    const [roomWriteModal , setRoomWriteModal ] = useState(false);
 
     // 모달 열림/닫힘 상태
     const [omodals , setOmodals ] = useState(false);
@@ -91,25 +94,6 @@ export default function ParlorPage( props ){
     } // f end
 
     // ------------------------------------------------ 객실 등급 ------------------------------------------------------------------------
-
-    // 객실등급 등록
-    const [ ratingnWrite , setRatingWrite ] = useState( { rating_name : '' , bed_count : '' , bed_type : '' } )
-    const rWriteInput = async () => {
-        const ratingName = prompt("등록하실 객실등급명을 입력하세요.");
-        const bedCount = prompt("침대수를 입력하세요.");
-        const bedType = prompt("침대의 타입을 입력하세요.");
-        if( !ratingName || !bedCount || !bedType ) { return; } // 입력값이 없을시 종료
-
-        try{
-            const response = await axios.post("http://localhost:8081/room/rating" , { ratingName , bedCount , bedType } );
-            if( response.data == true ){
-                alert("객실등급을 추가했습니다.");
-                ratingRead();
-            }else{
-                alert("객실등급 추가 실패");
-            }
-        }catch( error ) { console.log( error ); }
-    } // f end
     
     // 객실등급 조회
     useEffect( () => {
@@ -169,31 +153,6 @@ export default function ParlorPage( props ){
 
     // ------------------------------------------------ 객실  ------------------------------------------------------------------------
 
-    // 객실 등록
-        // 입력받은 첨부파일
-    const [ profile , setProfile ] = useState(null);
-    const [ preview , setPreview ] = useState(null);    
-    const [ roomWrite , setRoomWrite ] = useState( { rno : '' , hno : '' , staffNumber : '' })
-        // 객실정보(첨부파일X)
-    const mWriteInput = async () => {
-        const hno = prompt("호텔 지점번호를 입력해주세요.");
-        const rno = prompt("객실에 설정할 객실등급을 입력하세요.");
-        const staffNumber = prompt("객실을 담당할 직원번호를 입력해주세요.");
-        if( !rno ) { return; }
-        try{
-            const response = await axios.post("http://localhost:8081/room" , { rno , hno , staffNumber } )
-            if( response.data == true ){
-                alert("객실 등록을 성공했습니다.");
-                roomRead();
-            }else{
-                alert("객실 등록을 실패");
-            } // if end
-        }catch( error ) { console.log( error ); }
-    } // f end
-        // 첨부파일
-    
-
-
     // 객실 전체 조회
     useEffect(() => {
         console.log("객실 전체 조회 실행");
@@ -218,6 +177,8 @@ export default function ParlorPage( props ){
                     rono: room.rono,
                     hno: room.hno,
                     staffNumber: room.staffNumber,
+                    rimg : room.rimg,
+                    rname : room.rname,
                     rno: room.rno,
                     ratingName: room.ratingName,
                     bedCount: room.bedCount,
@@ -274,23 +235,6 @@ export default function ParlorPage( props ){
     } // f end
 
     // ------------------------------------------------ 객실별 옵션 ------------------------------------------------------------------------
-
-    // 객실별 옵션 목록 등록
-    const[ roomOptionListWrite , setRoomOptionListWrite ] = useState( { rno : '' , opno : '' })
-    const rolWriteInput = async () => {
-        const rno = prompt("목록에 등록할 객실등급 번호를 입력하세요.");
-        const opno = prompt("객실등급에 등록할 옵션번호을 입력하세요");
-        if( !rno || !opno ){ return; }
-        try{
-            const response = await axios.post("http://localhost:8081/room/option/set" , { rno , opno } )  
-            if( response.data == true ) {
-                alert("목록 등록 완료");
-                roomOptionRead();
-            }else{
-                alert("목록 등록 실패");
-            } // if end
-        }catch( error ) { console.log( error ); }
-    } // f end
 
     // 객실별 옵션 추가
     const [ roomOptionWrite , setRoomOptionWrite ] = useState( { opno : '' })
@@ -545,12 +489,13 @@ export default function ParlorPage( props ){
                         <option value={"2"}>중구점</option>
                         <option value={"3"}>부평점</option>
                     </select>
-                    <Button variant="contained" type="button" onClick={mWriteInput}>객실 등록</Button>
+                    <Button variant="contained" type="button" onClick={() => setRoomWriteModal(true)}>객실 등록</Button>
                 </div>
                 <Table id="tableAll" sx={{tableLayout : "auto"}}>
                         <thead>
                             <tr>
                                 <th>객실번호</th>
+                                <th>호실</th>
                                 <th>지점</th>
                                 <th>객실등급</th>
                                 <th>침대수</th>
@@ -569,6 +514,7 @@ export default function ParlorPage( props ){
                                     return(
                                         <tr key={ i } style={{width : "100%"}}>
                                             <td>{room.rono}</td>
+                                            <td>{room.rname}</td>
                                             <td>{hnoChange(room.hno)}</td>
                                             <td>{room.ratingName}</td>
                                             <td>{room.bedCount}</td>
@@ -616,11 +562,23 @@ export default function ParlorPage( props ){
                 title={"객실별 옵션 등록"}
                 openData={
                     <RoomRatingRegister 
-                    roomOptionRead={roomOptionRead}
-                    onClose={() => setRoomOptionWriteModal(false)}
+                        roomOptionRead={roomOptionRead}
+                        onClose={() => setRoomOptionWriteModal(false)}
                     />
                 }
                 onClose={ () => { setRoomOptionWriteModal(false)}}
+            />
+            { /* 객실 등록 모달 */}
+            <StaticModal 
+                isOpen={roomWriteModal}
+                title={"객실 등록"}
+                openData={
+                    <RoomRegister
+                        roomRead={roomRead}
+                        onClose={ () => setRoomWriteModal(false)}
+                    />
+                }
+                onClose={ () => { setRoomWriteModal(false) } }
             />
         </div>
     </>)

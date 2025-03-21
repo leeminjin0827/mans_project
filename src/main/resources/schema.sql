@@ -3,7 +3,7 @@ create database man;
 use man;
 
 create table user (
--- 사용자 번호
+    -- 사용자 번호
    user_number int unsigned auto_increment,
    -- 사용자 아이디
 	id varchar(30) not null unique,
@@ -77,17 +77,17 @@ create table commute (
 );
 
 create table operate(
-hno int unsigned auto_increment,
-address char(50),
-hotel_number char(12),
-intro longtext,
-state int default 0,
-constraint primary key(hno)
+    hno int unsigned auto_increment,
+    address char(50),
+    hotel_number char(12),
+    intro longtext,
+    state int default 0,
+    constraint primary key(hno)
 );
 
 -- 옵션테이블
 create table options(
-   -- 옵션번호
+    -- 옵션번호
     opno int unsigned auto_increment ,
     -- 옵션명
     op_name varchar(255) not null ,
@@ -112,6 +112,8 @@ create table rating(
 create table room(
     -- 객실번호
     rono int unsigned auto_increment,
+    -- 호실
+    rname varchar(5) not null ,
     -- 객실등급번호
     rno int unsigned ,
     -- 호텔번호
@@ -138,4 +140,22 @@ create table room_options (
     constraint primary key(ropno),
     foreign key(rno) references rating(rno) on update cascade on delete cascade,
     foreign key(opno) references options(opno) on update cascade on delete cascade
+);
+
+-- 예약 테이블
+create table reservation(
+    -- 예약번호
+    reno int unsigned auto_increment,
+    -- 예약자 이름
+    resname varchar(20) not null ,
+    -- 예약자 전화번호
+    resphone varchar(13) not null ,
+    -- 입실날짜
+    resstart date not null ,
+    -- 퇴실날짜
+    resend date not null ,
+    -- 객실 번호
+    rono int unsigned,
+    constraint primary key(reno),
+    foreign key(rono) references room(rono) on update cascade on delete cascade
 );

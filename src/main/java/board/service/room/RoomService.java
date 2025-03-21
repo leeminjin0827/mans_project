@@ -42,7 +42,9 @@ public class RoomService {
                 String filenamesString = String.join("," , filenames );
                 roomDto.setRimg(filenamesString);
             } // if end
-            return roomMapper.roomWrite(roomDto);
+            boolean result = roomMapper.roomWrite(roomDto);
+            System.out.println("result = " + result);
+            return result;
         }catch (Exception e ) { return false; }
     } // f end
 

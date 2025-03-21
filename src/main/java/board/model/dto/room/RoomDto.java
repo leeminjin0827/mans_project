@@ -15,6 +15,8 @@ public class RoomDto {
 
     // 객실번호 PK
     private int rono;
+    // 호실
+    private String rname;
     // 객실등급번호 FK
     private int rno;
     // 호텔번호

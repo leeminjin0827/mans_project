@@ -10,11 +10,11 @@ import java.util.List;
 public interface RoomMapper {
 
     // 객실 등록 SQL
-    @Insert(" insert into room(rno,hno,staff_number,rimg) values ( #{rno} , #{hno} , #{staffNumber} , #{rimg} ) ")
+    @Insert(" insert into room(rname,rno,hno,staff_number,rimg) values ( #{rname} , #{rno} , #{hno} , #{staffNumber} , #{rimg} ) ")
     boolean roomWrite(RoomDto roomDto);
 
     // 객실 전체조회 SQL
-    @Select(" select r.rono, r.rno, r.hno, r.staff_number, rt.rating_name, rt.bed_count, rt.bed_type, sno.name, o.op_name from room r " +
+    @Select(" select r.rono, r.rname, r.rno, r.hno, r.staff_number, rt.rating_name, rt.bed_count, rt.bed_type, sno.name, o.op_name from room r " +
             "join rating rt on r.rno = rt.rno " +
             "join operate ope on r.hno = ope.hno " +
             "join staff sno on r.staff_number = sno.staff_number " +
@@ -34,7 +34,7 @@ public interface RoomMapper {
     List<RoomDto> roomList();
 
     // 객실 수정 SQL
-    @Update(" update room set rno = #{rno} , staff_number = #{staffNumber} where rono = #{rono} ")
+    @Update(" update room set rname = #{rname} , rno = #{rno} , staff_number = #{staffNumber} where rono = #{rono} ")
     boolean roomUpdate(RoomDto roomDto);
 
     // 객실 삭제 SQL

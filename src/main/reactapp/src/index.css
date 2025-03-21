@@ -46,6 +46,9 @@
   width: 100%;
   text-align: center;
 }
+.staffLink.active{
+  background-color: blue;
+}
 
 /* #region 기존 */
 
