@@ -1,8 +1,11 @@
 package board.controller;
 
+import board.config.LoginSession;
 import board.model.dto.LoginDto;
+import board.model.dto.StaffDto;
 import board.service.LoginService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,18 +20,32 @@ public class LoginController {
 
     /** 로그인 */
     @PostMapping("/login")
-    public boolean staffLogin(@RequestBody() LoginDto loginDto, HttpServletRequest req) {
+    public boolean staffLogin(@RequestBody() StaffDto staffDto, HttpServletRequest req) {
         System.out.println("LoginController.staffLogin");
-        System.out.println("loginDto = " + loginDto);
-        return loginService.staffLogin(loginDto, req);
+        System.out.println("staffDto = " + staffDto);
+        StaffDto result = loginService.staffLogin(staffDto);
+        System.out.println("result = " + result);
+        if(result == null) {
+            return false;
+        } else {
+            HttpSession session = req.getSession();
+            boolean result2 = LoginSession.addSession(result, session);
+            System.out.println("result2 = " + result2);
+            System.out.println("여기가 실행되면 끝\n\n");
+            // 세션 유지시간 10분
+            // session.setMaxInactiveInterval(60 * 10);
+            return result2;
+        }
     }
 
     /** 로그아웃 */
-    @PostMapping("/logout")
-    public boolean staffLogout(@RequestBody() int loginNumber) {
+    @GetMapping("/logout")
+    public boolean staffLogout(HttpServletRequest req) {
         System.out.println("LoginController.staffLogout");
-        System.out.println("loginNumber = " + loginNumber);
-        return loginService.staffLogout(loginNumber);
+        System.out.println("req = " + req);
+        HttpSession session = req.getSession();
+        if(session == null) { return false; }
+        return loginService.staffLogout(session);
     }
 
     /** 로그인 상태 가져오기 */
@@ -37,6 +54,17 @@ public class LoginController {
         System.out.println("LoginController.loginState");
         System.out.println("req = " + req);
         return loginService.loginState(req);
+    }
+
+    /** 내 정보 가져오기 */
+    @GetMapping("/info")
+    public StaffDto staffInfo(HttpServletRequest req) {
+
+        HttpSession session = req.getSession();
+        if(session == null) { return null; }
+
+
+        return null;
     }
 
 }

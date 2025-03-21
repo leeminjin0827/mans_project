@@ -37,10 +37,10 @@ export default function StaffPage(props) {
 
     // 수정 관련 state
     const [staffUpdate, setStaffUpdate] = useState({
-        staffNumber : "", id : "", password : "", 
-        name : "", phone : "", address : "", 
-        startDate : "", endDate : "", staffRank : "", 
-        salary : "", hno : "", resignation : "", myPhoto : ""
+        staffNumber : "", id : "", password : "", name : "", 
+        phone : "", address1 : "", address2 : "", address3 : "",
+        startDate : "", endDate : "", staffRank : "", salary : "", 
+        hno : "", resignation : "", myPhoto : ""
     });
     // 추가 중
     /** 수정 모달창 관련 */
@@ -52,7 +52,9 @@ export default function StaffPage(props) {
                 staffUpdate.password = list.password;
                 staffUpdate.name = list.name;
                 staffUpdate.phone = list.phone;
-                staffUpdate.address = list.address;
+                staffUpdate.address1 = list.address1;
+                staffUpdate.address2 = list.address2;
+                staffUpdate.address3 = list.address3;
                 staffUpdate.startDate = list.startDate;
                 staffUpdate.staffRank = changeStaffRank(list.staffRank);
                 staffUpdate.salary = list.salary;
@@ -71,7 +73,9 @@ export default function StaffPage(props) {
                 staffUpdate.password = list.password;
                 staffUpdate.name = list.name;
                 staffUpdate.phone = list.phone;
-                staffUpdate.address = list.address;
+                staffUpdate.address1 = list.address1;
+                staffUpdate.address2 = list.address2;
+                staffUpdate.address3 = list.address3;
                 staffUpdate.startDate = list.startDate;
                 staffUpdate.endDate = list.endDate;
                 staffUpdate.staffRank = changeStaffRank(list.staffRank);

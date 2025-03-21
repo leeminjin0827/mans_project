@@ -28,9 +28,9 @@ export default function StaffUpdate(props) {
 
     // 입력값 관련 코드
     const [updateData, setUpdateData] = useState({
-        staffNumber : info.staffNumber, password : info.password, name : info.name,
-        phone : info.phone, address : info.address, startDate : info.startDate,
-        staffRank : info.staffRank, salary : info.salary, hno : info.hno
+        staffNumber : info.staffNumber, password : info.password, name : info.name, phone : info.phone, 
+        address1 : info.address1, address2 : info.address2 == null ? "" : info.address2, address3 : info.address3 == null ? "" : info.address3, 
+        startDate : info.startDate, staffRank : info.staffRank, salary : info.salary, hno : info.hno
     });
     const changeInput = (event) => {
         setUpdateData({...updateData, [event.target.name] : event.target.value});
@@ -60,7 +60,9 @@ export default function StaffUpdate(props) {
         formData.append("password", updateData.password);
         formData.append("name", updateData.name);
         formData.append("phone", updateData.phone);
-        formData.append("address", updateData.address);
+        formData.append("address1", address);
+        formData.append("address2", updateData.address2 == null ? "" : updateData.address2);
+        formData.append("address3", zonecode);
         formData.append("startDate", updateData.startDate);
         formData.append("staffRank", updateData.staffRank);
         formData.append("salary", updateData.salary);
@@ -69,7 +71,6 @@ export default function StaffUpdate(props) {
             formData.append("uploadFile", newPhoto);
         }
         const header = {headers : {"Content-Type" : "multipart/form-data"}};
-        console.log("실행2222");
         // FormData에 데이터 들어갔는지 확인하는 부분
         for (const x of formData.entries()) {
             console.log(x);
@@ -89,8 +90,6 @@ export default function StaffUpdate(props) {
         } catch(e) {
             console.log(e);
             return;
-        }
-        if(newPhoto != null) {
         }
     }
 
@@ -114,6 +113,34 @@ export default function StaffUpdate(props) {
     console.log(updateData);
     console.log(newPhoto);
 
+    // 임시 추가
+    const [address, setAddress] = useState(updateData.address1);
+    const [zonecode, setZonecode] = useState(updateData.address3 == null ? "" : updateData.address3);
+    useEffect(() => {
+        const messageHandler = (event) => {
+            console.log("자식 창에서 받은 메시지 : ", event.data);
+            console.log(event.data.message.address);
+            console.log(event.data.message.zonecode);
+            setAddress(event.data.message.address);
+            setZonecode(event.data.message.zonecode);
+        }
+        window.addEventListener("message", messageHandler);
+
+        return () => {
+            window.removeEventListener("message", messageHandler);
+        }
+    }, []);
+
+    const changeAdress1 = (event) => {
+        console.log(event.target.value);
+        setAddress(event.target.value);
+    }
+    const changeZonecode = (event) => {
+        console.log(event.target.value);
+        setZonecode(event.target.value);
+        setUpdateData({...updateData, address3 : event.target.value});
+    }
+
     return (
         <>
         <div style={{maxHeight : "70vh", overflowY : "auto"}}>
@@ -122,27 +149,52 @@ export default function StaffUpdate(props) {
                 <tbody>
                     <tr>
                         <td>비밀번호 : </td>
-                        <td><Input variant="outlined" size="md" name="password" placeholder="••••••" value={updateData.password} onChange={changeInput} /></td>
+                        <td colSpan={"2"}><Input variant="outlined" size="md" name="password" placeholder="••••••" value={updateData.password} onChange={changeInput} /></td>
                     </tr>
                     <tr>
                         <td>이 름 : </td>
-                        <td><Input variant="outlined" size="md" name="name" placeholder="" value={updateData.name} onChange={changeInput} /></td>
+                        <td colSpan={"2"}><Input variant="outlined" size="md" name="name" placeholder="" value={updateData.name} onChange={changeInput} /></td>
                     </tr>
                     <tr>
                         <td>전화번호 : </td>
-                        <td><Input variant="outlined" size="md" name="phone" placeholder="010-XXXX-XXXX" value={updateData.phone} onChange={changeInput} /></td>
+                        <td colSpan={"2"}><Input variant="outlined" size="md" name="phone" placeholder="010-XXXX-XXXX" value={updateData.phone} onChange={changeInput} /></td>
                     </tr>
                     <tr>
-                        <td>주 소 : </td>
-                        <td><Input variant="outlined" size="md" name="address" placeholder="서울 강남구..." value={updateData.address} onChange={changeInput} /></td>
+                        <td rowSpan={"2"} style={{paddingTop : "5px", alignContent : "start"}}>주 소 : </td>
+                        <td><Input variant="outlined" size="md" name="address3" readOnly placeholder="우편주소" value={zonecode} onChange={changeZonecode} /></td>
+                        <td>
+                            <Button
+                                variant="contained"
+                                onClick={() => {
+                                    window.open(
+                                                "/address", 
+                                                "_blank", `
+                                                width=500,
+                                                height=600,
+                                                left=${window.screenX + (window.outerWidth - 500) / 2},
+                                                top=${window.screenY + (window.outerHeight - 600) / 2}
+                                            `
+                                        )}
+                                }
+                            >
+                                찾기
+                            </Button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colSpan={"2"}><Input variant="outlined" size="md" name="address1" placeholder="도로명주소" readOnly value={address} onChange={changeAdress1} /></td>
+                    </tr>
+                    <tr>
+                        <td>상세주소 : </td>
+                        <td colSpan={"2"}><Input variant="outlined" size="md" name="address2" placeholder="상세주소" value={updateData.address2} onChange={changeInput} /></td>
                     </tr>
                     <tr>
                         <td>입사일 : </td>
-                        <td><Input variant="outlined" size="md" name="startDate" placeholder="20XX-XX-XX" value={updateData.startDate} onChange={changeInput} /></td>
+                        <td colSpan={"2"}><Input variant="outlined" size="md" name="startDate" placeholder="20XX-XX-XX" value={updateData.startDate} onChange={changeInput} /></td>
                     </tr>
                     <tr>
                         <td>직급 : </td>
-                        <td>
+                        <td colSpan={"2"}>
                             <Select 
                                 defaultValue={props.changeStaffRank(updateData.staffRank)} 
                                 onChange={(event, newValue) => {setNewRank(newValue);}} 
@@ -161,11 +213,11 @@ export default function StaffUpdate(props) {
                     </tr>
                     <tr>
                         <td>연봉(만원) : </td>
-                        <td><Input variant="outlined" size="md" name="salary" placeholder="3200" value={updateData.salary} onChange={changeInput} /></td>
+                        <td colSpan={"2"}><Input variant="outlined" size="md" name="salary" placeholder="3200" value={updateData.salary} onChange={changeInput} /></td>
                     </tr>
                     <tr>
                         <td>근무지 : </td>
-                        <td>
+                        <td colSpan={"2"}>
                             <Select 
                                 defaultValue={props.changeWorkplace(updateData.hno)} 
                                 onChange={(event, newValue) => {setNewWorkplace(newValue);}} 
@@ -183,10 +235,10 @@ export default function StaffUpdate(props) {
                         </td>
                     </tr>
                     <tr>
-                        <td colSpan={"2"}>사진 변경</td>
+                        <td colSpan={"3"}>사진 변경</td>
                     </tr>
                     <tr>
-                        <td colSpan={"2"}>
+                        <td colSpan={"3"}>
                             <Input type="file" name="myPhoto" onChange={changeFile} slotProps={{ input: { accept: "image/*" } }}  sx={{marginTop : "5px", padding : "5px"}} />
                         </td>
                     </tr>

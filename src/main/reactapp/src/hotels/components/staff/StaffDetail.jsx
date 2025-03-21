@@ -9,11 +9,13 @@ export default function StaffDetail(props) {
     useEffect(() => {myPhoto();}, []);
 
 
-    const infoName = ["직원 번호", "아이디", "비밀번호", "이름", "전화번호", "주소", "입사일", "퇴사일", "직급", "연봉", "근무지", "퇴사 유무"];
-    const staffInfo = ["staffNumber", "id", "password", "name", "phone", "address", "startDate", "endDate", "staffRank", "salary", "hno", "resignation"];
+    const infoName = ["직원 번호", "아이디", "비밀번호", "이름", "전화번호", "도로명주소", "상세주소", "입사일", "퇴사일", "직급", "연봉", "근무지", "퇴사 유무"];
+    const staffInfo = ["staffNumber", "id", "password", "name", "phone", "address1", "address2", "startDate", "endDate", "staffRank", "salary", "hno", "resignation"];
 
     const staffDetail = props.staffDetail;
     staffDetail["endDate"] = staffDetail["endDate"] == null ? "미정" : staffDetail["endDate"];
+    staffDetail["address2"] = staffDetail["address2"] == null ? "" : staffDetail["address2"];
+    staffDetail["address3"] = staffDetail["address3"] == null ? "" : staffDetail["address3"];
     // 본인 사진 경로
     const basePath = "http://localhost:8081/upload/staff/"
     const [photoPath, setPhotoPath] = useState(null);
@@ -26,14 +28,15 @@ export default function StaffDetail(props) {
             const response = await axios.get(`http://localhost:8081/api/file/staff/path?staff_number=${staffDetail.staffNumber}`);
             console.log(response.data);
             setPhotoPath(basePath + response.data);
-            console.log(photoPath);
+            // staffDetail["address1"] = staffDetail["address1"] + " " + (staffDetail["address2"] == null ? "" : staffDetail["address2"]);
         } catch(e) {
             console.log(e);
         }
     }
 
     console.log(staffDetail);
-    console.log(`staffDetail["resignation"] : ${staffDetail["resignation"]}`);
+    console.log(photoPath);
+    // console.log(`staffDetail["resignation"] : ${staffDetail["resignation"]}`);
 
     return (
         <>

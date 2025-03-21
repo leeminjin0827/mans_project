@@ -10,7 +10,6 @@ import java.util.Arrays;
 
 @RestController
 @RequestMapping("/staff")
-@CrossOrigin("http://localhost:5173")
 public class StaffController {
 
     private final StaffService staffService;
@@ -28,7 +27,7 @@ public class StaffController {
         staffDto.setId(staffDto.getId().trim());
         staffDto.setName(staffDto.getName().trim());
         staffDto.setPhone(staffDto.getPhone().trim());
-        staffDto.setAddress(staffDto.getAddress().trim());
+        staffDto.setAddress1(staffDto.getAddress1().trim());
         staffDto.setStartDate(staffDto.getStartDate().trim());
 
         //유효성 검사 시작
@@ -95,7 +94,7 @@ public class StaffController {
             }
         }
         // 주소 확인
-        if(staffDto.getAddress().isEmpty()) {
+        if(staffDto.getAddress1().isEmpty()) {
             System.out.println("유효성 검사 : 주소 미입력 오류");
             return false;
         }
@@ -135,7 +134,9 @@ public class StaffController {
         staffDto.setPassword(staffDto.getPassword().trim());
         staffDto.setName(staffDto.getName().trim());
         staffDto.setPhone(staffDto.getPhone().trim());
-        staffDto.setAddress(staffDto.getAddress().trim());
+        staffDto.setAddress1(staffDto.getAddress1().trim());
+        staffDto.setAddress2(staffDto.getAddress2().trim());
+        staffDto.setAddress3(staffDto.getAddress3().trim());
         staffDto.setStartDate(staffDto.getStartDate().trim());
         // 유효성 검사 시작
         System.out.println("staffDto = " + staffDto);
@@ -186,7 +187,7 @@ public class StaffController {
             }
         }
         // 주소 확인
-        if(staffDto.getAddress().isEmpty()) {
+        if(staffDto.getAddress1().isEmpty()) {
             System.out.println("유효성 검사 : 주소 미입력 오류");
             return false;
         }
