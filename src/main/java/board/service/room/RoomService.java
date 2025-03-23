@@ -44,6 +44,7 @@ public class RoomService {
                 // 파일명을 문자열로 합쳐서 DB에 저장
                 String filenamesString = String.join("," , filenames );
                 roomDto.setRimg(filenamesString);
+                System.out.println("파일 경로들: " + filenamesString);
             } // if end
             boolean result = roomMapper.roomWrite(roomDto);
             System.out.println("result = " + result);

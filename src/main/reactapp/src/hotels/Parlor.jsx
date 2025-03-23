@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react"
 import Sidebar from "./components/Sidebar";
 import { Box, Table } from "@mui/joy";
-import { Button, ButtonGroup } from "@mui/material";
+import { Button, ButtonGroup, Grid, Typography } from "@mui/material";
 import StaticModal from "./components/StaticModal";
 import OptionRegister from "./components/room/OptionRegister";
 import RoomRatingRegister from "./components/room/RoomRatingRegister";
@@ -197,8 +197,25 @@ export default function ParlorPage( props ){
         });
     
         setRoomList(roomListWithOptions);  // 상태 업데이트
+        setPlzList(roomListWithOptions);
     };
-    
+
+    // select
+    const [selectBranch , setSelectBranch ] = useState("0");
+    const [plzList , setPlzList ] = useState([]); // 필터링할 객실목록
+    const selectChange = (e) =>{
+        const value = e.target.value;
+        setSelectBranch(value);
+    }
+    useEffect( () => {
+        if( selectBranch === "0" ){ // 전체 선택 시 모든객실 표시
+            setPlzList(roomList);
+        } else{
+            const filterRooms = roomList.filter((room) => room.hno === parseInt(selectBranch));  // 지점에 맞는 객실만 필터링
+            setPlzList(filterRooms); 
+        }
+    } , [selectBranch , roomList ]);
+
     // 객실 수정
     const [ roomUpdate , setRoomUpdate ] = useState({ rono : '' , rname : '' , rno : '' , staffNumber : '' })
     const mUpdateInput = async ( rono ) => {
@@ -485,7 +502,9 @@ export default function ParlorPage( props ){
             <Box style={{marginBottom : '50px' }}>
                 <h3>객실 목록</h3>
                 <div style={{ padding : "0px 10px", display : "flex", justifyContent : "end"}}>
-                    <select style={{marginRight : "50px", width : "7%", textAlign : "center"}}>
+                    <select style={{marginRight : "50px", width : "7%", textAlign : "center"}}
+                            value={selectBranch}
+                            onChange={selectChange}>
                         <option value={"0"}>전체</option>
                         <option value={"1"}>강남점</option>
                         <option value={"2"}>중구점</option>
@@ -510,7 +529,7 @@ export default function ParlorPage( props ){
                         </thead>
                         <tbody>
                             {
-                                roomList.map( ( room , i ) => {
+                                plzList.map( ( room , i ) => {
                                     if(true) {
                                         
                                     }
@@ -523,7 +542,12 @@ export default function ParlorPage( props ){
                                             <td>{room.bedCount}</td>
                                             <td>{room.bedType}</td>
                                             <td>{room.options}</td>
-                                            <td>사진링크</td>
+                                            <td>
+                                            <Button variant="contained" type="button" 
+                                            onClick={() => openImageModal(room.rimg, room.rname)}>
+                                                사진보기
+                                            </Button>
+                                            </td>
                                             <td>{room.name}</td>
                                             <td>
                                                 <Button variant="contained" type="button"  sx={{width : "5rem", height : "2.5rem"}} onClick={() => {mUpdateInput(room.rono);}}>수정</Button>
