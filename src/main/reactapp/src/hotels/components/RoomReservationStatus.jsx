@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 export function RoomCard(props) {
 
     const info = props.info;
+    const reservationList = props.reservationList;
     // #899f6a --> Tendril
     // #b5e9a1 --> Paradise green
     // #d19c97 --> Rose Tan
@@ -17,7 +18,18 @@ export function RoomCard(props) {
     const month = now.getMonth() + 1 < 10 ? "0" + now.getMonth() : now.getMonth();
     const day = now.getDate() + 1 < 10 ? "0" + now.getDate() : now.getDate();
     const startDate = `${year}-${month}-${day}`;
-    const backgroundColor = info.resstart >= startDate ? "#899f6a" : "#d19c97";
+    // const backgroundColor = info.resstart >= startDate ? "#899f6a" : "#d19c97";
+    let backgroundColor = "#899f6a";
+    const [reservation, setReservation] = useState({});
+
+    // console.log(reservationList);
+    for(let index = 0; index < reservationList.length; index++) {
+        let temp = reservationList[index];
+        if(temp.rname === info.rname) {
+            backgroundColor = "#d19c97";
+        }
+    }
+
 
     return (
         <>
@@ -32,7 +44,7 @@ export function RoomCard(props) {
                     color : "white"
                 }}
             >
-                <Typography sx={{textAlign : "center", color : "white"}} >지점 / 호실</Typography>
+                <Typography sx={{textAlign : "center", color : "white"}} >{props.changeHnoString(info.hno)} / {info.rname}</Typography>
                 <table border={0} style={{tableLayout : "auto", textAlign : "center"}}>
                     <tbody>
                         <tr>
@@ -69,17 +81,21 @@ export function RoomCard(props) {
 
 export default function RoomReservationStatus(props) {
 
+    // 지점명 저장 변수
+    let hotelBranch = ["전체", "강남점", "중구점", "부평점"];
     // 예약 테이블에서 가져온 값 저장하는 state
     const [reservationList, setReservationList] = useState([]);
     // 객실 목록 테이블에서 가져온 값을 저장하는 state
     const [roomList, setRoomList] = useState([]);
     // 셀렉트 값이 변경될 때 마다 값을 저장하는 state
     const [selectValue, setSelectValue] = useState("1");
+    // 처음 지점 번호를 가져오는 함수
+    const [hnoValue, setHnoValue] = useState([]);
 
     let socket = useRef(null);
 
+    // 웹소켓 연결을 한 번만 생성
     useEffect(() => {
-        // 웹소켓 연결을 한 번만 생성
         if (!socket.current) {
             socket.current = new WebSocket("ws://localhost:8081/ws/reservation");
 
@@ -88,9 +104,21 @@ export default function RoomReservationStatus(props) {
                 try {
                     // JSON 파싱
                     const data = JSON.parse(event.data);
-                    setReservationList(data);
+                    // console.log(event.data);
                     console.log("↓ 서버로부터 받은 메시지 ↓");
-                    console.log(event.data);
+                    console.log(data);
+                    if("state" in data[0]) {
+                        console.log("지점 번호 가져옴");
+                        setHnoValue(data);
+                    }
+                    if("rono" in data[0] && "rno" in data[0]) {
+                        console.log("지점별 객실 정보 가져옴");
+                        setRoomList(data);
+                    }
+                    if("reno" in data[0]) {
+                        console.log("지점별 예약 정보 가져옴");
+                        setReservationList(data);
+                    }
                 } catch (error) {
                     console.error("JSON 파싱 오류:", error);
                 }
@@ -99,7 +127,9 @@ export default function RoomReservationStatus(props) {
             // 연결 성공 시
             socket.current.onopen = () => {
                 console.log("웹소켓 연결 성공!");
-                socket.current.send("안녕하세요, 서버!");
+                socket.current.send("지점 번호");
+                socket.current.send("선택한 지점:1");
+                socket.current.send("지점 별 예약:1");
             };
 
             // 에러 발생 시
@@ -120,11 +150,40 @@ export default function RoomReservationStatus(props) {
         };
     }, []); // 빈 배열을 넣어 한 번만 실행되도록 설정
 
-    console.log(selectValue);
+    // useEffect(() => {
+    //     if(socket.current) {
+    //         console.log(`지점 별 예약:${selectValue}`);
+    //         socket.current.send(`지점 별 예약:${selectValue}`);
+    //     }
+    // }, [roomList]);
 
-    // 셀렉트 선택 후 찾기 버튼 클릭 시 실행되는 함수
-    const clickEvent = () => {
-        
+    // console.log(selectValue);
+    // console.log("reservationList : ");
+    // console.log(reservationList);
+
+    /** 셀렉트 선택 후 찾기 버튼 클릭 시 실행되는 함수 */
+    const onClickSelect = () => {
+        console.log(`선택한 지점:${selectValue}`);
+        socket.current.send(`선택한 지점:${selectValue}`);
+        console.log(`지점 별 예약:${selectValue}`);
+        socket.current.send(`지점 별 예약:${selectValue}`);
+    }
+
+    /** 지점 번호 문자열로 바꾸기 */
+    const changeHnoString = (hno) => {
+        let str = hno;
+        switch(hno) {
+            case 1:
+                str = hotelBranch[1];
+                break;
+            case 2:
+                str = hotelBranch[2];
+                break;
+            case 3:
+                str = hotelBranch[3];
+                break;
+        }
+        return str;
     }
     
 
@@ -140,11 +199,13 @@ export default function RoomReservationStatus(props) {
                         onChange={(event) => { setSelectValue(event.target.value);}}
                         style={{marginRight : "30px", width : "100px", textAlign : "center", borderRadius : "5px"}}
                     >
-                        <option value={1}>강남점</option>
-                        <option value={2}>중구점</option>
-                        <option value={3}>부평점</option>
+                        {
+                            hnoValue.map((value, index) => {
+                                return <option key={index} value={value.hno}>{changeHnoString(value.hno)}</option>
+                            })
+                        }
                     </select>
-                    <Button variant="contained">찾기</Button>
+                    <Button variant="contained" onClick={onClickSelect}>찾기</Button>
                 </div>
                 <Box 
                     sx={{
@@ -155,9 +216,22 @@ export default function RoomReservationStatus(props) {
                         margin : 3,
                     }}>
                         {
-                            reservationList.map((value, index) => {
+                            roomList.map((value, index) => {
+                                // 가져온 지점별 예약 데이터에서 
                                 return (
-                                    <RoomCard key={index} info={value} />
+                                    <RoomCard 
+                                        key={index} 
+                                        // 생성된 인덱스
+                                        cardIndex={index}
+                                        //
+                                        count={roomList.length}
+                                        // 지점별 방 정보
+                                        info={value} 
+                                        // 지점번호를 문자열로 치환하는 함수
+                                        changeHnoString={changeHnoString}
+                                        // 현재 예약 현황 정보
+                                        reservationList={reservationList}
+                                    />
                                 )
                             })
                         }
@@ -166,26 +240,3 @@ export default function RoomReservationStatus(props) {
         </>
     );
 }
-
-/*
-<Box 
-    sx={{
-        display : "flex", 
-        flexWrap : "wrap",
-        gap : "20px",
-        margin : 3,
-    }}>
-    <RoomCard info={{state : "가능"}}></RoomCard>
-    <RoomCard info={{state : "불가능"}}></RoomCard>
-    <RoomCard info={{state : "가능"}}></RoomCard>
-    <RoomCard info={{state : "불가능"}}></RoomCard>
-    <RoomCard info={{state : "가능"}}></RoomCard>
-    <RoomCard info={{state : "불가능"}}></RoomCard>
-    <RoomCard info={{state : "가능"}}></RoomCard>
-    <RoomCard info={{state : "불가능"}}></RoomCard>
-    <RoomCard info={{state : "가능"}}></RoomCard>
-    <RoomCard info={{state : "불가능"}}></RoomCard>
-    <RoomCard info={{state : "가능"}}></RoomCard>
-    <RoomCard info={{state : "불가능"}}></RoomCard>
-</Box>
-*/

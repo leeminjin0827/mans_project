@@ -22,4 +22,6 @@ public class ReservationDto {
     private String resend;
     // 객실번호
     private int rono;
+    // 객실이름(호실)
+    private String rname;
 } // c end
