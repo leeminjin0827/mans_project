@@ -109,7 +109,7 @@ export default function SignInCard() {
       console.log(response.data);
       if(response.data) {
         alert("로그인 성공");
-        navigate("/oper");
+        navigate("/home");
       } else {
         alert("로그인 실패");
       }
