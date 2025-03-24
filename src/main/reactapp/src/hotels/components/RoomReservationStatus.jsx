@@ -1,7 +1,12 @@
 import { Box, Card, Typography } from "@mui/joy";
 import { Button, Divider } from "@mui/material";
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Sidebar from "./Sidebar";
 import { useEffect, useRef, useState } from "react";
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
 import StaticModal from "./StaticModal";
 import RoomReservationUpdate from "./RoomReservationUpdate";
 
@@ -9,7 +14,7 @@ import RoomReservationUpdate from "./RoomReservationUpdate";
 export function RoomCard(props) {
 
     const info = props.info;
-    const reservationList = props.reservationList;
+    // const reservationValue = props.reservation;
     // #899f6a --> Tendril
     // #b5e9a1 --> Paradise green
     // #d19c97 --> Rose Tan
@@ -19,32 +24,20 @@ export function RoomCard(props) {
     const month = now.getMonth() + 1 < 10 ? "0" + now.getMonth() : now.getMonth();
     const day = now.getDate() + 1 < 10 ? "0" + now.getDate() : now.getDate();
     const startDate = `${year}-${month}-${day}`;
-    let backgroundColor = "#899f6a";
-    const [reservation, setReservation] = useState({});
+    // let backgroundColor = "#899f6a";
+    const [reservation, setReservation] = useState(props.reservation);
     // 예약 수정 모달창 관련 코드
     const [updateModal, setUpdateModal] = useState(false);
 
-    // console.log(reservationList);
-    // for(let index = 0; index < reservationList.length; index++) {
-    //     let temp = reservationList[index];
-    //     if(temp.rname === info.rname) {
-    //         backgroundColor = "#d19c97";
-    //         setReservation(temp);
-    //     }
-    // }
-
-    // const resInfo = reservationList.find((temp) => temp.rname === info.rname));
-
-    if(reservation) {
-        backgroundColor = "#d19c97";
-    }
+    useEffect(() => {
+        setReservation(props.reservation);
+    }, [props.reservation])
 
     // 카드를 클릭 시 실행되는 코드
     const clickCard = () => {
-        alert("클릭");
+        setUpdateModal(true);
     }
-
-
+    
     return (
         <>
             <Card 
@@ -54,11 +47,11 @@ export function RoomCard(props) {
                     flexGrow : 0,
                     flexShrink : 1,
                     flexBasis : "calc(100% / 6 - 20px)",
-                    backgroundColor : backgroundColor,
+                    backgroundColor : props.bgColor,
                     color : "white",
                     cursor : "pointer"
                 }}
-                onClick={() => {setUpdateModal(true);}}
+                onClick={clickCard}
             >
                 <Typography sx={{textAlign : "center", color : "white"}} >{props.changeHnoString(info.hno)} / {info.rname}</Typography>
                 <table border={0} style={{tableLayout : "auto", textAlign : "center"}}>
@@ -97,6 +90,7 @@ export function RoomCard(props) {
                     <RoomReservationUpdate
                         onClose={() => {setUpdateModal(false);}}
                         reservation={reservation}
+                        socket={props.socket}
                     />
                 }
                 onClose={() => {setUpdateModal(false);}}
@@ -123,6 +117,13 @@ export function RoomCard(props) {
 
 export default function RoomReservationStatus(props) {
 
+    // 현재 시간을 저장한 변수
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+    const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+    const now = `${year}-${month}-${day}`;
+
     // 지점명 저장 변수
     let hotelBranch = ["전체", "강남점", "중구점", "부평점"];
     // 예약 테이블에서 가져온 값 저장하는 state
@@ -133,6 +134,10 @@ export default function RoomReservationStatus(props) {
     const [selectValue, setSelectValue] = useState("1");
     // 처음 지점 번호를 가져오는 함수
     const [hnoValue, setHnoValue] = useState([]);
+    // 하위 컴포넌트들을 위한 소켓 인스턴스
+    const [socketInstance, setSocketInstance] = useState(null);
+    // 날짜 검색을 위한 state
+    const [newDate, setNewDate] = useState(now);
 
     let socket = useRef(null);
 
@@ -149,17 +154,20 @@ export default function RoomReservationStatus(props) {
                     // console.log(event.data);
                     console.log("↓ 서버로부터 받은 메시지 ↓");
                     console.log(data);
-                    if("state" in data[0]) {
+                    if(data.length !== 0 && "state" in data[0]) {
                         console.log("지점 번호 가져옴");
                         setHnoValue(data);
                     }
-                    if("rono" in data[0] && "rno" in data[0]) {
+                    if(data.length !== 0 && "rono" in data[0] && "rno" in data[0]) {
                         console.log("지점별 객실 정보 가져옴");
                         setRoomList(data);
                     }
-                    if("reno" in data[0]) {
+                    if(data.length !== 0 && "reno" in data[0]) {
                         console.log("지점별 예약 정보 가져옴");
                         setReservationList(data);
+                    }
+                    if(data.length === 0) {
+                        console.log("빈 배열이 옴");
                     }
                 } catch (error) {
                     console.error("JSON 파싱 오류:", error);
@@ -171,7 +179,8 @@ export default function RoomReservationStatus(props) {
                 console.log("웹소켓 연결 성공!");
                 socket.current.send("지점 번호");
                 socket.current.send("선택한 지점:1");
-                socket.current.send("지점 별 예약:1");
+                socket.current.send(`지점 별 예약:1:${now}`);
+                setSocketInstance(socket.current);
             };
 
             // 에러 발생 시
@@ -192,23 +201,25 @@ export default function RoomReservationStatus(props) {
         };
     }, []); // 빈 배열을 넣어 한 번만 실행되도록 설정
 
-    // useEffect(() => {
-    //     if(socket.current) {
-    //         console.log(`지점 별 예약:${selectValue}`);
-    //         socket.current.send(`지점 별 예약:${selectValue}`);
-    //     }
-    // }, [roomList]);
-
     // console.log(selectValue);
     // console.log("reservationList : ");
     // console.log(reservationList);
 
     /** 셀렉트 선택 후 찾기 버튼 클릭 시 실행되는 함수 */
     const onClickSelect = () => {
+        let selectDate;
+        if(newDate == now) {
+            selectDate = now;
+        } else {
+            const newYear = newDate.$y;
+            const newMonth = newDate.$M < 10 ? "0" + (newDate.$M + 1) : newDate.$M + 1;
+            const newDay = newDate.$D < 10 ? "0" + newDate.$D : newDate.$D;
+            selectDate = `${newYear}-${newMonth}-${newDay}`;
+        }
         console.log(`선택한 지점:${selectValue}`);
         socket.current.send(`선택한 지점:${selectValue}`);
-        console.log(`지점 별 예약:${selectValue}`);
-        socket.current.send(`지점 별 예약:${selectValue}`);
+        console.log(`지점 별 예약:${selectValue}:${selectDate}`);
+        socket.current.send(`지점 별 예약:${selectValue}:${selectDate}`);
     }
 
     /** 지점 번호 문자열로 바꾸기 */
@@ -228,6 +239,7 @@ export default function RoomReservationStatus(props) {
         return str;
     }
     
+    // console.log(newDate);
 
     return (
         <>
@@ -236,10 +248,14 @@ export default function RoomReservationStatus(props) {
                 <h1>객실 사용 현황</h1>
                 <Divider />
                 <div style={{display : "flex", justifyContent : "end", marginTop : "24px", marginRight : "5%"}}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ko">
+                        <DesktopDatePicker format="YYYY-MM-DD" defaultValue={dayjs(now)} onChange={setNewDate} />
+                    </LocalizationProvider>
+                    
                     <select 
                         value={selectValue} 
                         onChange={(event) => { setSelectValue(event.target.value);}}
-                        style={{marginRight : "30px", width : "100px", textAlign : "center", borderRadius : "5px"}}
+                        style={{marginLeft : "30px", marginRight : "30px", width : "100px", textAlign : "center", borderRadius : "5px"}}
                     >
                         {
                             hnoValue.map((value, index) => {
@@ -259,7 +275,20 @@ export default function RoomReservationStatus(props) {
                     }}>
                         {
                             roomList.map((value, index) => {
-                                // 가져온 지점별 예약 데이터에서 
+                                // #899f6a --> Tendril
+                                // #b5e9a1 --> Paradise green
+                                // #d19c97 --> Rose Tan
+                                let bgColor = "#899f6a";
+                                let reservation = {};
+                                for(let index = 0; index < reservationList.length; index++) {
+                                    let temp = reservationList[index];
+                                    if(value.rname === temp.rname) {
+                                        reservation = temp;
+                                        bgColor = "#d19c97";
+                                    }
+                                }
+                                // console.log(reservation);
+                                console.log(bgColor);
                                 return (
                                     <RoomCard 
                                         key={index} 
@@ -272,7 +301,11 @@ export default function RoomReservationStatus(props) {
                                         // 지점번호를 문자열로 치환하는 함수
                                         changeHnoString={changeHnoString}
                                         // 현재 예약 현황 정보
-                                        reservationList={reservationList}
+                                        reservation={reservation}
+                                        // 카드 상태를 위한 배경색
+                                        bgColor={bgColor}
+                                        // 소켓
+                                        socket={socketInstance}
                                     />
                                 )
                             })

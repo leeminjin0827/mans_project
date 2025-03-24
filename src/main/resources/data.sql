@@ -152,9 +152,9 @@ insert into reservation (resname, resphone, resstart, resend, rono) values
 ('황도훈', '010-1232-2345', '2025-03-23', '2025-03-26', 41),
 ('김예린', '010-2342-3456', '2025-03-26', '2025-03-29', 5),
 ('서준호', '010-3452-4567', '2025-03-29', '2025-03-31', 29);
-update reservation set resstart = "2025-03-24", resend = "2025-03-26" where reno = 4;
-update reservation set resstart = "2025-03-24", resend = "2025-03-26" where reno = 11;
-update reservation set resstart = "2025-03-24", resend = "2025-03-26" where reno = 14;
+update reservation set resstart = "2025-03-25", resend = "2025-03-27" where reno = 4;
+update reservation set resstart = "2025-03-25", resend = "2025-03-27" where reno = 11;
+update reservation set resstart = "2025-03-25", resend = "2025-03-27" where reno = 14;
 -- 예약 내역
 
 -- select * from board;

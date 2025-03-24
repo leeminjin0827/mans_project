@@ -92,11 +92,17 @@ public class RoomReservation extends TextWebSocketHandler {
             // 선택한 지점의 예약 내역 정보 보내주기
             else if(payloads[0].equals("지점 별 예약") && payloads[1].matches("\\d")) {
                 int hno = Integer.parseInt(payloads[1]);
-                LocalDateTime now = LocalDateTime.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                String date = now.format(formatter);
-                System.out.println("현재 날짜 = " + date);
-                List<ReservationDto> result = reservationMapper.reservationFind(hno, date);
+//                LocalDateTime now = LocalDateTime.now();
+//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//                String date = now.format(formatter);
+//                System.out.println("현재 날짜 = " + date);
+//                List<ReservationDto> result = reservationMapper.reservationFind(hno, date);
+                List<ReservationDto> result = reservationMapper.reservationFind(hno, payloads[2]);
+                if(result.isEmpty()) {
+                    ReservationDto rd = new ReservationDto();
+                    rd.setReno(0);
+                    result.add(rd);
+                }
                 System.out.println(result);
                 str = mapper.writeValueAsString(result);
             }
