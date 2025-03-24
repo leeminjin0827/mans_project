@@ -13,8 +13,8 @@ import java.util.List;
 @CrossOrigin("http://localhost:5173")
 // http://localhost:8081/room/rating
 // http://localhost:8081/room/rating?rno=#
-// POST { "ratingName" : "#" , "bedCount" : # , "bedType" : "#" , "ratingOption" : "#" }
-// PUT { "rno" : # , "ratingName" : "#" , "bedCount" : # , "bedType" : "#" , "ratingOption" : "#" }
+// POST { "ratingName" : "#" , "bedCount" : # , "bedType" : "#" , "price" : "#" }
+// PUT { "rno" : # , "ratingName" : "#" , "bedCount" : "#" , "bedType" : "#" , "price" : # }
 
 public class RatingController {
 

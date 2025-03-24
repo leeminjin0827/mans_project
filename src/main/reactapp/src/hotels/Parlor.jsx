@@ -114,14 +114,15 @@ export default function ParlorPage( props ){
     console.log( ratingList );
 
     // 객실등급 수정
-    const [ ratingUpdate , setRatingUpdate ] = useState({ rno : '' , rating_name : '' , bed_count : '' , bed_type : '' })
+    const [ ratingUpdate , setRatingUpdate ] = useState({ rno : '' , rating_name : '' , bed_count : '' , bed_type : '' , price : '' })
     const rUpdateInput = async ( rno ) => {
-        const ratingName = prompt("객실등급을 입력하세요.");
+        const ratingName = prompt("변경하실 객실등급명 을 입력하세요.");
         const bedCount = prompt("침대수를 입력하세요.");
         const bedType = prompt("침대의 타입을 입력하세요.");
+        const price = prompt("금액을 입력하세요.");
         if( !rno || !ratingName || !bedCount || !bedType ){ return; }
         try{
-            const response = await axios.put("http://localhost:8081/room/rating" , { rno , ratingName , bedCount , bedType } );
+            const response = await axios.put("http://localhost:8081/room/rating" , { rno , ratingName , bedCount , bedType , price } );
             if( response.data == true ){
                 alert("객실등급을 수정했습니다.");
                 ratingRead();
@@ -438,6 +439,7 @@ export default function ParlorPage( props ){
                                         <th>등급명</th>
                                         <th>침대수</th>
                                         <th>침대종류</th>
+                                        <th>가격</th>
                                         <th>기능</th>
                                     </tr>
                                 </thead>
@@ -450,6 +452,7 @@ export default function ParlorPage( props ){
                                                     <td> { rating.ratingName } </td>
                                                     <td> { rating.bedCount } </td>
                                                     <td> { rating.bedType } </td>
+                                                    <td> { rating.price } </td>
                                                     <td>
                                                         <Button variant="contained" type="button" onClick=  { () => rUpdateInput(rating.rno) }>수정</Button>
                                                         <Button sx={{ marginLeft : '10px'}} variant="contained" type="button" onClick={ () => rDeleteInput(rating.rno) }>삭제</Button>

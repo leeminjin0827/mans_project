@@ -18,6 +18,7 @@ public class RatingDto {
     private int bedCount;
     // 침대유형
     private String bedType;
-    // 가격 추가 예정
+    // 가격
+    private int price;
 
 } // c end

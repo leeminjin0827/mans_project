@@ -6,7 +6,7 @@ import { useState } from "react";
 export default function RatingRegister( props ){
 
     // 객실등급 등록
-    const [ ratingnWrite , setRatingWrite ] = useState( { ratingName : '' , bedCount : '' , bedType : '' } )
+    const [ ratingnWrite , setRatingWrite ] = useState( { ratingName : '' , bedCount : '' , bedType : '' , price : '' } )
     const rChange = (e) => {
         console.log(e.target.name);
         console.log(e.target.value);
@@ -17,7 +17,7 @@ export default function RatingRegister( props ){
             const response = await axios.post("http://localhost:8081/room/rating" , ratingnWrite );
             if( response.data == true ){
                 alert("객실등급을 추가했습니다.");
-                setRatingWrite( { ratingName : '' , bedCount : '' , bedType : '' })
+                setRatingWrite( { ratingName : '' , bedCount : '' , bedType : '' , price : '' })
                 props.ratingRead(); // 새로고침
                 props.onClose(); // 모달 닫기
             }else{
@@ -42,6 +42,10 @@ export default function RatingRegister( props ){
                     <tr>
                         <td> 침대 종류 : </td>
                         <td> <Input onChange={rChange} variant="outlined" type="text" name="bedType" value={ratingnWrite.bedType} /></td>
+                    </tr>
+                    <tr>
+                        <td> 금액 : </td>
+                        <td> <Input onChange={rChange} variant="outlined" type="text" name="price" value={ratingnWrite.price} /></td>
                     </tr>
                 </tbody>
             </table>

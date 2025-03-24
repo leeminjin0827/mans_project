@@ -69,6 +69,8 @@ create table rating(
     bed_count int not null,
     -- 침대유형
     bed_type varchar(30) not null,
+    -- 등급 금액
+    price int not null,
     -- 제공옵션
     constraint primary key(rno)
 );

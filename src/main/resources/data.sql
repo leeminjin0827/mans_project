@@ -39,11 +39,11 @@ insert into options( op_name ) values
 
 
 -- 객실등급 샘플
-INSERT INTO rating (rating_name, bed_count, bed_type) VALUES
-('스탠다드', 1, '싱글'),
-('슈페리어', 1, '더블'),
-('디럭스', 2, '싱글 1개 , 더블 1개'),
-('패밀리', 2, '퀸 1개 + 싱글 1개');
+INSERT INTO rating (rating_name, bed_count, bed_type, price) VALUES
+('스탠다드', 1, '싱글', 200000),
+('슈페리어', 1, '더블', 250000),
+('디럭스', 2, '싱글 1개 , 더블 1개', 300000),
+('패밀리', 2, '퀸 1개 + 싱글 1개', 400000);
 
 insert into room_options (rno, opno) values
 -- (스탠다드)

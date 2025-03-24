@@ -10,7 +10,7 @@ import java.util.List;
 public interface RatingMapper {
 
     // 객실등급 등록 SQL
-    @Insert(" insert into rating( rating_name , bed_count , bed_type ) values ( #{ratingName} , #{bedCount} , #{bedType} ) " )
+    @Insert(" insert into rating( rating_name , bed_count , bed_type , price ) values ( #{ratingName} , #{bedCount} , #{bedType} , #{price} ) " )
     boolean ratingWrite(RatingDto ratingDto );
 
     // 객실등급 전체조회 SQL
@@ -23,7 +23,7 @@ public interface RatingMapper {
     List<RatingDto> ratingList();
 
     // 객실등급 수정 SQL
-    @Update(" update rating set rating_name = #{ratingName} , bed_count = #{bedCount} , bed_type = #{bedType} where rno = #{rno} ")
+    @Update(" update rating set rating_name = #{ratingName} , bed_count = #{bedCount} , bed_type = #{bedType} , price = #{price} where rno = #{rno} ")
     boolean ratingUpdate(RatingDto ratingDto );
 
     // 객실등급 삭제 SQL
