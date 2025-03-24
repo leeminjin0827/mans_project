@@ -22,12 +22,13 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import StarBorder from '@mui/icons-material/StarBorder';
 import AddIcon from '@mui/icons-material/Add';
 import axios from "axios";
+import zIndex from "@mui/material/styles/zIndex";
 
 
 
 const drawerWidth = "15%";
 
-export default function Sidebar(props) {
+export default function Sidebar({setOptionWriteModal,setRatingWriteModal,setRoomOptionWriteModal}) {
 
     // 각 항목에 대한 open 상태 관리
     const [openParlor, setOpenParlor] = React.useState(false);  // 지점별객실관리 항목에 대한 상태
@@ -56,7 +57,7 @@ export default function Sidebar(props) {
 
     return (
         <>
-            <Box >
+            <Box>
                 <Drawer
                 sx={{
                     width: drawerWidth,
@@ -86,13 +87,13 @@ export default function Sidebar(props) {
                             component="nav"
                             aria-labelledby="nested-list-subheader"
                         >
-                            <ListItemButton className="operLink" component={Link} to="/oper">
+                            <ListItemButton id="operLink" component={Link} to="/oper">
                                 <ListItemIcon>
                                     <LocationCityIcon />
                                 </ListItemIcon>
                                 <ListItemText primary="지점관리" />
                             </ListItemButton>
-                            <ListItemButton className="parlorLink" component={Link} to="/parlor" onClick={ () => handleClick('parlor')}>
+                            <ListItemButton id="parlorLink" component={Link} to="/parlor" onClick={ () => handleClick('parlor')}>
                                 <ListItemIcon>
                                     <DoorBackIcon />
                                 </ListItemIcon>
@@ -122,7 +123,7 @@ export default function Sidebar(props) {
                                 </List>
                             </Collapse>
                             {/* 직원 관리 */}
-                            <ListItemButton className="staffLink" component={Link} to="/staff">
+                            <ListItemButton id="staffLink" component={Link} to="/staff">
                                 <ListItemIcon>
                                     <PersonIcon />
                                 </ListItemIcon>
@@ -157,20 +158,6 @@ export default function Sidebar(props) {
                         {/* 사이드 하단 공간 end*/}
                     </div>
                 </Drawer>
-                { /* 본문 공간 start */ }
-                <Box
-                component="main"
-                sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
-                >
-                    <Toolbar />
-                    <Typography sx={{ marginBottom: 2 }}>
-
-                    </Typography>
-                    <Typography sx={{ marginBottom: 2 }}>
-
-                    </Typography>
-                </Box>
-                { /* 본문 공간 end */ }
             </Box>
         </>
     );

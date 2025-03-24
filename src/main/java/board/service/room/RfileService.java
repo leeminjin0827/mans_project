@@ -22,10 +22,12 @@ public class RfileService {
     // [1] 업로드
     public String rFileUpload(MultipartFile multipartFile){
         System.out.println("RfileService.rFileUpload");
+        System.out.println("파일이름 : " + multipartFile.getOriginalFilename());
         // UUID 문자열 생성
         String uuid = UUID.randomUUID().toString();
         // uuid + 파일명 // _ -> -
         String fileName = uuid + "_" + multipartFile.getOriginalFilename().replaceAll("_" , "-");
+        System.out.println(fileName);
         // 업로드 기본경로 + uuid포함된 파일명
         String filePath = uploadPath + fileName;
         // 만일 업로드 경로가 존재하지 않으면 생성

@@ -6,6 +6,7 @@ import board.model.dto.room.RoomOptionDto;
 import board.model.mapper.room.OptionMapper;
 import board.model.mapper.room.RatingMapper;
 import board.model.mapper.room.RoomMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,11 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class RoomService {
 
-    @Autowired
-    private RoomMapper roomMapper;
-    private RfileService rfileService;
+    private final RoomMapper roomMapper;
+    private final RfileService rfileService;
 
     // 객실 등록
     public boolean roomWrite(RoomDto roomDto){
@@ -28,8 +29,10 @@ public class RoomService {
             // 첨부파일 존재여부 검사
             if (roomDto.getRuploadfiles() != null && !roomDto.getRuploadfiles().isEmpty() ) {
                 for(MultipartFile file : roomDto.getRuploadfiles() ){
-                    if( !file.isEmpty() ){ // false : 파일이 있다.
+                    if( !file.isEmpty() ){ // false : 파일이 있다. // true 이면
+                        System.out.println("file : " + file);
                         String filename = rfileService.rFileUpload(file);
+                        System.out.println("filename : " + filename);
                         if( filename != null ){
                             filenames.add(filename);
                         } // if end
