@@ -73,7 +73,7 @@ export default function Sidebar({setOptionWriteModal,setRatingWriteModal,setRoom
                 anchor="left"
                 >
                     <div>
-                        <Toolbar>
+                        <Toolbar sx={{ justifyContent : 'center'}}>
                             <Link to="/home">
                             <img src="/logo2.png" alt="Logo" style={{ maxWidth: '150px' }} />
                             </Link>

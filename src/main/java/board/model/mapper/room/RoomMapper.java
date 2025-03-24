@@ -14,7 +14,7 @@ public interface RoomMapper {
     boolean roomWrite(RoomDto roomDto);
 
     // 객실 전체조회 SQL
-    @Select(" select r.rono, r.rname, r.rno, r.hno, r.staff_number, rt.rating_name, rt.bed_count, rt.bed_type, sno.name, o.op_name from room r " +
+    @Select(" select r.rono, r.rname, r.rno, r.hno, r.staff_number,r.rimg, rt.rating_name, rt.bed_count, rt.bed_type, sno.name, o.op_name from room r " +
             "join rating rt on r.rno = rt.rno " +
             "join operate ope on r.hno = ope.hno " +
             "join staff sno on r.staff_number = sno.staff_number " +
@@ -26,6 +26,7 @@ public interface RoomMapper {
             @Result(property = "rno", column = "rno"),
             @Result(property = "hno", column = "hno"),
             @Result(property = "staffNumber", column = "staff_number"),
+            @Result(property = "rimg", column = "rimg"),
             @Result(property = "ratingName", column = "rating_name"),
             @Result(property = "bedCount", column = "bed_count"),
             @Result(property = "bedType", column = "bed_type"),

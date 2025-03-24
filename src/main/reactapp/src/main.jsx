@@ -17,3 +17,6 @@ root.render(<PermanentDrawerLeft />);
 
 // import SignInCard from './hotels/Login';
 // root.render(<SignInCard />);
+
+// import PictyreList from './hotels/components/room/PictureList';
+// root.render (<PictyreList /> );
