@@ -8,6 +8,7 @@ import OptionRegister from "./components/room/OptionRegister";
 import RoomRatingRegister from "./components/room/RoomRatingRegister";
 import RatingRegister from "./components/room/RatingRegister";
 import RoomRegister from "./components/room/RoomRegister";
+import PictyreList from "./components/room/PictureList";
 
 export default function ParlorPage( props ){
 
@@ -21,19 +22,24 @@ export default function ParlorPage( props ){
     const [roomOptionWriteModal , setRoomOptionWriteModal ] = useState(false);
     // 객실 등록 모달
     const [roomWriteModal , setRoomWriteModal ] = useState(false);
+    // 사진 리스트
+    const [ pList , setPList ] = useState(false);
 
     // 모달 열림/닫힘 상태
     const [omodals , setOmodals ] = useState(false);
     const [rmodals , setRmodals ] = useState(false);
     const [romodals , setRomodals ] = useState(false);
+    const [ pmodals , setPmodals ] = useState(false);
     // 모달 열기
     const oOpenModal = () => { setOmodals(true); }
     const rOpenModal = () => { setRmodals(true); }
     const roOpenModal = () => { setRomodals(true); }
+    const pOpemModal = () => { setPmodals(true); }
     // 모달 닫기
     const oCloseModal = () => { setOmodals(false); }
     const rCloseModal = () => { setRmodals(false); }
     const roCloseModal = () => { setRomodals(false); }
+    const pCloseModal = () => { setPmodals(false); }
 
     // ------------------------------------------------ 옵션 ------------------------------------------------------------------------
     
@@ -215,6 +221,9 @@ export default function ParlorPage( props ){
             setPlzList(filterRooms); 
         }
     } , [selectBranch , roomList ]);
+
+    // 객실사진
+    
 
     // 객실 수정
     const [ roomUpdate , setRoomUpdate ] = useState({ rono : '' , rname : '' , rno : '' , staffNumber : '' })
@@ -543,10 +552,7 @@ export default function ParlorPage( props ){
                                             <td>{room.bedType}</td>
                                             <td>{room.options}</td>
                                             <td>
-                                            <Button variant="contained" type="button" 
-                                            onClick={() => openImageModal(room.rimg, room.rname)}>
-                                                사진보기
-                                            </Button>
+                                                <Button variant="contained" type="button" onClick={pOpemModal}> 사진보기 </Button>
                                             </td>
                                             <td>{room.name}</td>
                                             <td>
@@ -559,6 +565,16 @@ export default function ParlorPage( props ){
                             }
                         </tbody>
                 </Table>
+                <StaticModal 
+                    isOpen={pOpemModal}
+                    onClose={pCloseModal}
+                    title={"객실 사진"}
+                    openData={
+                        <PictyreList
+                            roomList={roomList}
+                        />
+                    }
+                />
             </Box>
             {/* 객실 목록 end */}
             { /* 옵션 등록 모달 */}

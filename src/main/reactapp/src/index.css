@@ -51,6 +51,13 @@ body{
   text-align: center;
   background-color: white;
 }
+.slick-slide{
+  margin:10px;
+}
+.slick-slide img{
+  width:100%;
+  border: 2px solid #fff;
+}
 
 /* #region 기존 */
 
