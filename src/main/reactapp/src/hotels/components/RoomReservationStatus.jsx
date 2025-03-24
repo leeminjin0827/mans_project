@@ -2,6 +2,8 @@ import { Box, Card, Typography } from "@mui/joy";
 import { Button, Divider } from "@mui/material";
 import Sidebar from "./Sidebar";
 import { useEffect, useRef, useState } from "react";
+import StaticModal from "./StaticModal";
+import RoomReservationUpdate from "./RoomReservationUpdate";
 
 
 export function RoomCard(props) {
@@ -11,23 +13,35 @@ export function RoomCard(props) {
     // #899f6a --> Tendril
     // #b5e9a1 --> Paradise green
     // #d19c97 --> Rose Tan
-    // const backgroundColor = info.state == "가능" ? "#899f6a" : "#d19c97";
 
     const now = new Date();
     const year = now.getFullYear();
     const month = now.getMonth() + 1 < 10 ? "0" + now.getMonth() : now.getMonth();
     const day = now.getDate() + 1 < 10 ? "0" + now.getDate() : now.getDate();
     const startDate = `${year}-${month}-${day}`;
-    // const backgroundColor = info.resstart >= startDate ? "#899f6a" : "#d19c97";
     let backgroundColor = "#899f6a";
     const [reservation, setReservation] = useState({});
+    // 예약 수정 모달창 관련 코드
+    const [updateModal, setUpdateModal] = useState(false);
 
     // console.log(reservationList);
-    for(let index = 0; index < reservationList.length; index++) {
-        let temp = reservationList[index];
-        if(temp.rname === info.rname) {
-            backgroundColor = "#d19c97";
-        }
+    // for(let index = 0; index < reservationList.length; index++) {
+    //     let temp = reservationList[index];
+    //     if(temp.rname === info.rname) {
+    //         backgroundColor = "#d19c97";
+    //         setReservation(temp);
+    //     }
+    // }
+
+    // const resInfo = reservationList.find((temp) => temp.rname === info.rname));
+
+    if(reservation) {
+        backgroundColor = "#d19c97";
+    }
+
+    // 카드를 클릭 시 실행되는 코드
+    const clickCard = () => {
+        alert("클릭");
     }
 
 
@@ -41,8 +55,10 @@ export function RoomCard(props) {
                     flexShrink : 1,
                     flexBasis : "calc(100% / 6 - 20px)",
                     backgroundColor : backgroundColor,
-                    color : "white"
+                    color : "white",
+                    cursor : "pointer"
                 }}
+                onClick={() => {setUpdateModal(true);}}
             >
                 <Typography sx={{textAlign : "center", color : "white"}} >{props.changeHnoString(info.hno)} / {info.rname}</Typography>
                 <table border={0} style={{tableLayout : "auto", textAlign : "center"}}>
@@ -74,9 +90,35 @@ export function RoomCard(props) {
                     </tbody>
                 </table>
             </Card>
+            <StaticModal
+                isOpen={updateModal}
+                title={"예약 수정"}
+                openData={
+                    <RoomReservationUpdate
+                        onClose={() => {setUpdateModal(false);}}
+                        reservation={reservation}
+                    />
+                }
+                onClose={() => {setUpdateModal(false);}}
+            />
         </>
     );
 }
+
+/*
+<StaticModal 
+    isOpen={detailModal}
+    title={"직원 정보 상세보기"}
+    openData={
+        <StaffDetail 
+            onClose={() => setDetailModal(false)}
+            staffDetail={staffUpdate}
+        />
+    }
+    onClose={() => {setDetailModal(false)}} 
+/>
+</div>
+*/
 
 
 export default function RoomReservationStatus(props) {
