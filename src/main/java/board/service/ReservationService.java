@@ -1,18 +1,31 @@
 package board.service;
 
 import board.model.dto.ReservationDto;
+import board.model.mapper.ReservationMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
+@RequiredArgsConstructor
 public class ReservationService {
 
-    // 객실 등록
+    private final ReservationMapper reservationMapper;
+
+    // 객실 예약
     public boolean reservationWrite(ReservationDto reservationDto){
-        return true;
+        return reservationMapper.reservationWrite( reservationDto );
     } // f end
     
-    // 객실 조회
+    // 원하는 조건 객실 조회
+    public List<ReservationDto> reservationList( int hno , int rno ){
+        return reservationMapper.reservationList( hno , rno );
+    } // f end
     
-    // 객실 개별조회
+    // 사용자 예약 내역 조회
+    public List<ReservationDto> reservationView( String resname , String resphone ){
+        return reservationMapper.reservationView( resname , resphone );
+    } // f end
     
 } // c end
