@@ -248,12 +248,22 @@ export default function RoomReservationStatus(props) {
     return (
         <>
             <Sidebar />
-            <div className="mainBox">
+            <div className="commonBox">
                 {/* <h1>객실 사용 현황</h1> */}
                 {/* <Divider /> */}
-                <div style={{display : "flex", justifyContent : "end", marginTop : "24px", marginRight : "5%"}}>
+                <div style={{display : "flex", justifyContent : "end", marginTop : "24px", marginRight : "5%", height : "40px"}}>
                     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ko">
-                        <DesktopDatePicker format="YYYY-MM-DD" defaultValue={dayjs(now)} onChange={setNewDate} />
+                        <DesktopDatePicker 
+                            format="YYYY-MM-DD" 
+                            defaultValue={dayjs(now)} 
+                            onChange={setNewDate} 
+                            sx={{
+                                width : "155px",
+                                height : "40px", backgroundColor : "#FFFFFF",
+                                "& .MuiInputBase-root" : {height : "100%"},
+                                "& .MuiOutlinedInput-input" : {padding : "10px"}
+                            }}
+                        />
                     </LocalizationProvider>
                     
                     <select 

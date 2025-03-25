@@ -1,24 +1,14 @@
-
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import MuiCard from '@mui/material/Card';
-import Checkbox from '@mui/material/Checkbox';
-import Divider from '@mui/material/Divider';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
-// import ForgotPassword from './ForgotPassword';
-// import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
 import axios from "axios";
 import { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
-import "../login.css";
-
-
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -121,7 +111,7 @@ export default function SignInCard() {
   // console.log(info);
 
   return (
-    <Card variant="outlined">
+    <Card variant="outlined" sx={{position : "absolute", top : "50%", left : "50%", transform : "translate(-50%, -50%)"}}>
         <Typography component="h1" variant="h4" sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}>
             로그인
         </Typography>
