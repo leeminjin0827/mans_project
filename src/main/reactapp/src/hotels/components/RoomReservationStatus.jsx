@@ -37,7 +37,7 @@ export function RoomCard(props) {
     const clickCard = () => {
         setUpdateModal(true);
     }
-    
+
     return (
         <>
             <Card 
@@ -57,27 +57,27 @@ export function RoomCard(props) {
                 <table border={0} style={{tableLayout : "auto", textAlign : "center"}}>
                     <tbody>
                         <tr>
-                            <td>예약자명 : </td>
+                            <td style={{width : "50%"}}>예약자명 : </td>
                             <td>
-                                <Typography level="title-md" sx={{color : "white"}}>예약자명</Typography>
+                                <Typography level="title-md" sx={{color : "white"}}>{reservation.resname == "" ? "없음" : reservation.resname}</Typography>
                             </td>
                         </tr>
                         <tr>
                             <td>입실날짜 : </td>
                             <td>
-                            <Typography level="title-md" sx={{color : "white"}}>입실날짜</Typography>
+                            <Typography level="title-md" sx={{color : "white"}}>{reservation.resstart == "" ? "없음" : reservation.resstart}</Typography>
                             </td>
                         </tr>
                         <tr>
                             <td>퇴실날짜 : </td>
                             <td>
-                                <Typography level="title-md" sx={{color : "white"}}>퇴실날짜</Typography>
+                                <Typography level="title-md" sx={{color : "white"}}>{reservation.resend == "" ? "없음" : reservation.resend}</Typography>
                             </td>
                         </tr>
                         <tr>
                             <td>사용현황 : </td>
                             <td>
-                                <Typography level="title-md" sx={{color : "white"}}>사용현황</Typography>
+                                <Typography level="title-md" sx={{color : "white"}}>{props.bgColor == "#d19c97" ? "불가능" : "가능"}</Typography>
                             </td>
                         </tr>
                     </tbody>
@@ -85,12 +85,16 @@ export function RoomCard(props) {
             </Card>
             <StaticModal
                 isOpen={updateModal}
-                title={"예약 수정"}
+                title={"예약 수정 및 취소"}
                 openData={
                     <RoomReservationUpdate
                         onClose={() => {setUpdateModal(false);}}
+                        // 예약 정보
                         reservation={reservation}
+                        // 소켓
                         socket={props.socket}
+                        // 지점 정보
+                        hno={props.info.hno}
                     />
                 }
                 onClose={() => {setUpdateModal(false);}}
@@ -245,8 +249,8 @@ export default function RoomReservationStatus(props) {
         <>
             <Sidebar />
             <div className="mainBox">
-                <h1>객실 사용 현황</h1>
-                <Divider />
+                {/* <h1>객실 사용 현황</h1> */}
+                {/* <Divider /> */}
                 <div style={{display : "flex", justifyContent : "end", marginTop : "24px", marginRight : "5%"}}>
                     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ko">
                         <DesktopDatePicker format="YYYY-MM-DD" defaultValue={dayjs(now)} onChange={setNewDate} />
@@ -279,7 +283,11 @@ export default function RoomReservationStatus(props) {
                                 // #b5e9a1 --> Paradise green
                                 // #d19c97 --> Rose Tan
                                 let bgColor = "#899f6a";
-                                let reservation = {};
+                                let reservation = {
+                                    reno : 0, resname : "", resphone : "", resstart : "", resend : "",
+                                    rname : "", rono : 0
+
+                                };
                                 for(let index = 0; index < reservationList.length; index++) {
                                     let temp = reservationList[index];
                                     if(value.rname === temp.rname) {
