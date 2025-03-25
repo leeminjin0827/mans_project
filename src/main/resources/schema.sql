@@ -179,7 +179,7 @@ create table reservationdetail (
     reno int unsigned,
     -- rating 참조
 
-    constraint primary key(rvno)
---    foreign key(reno) references reservation(reno)
+    constraint primary key(rvno),
+    foreign key(reno) references reservation(reno) on update cascade on delete cascade
 
 );
