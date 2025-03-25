@@ -35,7 +35,7 @@ public class UserLoggin {
         return result;
     }
 
-    @Around("execution(* board.service.StaffService.*(..))")
+    @Around("execution(* board.service.staff.StaffService.*(..))")
     public Object timeCheck2(ProceedingJoinPoint joinPoint) throws Throwable {
         // 지정한 함수 시그니처 출력
         System.out.println("[실행 메소드] : " + joinPoint.getSignature());

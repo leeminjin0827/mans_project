@@ -5,23 +5,23 @@
 
 <mapper namespace="board.model.mapper.BoardMapper">
 
-    <insert id="save" parameterType="board.model.dto.BoardDto">
+    <insert id="save" parameterType="board.model.dto.common.BoardDto">
         insert into board(title,content) values(#{title} , #{content});
     </insert>
 
-    <select id="findAll" parameterType="board.model.dto.BoardDto">
+    <select id="findAll" parameterType="board.model.dto.common.BoardDto">
         select * from board;
     </select>
 
-    <select id="find" parameterType="board.model.dto.BoardDto">
+    <select id="find" parameterType="board.model.dto.common.BoardDto">
         select * from board where bno = #{bno};
     </select>
 
-    <update id="update" parameterType="board.model.dto.BoardDto">
+    <update id="update" parameterType="board.model.dto.common.BoardDto">
         update board set title = #{title} , content = #{content} where bno = #{bno};
     </update>
 
-    <delete id="delete" parameterType="board.model.dto.BoardDto">
+    <delete id="delete" parameterType="board.model.dto.common.BoardDto">
         delete from board where bno = #{bno};
     </delete>
 

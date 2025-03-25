@@ -6,9 +6,10 @@ import Operatae from "./Oper";
 import ParlorPage from "./Parlor";
 import StaffPage from "./Staff";
 import SignInCard from "./Login";
+import Home from "./Home";
 import DaumAddress from "./components/staff/DaumAddress";
-import Home from "./home";
-import RoomReservationStatus from "./components/RoomReservationStatus";
+import RoomReservationStatus from "./components/room_reservation/RoomReservationStatus";
+
 
 
 

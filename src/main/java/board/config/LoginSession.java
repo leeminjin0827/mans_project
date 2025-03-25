@@ -1,12 +1,10 @@
 package board.config;
 
-import board.model.dto.StaffDto;
-import jakarta.servlet.http.HttpServletRequest;
+import board.model.dto.staff.StaffDto;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class LoginSession {

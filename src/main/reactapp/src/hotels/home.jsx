@@ -9,8 +9,8 @@ import Table from '@mui/joy/Table';
 
 
 
-export default function Home(props){
-   
+export default function  Home(props){
+    
     useEffect(()=>{rating()},[])
 
    //select hno 가져옴 value에 저장
