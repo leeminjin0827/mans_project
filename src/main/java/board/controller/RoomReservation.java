@@ -13,6 +13,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -92,13 +93,29 @@ public class RoomReservation extends TextWebSocketHandler {
             // 선택한 지점의 예약 내역 정보 보내주기
             else if(payloads[0].equals("지점 별 예약") && payloads[1].matches("\\d")) {
                 int hno = Integer.parseInt(payloads[1]);
-                LocalDateTime now = LocalDateTime.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                String date = now.format(formatter);
-                System.out.println("현재 날짜 = " + date);
-                List<ReservationDto> result = reservationMapper.reservationFind(hno, date);
-                System.out.println(result);
-                str = mapper.writeValueAsString(result);
+                // LocalDateTime now = LocalDateTime.now();
+                // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                // String date = now.format(formatter);
+                // System.out.println("현재 날짜 = " + date);
+                // List<ReservationDto> result = reservationMapper.reservationFind(hno, date);
+                List<ReservationDto> result = reservationMapper.reservationFind(hno, payloads[2]);
+                List<ReservationDto> processedData = new ArrayList<>();
+                for(int index = 0; index < result.size(); index++) {
+                    ReservationDto dto = result.get(index);
+                    LocalDate checkIn = LocalDate.parse(dto.getResstart());
+                    LocalDate nowDate = LocalDate.parse(payloads[2]);
+                    LocalDate checkOut = LocalDate.parse(dto.getResend());
+                    if(!nowDate.isBefore(checkIn) && nowDate.isBefore(checkOut)) {
+                        processedData.add(dto);
+                    }
+                }
+                if(processedData.isEmpty()) {
+                    ReservationDto rd = new ReservationDto();
+                    rd.setReno(0);
+                    processedData.add(rd);
+                }
+                System.out.println(processedData);
+                str = mapper.writeValueAsString(processedData);
             }
         } catch(Exception e) {
             System.out.println(e);

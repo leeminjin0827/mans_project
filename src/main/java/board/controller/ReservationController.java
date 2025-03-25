@@ -35,4 +35,18 @@ public class ReservationController {
         return reservationService.reservationView( resname , resphone );
     } // f end
 
+    /** 예약 수정 */
+    @PutMapping("")
+    public boolean updateReservation(@RequestBody() ReservationDto reservationDto) {
+        boolean result = reservationService.updateReservation(reservationDto);
+        return result;
+    }
+
+    /** 예약 삭제 */
+    @DeleteMapping("")
+    public boolean deleteReservation(@RequestParam(name = "reno") int reno) {
+        boolean result = reservationService.deleteReservation(reno);
+        return result;
+    }
+
 } // c end

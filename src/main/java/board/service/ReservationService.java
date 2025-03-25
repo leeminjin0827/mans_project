@@ -17,7 +17,7 @@ public class ReservationService {
     public boolean reservationWrite(ReservationDto reservationDto){
         return reservationMapper.reservationWrite( reservationDto );
     } // f end
-    
+
     // 원하는 조건 객실 조회
     public List<ReservationDto> reservationList( int hno , int rno ){
         return reservationMapper.reservationList( hno , rno );
@@ -28,4 +28,16 @@ public class ReservationService {
         return reservationMapper.reservationView( resname , resphone );
     } // f end
     
+    /** 예약 수정 */
+    public boolean updateReservation(ReservationDto reservationDto) {
+        boolean result = reservationMapper.updateReservation(reservationDto);
+        return result;
+    }
+
+    /** 예약 삭제 */
+    public boolean deleteReservation(int reno) {
+        boolean result = reservationMapper.deleteReservation(reno);
+        return result;
+    }
+
 } // c end
