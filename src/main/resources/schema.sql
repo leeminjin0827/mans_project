@@ -165,3 +165,21 @@ create table reservation(
     constraint primary key(reno),
     foreign key(rono) references room(rono) on update cascade on delete cascade
 );
+
+create table reservationdetail (
+
+    rvno int unsigned auto_increment,
+    -- 디테일가격pk
+    price int default 0,
+    -- 디테일 가격(변동사항등저장)
+    payment_date date not null,
+    -- 지불날짜
+    detail_state ENUM('정상', '환불', '취소') DEFAULT '정상', -- 상태 저장 (환불 또는 취소)
+    -- 상태저장(환불또는 취소)
+    reno int unsigned,
+    -- rating 참조
+
+    constraint primary key(rvno),
+    foreign key(reno) references reservation(reno)
+
+);
