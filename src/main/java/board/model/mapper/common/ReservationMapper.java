@@ -1,5 +1,6 @@
 package board.model.mapper.common;
 
+import board.model.dto.common.ReservationCheckDto;
 import board.model.dto.oper.OperateDto;
 import board.model.dto.common.ReservationDto;
 import board.model.dto.room.RoomDto;
@@ -20,9 +21,14 @@ public interface ReservationMapper {
             " values ( #{resname} , #{resphone} , #{resstart} , #{resend} , #{rono} )")
     boolean reservationWrite( ReservationDto reservationDto );
 
-    // 원하는 조건 객실 조회
-    @Select("select rono from room where hno = #{hno} and rno = #{rno}")
-    List<ReservationDto> reservationList( int hno , int rno );
+    // 지점 , 객실 등급으로 객실 리스트 조회
+    @Select("select * from room where hno = #{hno} and rno = #{rno}")
+    List<RoomDto> reservationList( @Param("hno") int hno , @Param("rno") int rno );
+
+    // 중복 예약 체크
+    @Select("select * from reservation where hno = #{hno} and rno = #{rno} and " +
+            " ((resstart <= #{resend} and resend >= #{resstart}))")
+    List<ReservationDto>reservationCheck(@Param("hno") int hno , @Param("rno") int rno , @Param("resstart") String resstart , @Param("resend") String resend );
 
     // 사용자 예약 내역 조회
     @Select("select * from reservation where resname = #{resname} and resphone = #{resphone}")

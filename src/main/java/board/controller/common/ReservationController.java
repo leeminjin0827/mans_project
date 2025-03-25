@@ -1,8 +1,12 @@
 package board.controller.common;
 
+import board.model.dto.common.ReservationCheckDto;
 import board.model.dto.common.ReservationDto;
+import board.model.dto.room.RoomDto;
 import board.service.common.ReservationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,20 +22,28 @@ public class ReservationController {
     // [POST] : { "resname" : "#" , "resphone" : "#" , "resstart" : "#" , "resend" : "#" , "rono" : "#" }
     @PostMapping("")
     public boolean reservationWrite(@RequestBody ReservationDto reservationDto ){
-        return reservationService.reservationWrite( reservationDto );
+        // 중복 예약 체크
+        boolean real = reservationService.reservationReal(reservationDto);
+        if( real ){
+            return false;
+        } // if end
+        // 예약 처리
+        boolean result = reservationService.reservationWrite(reservationDto);
+        return result;
+
     } // f end
 
     // 원하는 조건 객실 조회
     // [GET] : http://localhost:8081/reservation?hno=#&rno=#
     @GetMapping("")
-    public List<ReservationDto> reservationList( @RequestParam("hno") int hno , @RequestParam("rno") int rno ){
-        return reservationService.reservationList( hno , rno );
+    public List<ReservationDto> reservationList(@RequestParam int hno , @RequestParam int rno , @RequestParam String resstart , @RequestParam String resend ){
+        return reservationService.reservationList( hno , rno , resstart , resend );
     } // f end
 
     // 사용자 예약 내역 조회
     // [GET] : http://localhost:8081/reservation/view?resname=#&resphone=#
     @GetMapping("/view")
-    public List<ReservationDto> reservationView( @RequestParam("resname") String resname , @RequestParam("resphone") String resphone ){
+    public List<ReservationDto> reservationView( @RequestParam String resname , @RequestParam String resphone ){
         return reservationService.reservationView( resname , resphone );
     } // f end
 
