@@ -1,11 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as React from 'react';
 // mul import
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -19,10 +18,10 @@ import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import StarBorder from '@mui/icons-material/StarBorder';
 import AddIcon from '@mui/icons-material/Add';
+import BallotIcon from '@mui/icons-material/Ballot';
 import axios from "axios";
-import zIndex from "@mui/material/styles/zIndex";
+
 
 
 
@@ -55,9 +54,13 @@ export default function Sidebar({setOptionWriteModal,setRatingWriteModal,setRoom
         }
     }
 
+    const location = useLocation(); // 현재 URL 경로
+    const LinkChange = location.pathname;
+    console.log( LinkChange );
+
     return (
         <>
-            <Box>
+            <Box id="sidebar">
                 <Drawer
                 sx={{
                     width: drawerWidth,
@@ -83,17 +86,23 @@ export default function Sidebar({setOptionWriteModal,setRatingWriteModal,setRoom
 
                         {/* 사이드 상단 공간 */}
                         <List
-                            sx={{ width: '100%', bgcolor: 'background.paper' }}
+                            sx={{ width: '100%', bgcolor: 'background.paper' , padding : '0' }}
                             component="nav"
                             aria-labelledby="nested-list-subheader"
                         >
-                            <ListItemButton id="operLink" component={Link} to="/oper">
+                            <ListItemButton className={`list-item ${LinkChange === '/home' ? 'selected' : ''}`} component={Link} to="/home">
+                                <ListItemIcon>
+                                    <BallotIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="대시보드" />
+                            </ListItemButton>
+                            <ListItemButton className={`list-item ${LinkChange === '/oper' ? 'selected' : ''}`} component={Link} to="/oper">
                                 <ListItemIcon>
                                     <LocationCityIcon />
                                 </ListItemIcon>
                                 <ListItemText primary="지점관리" />
                             </ListItemButton>
-                            <ListItemButton id="parlorLink" component={Link} to="/parlor" onClick={ () => handleClick('parlor')}>
+                            <ListItemButton className={`list-item ${LinkChange === '/parlor' ? 'selected' : ''}`} component={Link} to="/parlor" onClick={ () => handleClick('parlor')}>
                                 <ListItemIcon>
                                     <DoorBackIcon />
                                 </ListItemIcon>
@@ -123,14 +132,14 @@ export default function Sidebar({setOptionWriteModal,setRatingWriteModal,setRoom
                                 </List>
                             </Collapse>
                             {/* 직원 관리 */}
-                            <ListItemButton id="staffLink" component={Link} to="/staff">
+                            <ListItemButton className={`list-item ${LinkChange === '/staff' ? 'selected' : ''}`} component={Link} to="/staff">
                                 <ListItemIcon>
                                     <PersonIcon />
                                 </ListItemIcon>
                                 <ListItemText primary="직원관리" />
                             </ListItemButton>
                             {/* 객실 예약 현황 */}
-                            <ListItemButton component={Link} to="/reservation/room">
+                            <ListItemButton className={`list-item ${LinkChange === '/reservation/room' ? 'selected' : ''}`} component={Link} to="/reservation/room">
                                 <ListItemIcon>
                                     <MonitorIcon />
                                 </ListItemIcon>
@@ -145,7 +154,7 @@ export default function Sidebar({setOptionWriteModal,setRatingWriteModal,setRoom
                     <div>
                     {/* 사이드 하단 공간 */}
                         <Divider /> {/* 사이드바 border */}
-                        <List>
+                        <List sx={{padding: '0'}}>
                             <ListItem disablePadding>
                             <ListItemButton onClick={logout}>
                                 <ListItemIcon>

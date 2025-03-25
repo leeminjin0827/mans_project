@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react"
 import Sidebar from "./components/Sidebar";
 import { Box, Table } from "@mui/joy";
-import { Button, ButtonGroup, Grid, Typography } from "@mui/material";
+import { Button, ButtonGroup } from "@mui/material";
 import StaticModal from "./components/StaticModal";
 import OptionRegister from "./components/room/OptionRegister";
 import RoomRatingRegister from "./components/room/RoomRatingRegister";
@@ -381,13 +381,6 @@ export default function ParlorPage( props ){
             setRoomOptionWriteModal={setRoomOptionWriteModal}
             />
         <div className="mainBox">
-            {/* 버튼 그룹 start */}
-            <ButtonGroup variant="outlined" aria-label="Basic button group">
-                <Button onClick={oOpenModal}>옵션목록</Button>
-                <Button onClick={rOpenModal}>객실등급목록</Button>
-                <Button onClick={ roOpenModal }>객실별옵션목록</Button>
-            </ButtonGroup>
-            {/* 버튼 그룹 end*/}
             {/* 각 목록 start */}
             <div>
                 <StaticModal
@@ -511,18 +504,28 @@ export default function ParlorPage( props ){
             </div>
             {/* 각 목록 end */}
             {/* 객실 목록 start */}
-            <Box style={{marginBottom : '50px' }}>
-                <h3>객실 목록</h3>
-                <div style={{ padding : "0px 10px", display : "flex", justifyContent : "end"}}>
-                    <select style={{marginRight : "50px", width : "7%", textAlign : "center"}}
-                            value={selectBranch}
-                            onChange={selectChange}>
-                        <option value={"0"}>전체</option>
-                        <option value={"1"}>강남점</option>
-                        <option value={"2"}>중구점</option>
-                        <option value={"3"}>부평점</option>
-                    </select>
-                    <Button variant="contained" type="button" onClick={() => setRoomWriteModal(true)}>객실 등록</Button>
+            <Box style={{marginBottom : '50px'}}>
+                <div style={{ marginBottom : '30px' , display : "flex", justifyContent : "space-between"}}>
+                    {/* 버튼 그룹 start */}
+                    <ButtonGroup variant="outlined" aria-label="Basic button group">
+                        <Button sx={{fontWeight : 'bold' }} onClick={oOpenModal} type = 'button'>옵션목록</Button>
+                        <Button sx={{fontWeight : 'bold'}} onClick={rOpenModal} type = 'button'>객실등급목록</Button>
+                        <Button sx={{fontWeight : 'bold'}} onClick={ roOpenModal } type = 'button'>객실별옵션목록</Button>
+                    </ButtonGroup>
+                    {/* 버튼 그룹 end*/}
+                    {/* select 박스 start */}
+                    <div style={{ padding: '0px 10px'}}>
+                        <select style={{marginRight : "50px", padding : '9.75px 21.5px' , textAlign : "center"}}
+                                value={selectBranch}
+                                onChange={selectChange}>
+                            <option value={"0"}>전체</option>
+                            <option value={"1"}>강남점</option>
+                            <option value={"2"}>중구점</option>
+                            <option value={"3"}>부평점</option>
+                        </select>
+                        <Button variant="contained" type="button" onClick={() => setRoomWriteModal(true)}>객실 등록</Button>
+                    </div>
+                    {/* select 박스 end */}
                 </div>
                 <Table id="tableAll" sx={{tableLayout : "auto"}}>
                         <thead>
