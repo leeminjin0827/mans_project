@@ -14,11 +14,15 @@
 } */
 
 body{
-  background-color: #f7f7f7;
+  background-color: #f7f7f7;  
 }
 #root {
   width: 100%;
   height: 100vh;
+}
+#root.user_body{
+  display: block;
+  background-color: white;
 }
 
 .mainBox {
@@ -78,11 +82,93 @@ body{
 }
 /* 사이드 바 */
 
-#user_wrap{
-  display: flex;
-  flex-direction: column;
+#user_body{
+  background-color: white;
+  height: 100%;
+  box-sizing: border-box;
 }
 
+#user_header ,#user_footer{
+  display: flex;
+  justify-content: center;
+}
+#user_header button , #user_footer div{
+  max-width: 250px; 
+}
+#user_header button img , #user_footer div img{
+  width: 100%; display: block; height: 180px;
+}
+.logo_btn{
+  padding: 0; background-color: inherit;
+  border: none;
+}
+#user_function{
+  padding: 85px 0px;
+  background-color: #f0f2f7;
+  border-top: 1px solid #f0f2f7;
+  border-bottom: 1px solid #f0f2f7;
+}
+.button_box{
+  margin: 0 auto; padding: 101px 0px;
+  width: 1280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border-radius: 100px;
+  height : 546px;
+}
+.button_box .user_btn{
+  width: 500px; font-size: 60px; font-weight: bold;
+  background-color: #e7f3fa;
+  color: #051766;
+  border-radius: 20px; 
+  border: 1px solid transparent;
+}
+.button_box .user_btn:not(:first-of-type){
+  margin-top: 94px;
+}
+.button_box .user_btn:hover{
+  background-color: white; border: 1px solid #f0f2f7;
+}
+.button_box .user_btn:focus, .logo_btn:focus ,
+.button_box .user_btn:focus-visible {
+  outline: none;
+} 
+.button_box .user_btn:focus,
+.button_box .user_btn:focus-visible{
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#user_write{
+  height: 100%; border: 1px solid #a1a1a1;
+  padding: 50px; border-radius: 50px;
+}
+#user_write > button{
+  width: 100%; margin-bottom: 40px;
+}
+.user_selectBox{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+}
+.user_day{
+  margin: 40px 0px;
+}
+.user_input div{
+  flex-direction: row;
+  justify-content: space-between;
+}
+.user_input > div:first-of-type{
+  margin-bottom: 20px;
+}
+.user_input div label{
+  margin: auto 0; font-size: 20px;
+}
+.user_input div div input{
+  width: 400px; font-size: 20px;
+}
 
 
 /* #region 기존 */

@@ -22,10 +22,6 @@ root.render(<PermanentDrawerLeft />);
 // import PictyreList from './hotels/components/room/PictureList';
 // root.render (<PictyreList /> );
 
-// 사용자 페이지
-// import User from './hotels/components/user';
-// root.render( <User /> );
-
 // import Graph from './hotels/detailGraph';
 // root.render(<Graph/>);
 

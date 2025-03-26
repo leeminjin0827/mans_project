@@ -1,4 +1,4 @@
-import { BrowserRouter , Route , Routes , Link } from "react-router-dom";
+import { BrowserRouter , Route , Routes , Link, useLocation } from "react-router-dom";
 import * as React from 'react';
 
 // 라우터 연결 import
@@ -9,16 +9,26 @@ import SignInCard from "./Login";
 import Home from "./Home";
 import DaumAddress from "./components/staff/DaumAddress";
 import RoomReservationStatus from "./components/room_reservation/RoomReservationStatus";
+import User from "./User";
+import { useEffect } from "react";
 
+// useLocation를 사용하는 컴포넌트는 BrowserRouter 내부에서 호출되어야 함
+function RouterWrapper(){
+  // 주소창이 /user이 되면 root에 className 부여 
+  // 이유 : root에 flex가 걸려있는데 사용자 페이지는 flex를 안쓰고 싶었음
+  const location = useLocation();
+  
+  useEffect( () => {
+    const root = document.querySelector("#root");
+    if( location.pathname === "/user" ){
+      root.classList.add("user_body");
+    }else{
+      root.classList.remove("user_body");
+    }
+  }, [location]);
 
-
-
-
-export default function PermanentDrawerLeft() {
-  return (
-    <BrowserRouter>
-      {/* <SignInCard /> */}
-      <Routes>
+  return(
+    <Routes>
         <Route path="/" element={<SignInCard />} />
         <Route path="/oper" element={ <Operatae />} />
         <Route path="/parlor" element={ <ParlorPage />} />
@@ -26,7 +36,16 @@ export default function PermanentDrawerLeft() {
         <Route path="/address" element={<DaumAddress />} />
         <Route path="/reservation/room" element={<RoomReservationStatus />} />
         <Route path="/home" element={<Home/>}/>
-      </Routes>
+        <Route path="/user" element={<User />} />
+    </Routes>
+  )
+} // f end
+
+export default function PermanentDrawerLeft() {
+  return (
+    <BrowserRouter>
+      {/* <SignInCard /> */}
+      <RouterWrapper />
     </BrowserRouter>
   );
 }
