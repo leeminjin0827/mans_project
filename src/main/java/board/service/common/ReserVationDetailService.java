@@ -1,5 +1,6 @@
 package board.service.common;
 
+import board.model.dto.common.DetailMainGraphDto;
 import board.model.dto.common.ReserVationDetailDto;
 import board.model.mapper.common.ReserVationDetailMapper;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,15 @@ public class ReserVationDetailService {
 
         List<ReserVationDetailDto> result =reserVationDetailMapper.detailFin();
         System.out.println("result = " + result);
+        return result;
+    }
+
+
+    public DetailMainGraphDto detailChoice(int hno){
+        System.out.println("ReserVationDetailController.detailChoice");
+        System.out.println("hno = " + hno);
+
+        DetailMainGraphDto result = reserVationDetailMapper.detailChoice(hno);
         return result;
     }
 

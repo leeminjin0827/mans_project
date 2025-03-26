@@ -72,6 +72,12 @@ export default function  Home(props){
     }
     console.log(ratings);
 
+    const [choiceGraph , setChoiceGraph] = useState();
+
+    const choice = async () => {await axios.get('')
+        
+    
+    }
    
     useEffect(() => {
         // 컴포넌트가 처음 마운트될 때 hno가 1인 정보 불러오기
