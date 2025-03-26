@@ -95,6 +95,7 @@ create table operate(
     intro longtext,
     state int default 0,
     mimg varchar(255) not null,
+    -- 호텔 사진 이미지
     constraint primary key(hno)
 );
 

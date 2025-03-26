@@ -5,6 +5,7 @@ import Divider from '@mui/joy/Divider';
 import Stack from '@mui/joy/Stack';
 import { Button, Option, Select } from "@mui/joy";
 import Table from '@mui/joy/Table';
+import Graph from "./detailGraph";
 
 
 
@@ -178,27 +179,33 @@ export default function  Home(props){
     </Stack>
     </div>
 
-    <div>
-        <h3>기본객실등급정보</h3>
-        <Table color="primary"
-                    variant="outlined" aria-label="basic table"  style={{width:"1250px"}}>
+        <div>
+            <h3>기본객실등급정보</h3>
+            <Table color="primary"
+                        variant="outlined" aria-label="basic table"  style={{width:"1250px"}}>
+                
+                <thead><tr><th>객실이름</th><th>침실수</th><th>침대타입</th></tr></thead>
             
-            <thead><tr><th>객실이름</th><th>침실수</th><th>침대타입</th></tr></thead>
-        
-        <tbody>
-          {
-           ratings && ratings.map((rating, index)=> {
-                return(<tr>
-                    <td>{rating.ratingName}</td>
-                    <td>{rating.bedCount}</td>
-                    <td>{rating.bedType}</td>
-                </tr>)
-            })
-          }
-           
-        </tbody>
-        </Table>
-    </div>
+            <tbody>
+            {
+            ratings && ratings.map((rating, index)=> {
+                    return(<tr>
+                        <td>{rating.ratingName}</td>
+                        <td>{rating.bedCount}</td>
+                        <td>{rating.bedType}</td>
+                    </tr>)
+                })
+            }
+            
+            </tbody>
+            </Table>
+        </div>
+        <div>
+            <h3> 집계 </h3>
+            <div >
+                <Graph />
+            </div>
+        </div>
     </div>
     </>)
 

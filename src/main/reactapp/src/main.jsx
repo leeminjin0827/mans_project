@@ -12,8 +12,8 @@ import './index.css'
 
 const root = createRoot(document.querySelector("#root"));
 
-// import PermanentDrawerLeft from './hotels/Header';
-// root.render(<PermanentDrawerLeft />);
+import PermanentDrawerLeft from './hotels/Header';
+root.render(<PermanentDrawerLeft />);
 
 // import SignInCard from './hotels/Login';
 // root.render(<SignInCard />);
@@ -26,6 +26,6 @@ const root = createRoot(document.querySelector("#root"));
 // import User from './hotels/components/user';
 // root.render( <User /> );
 
-import Graph from './hotels/DetailGraph';
-root.render(<Graph/>)
+// import Graph from './hotels/detailGraph';
+// root.render(<Graph/>)
 
