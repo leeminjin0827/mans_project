@@ -9,6 +9,7 @@ import SignInCard from "./Login";
 import Home from "./Home";
 import DaumAddress from "./components/staff/DaumAddress";
 import RoomReservationStatus from "./components/room_reservation/RoomReservationStatus";
+import Graph from "./detailGraph";
 
 
 
@@ -26,6 +27,7 @@ export default function PermanentDrawerLeft() {
         <Route path="/address" element={<DaumAddress />} />
         <Route path="/reservation/room" element={<RoomReservationStatus />} />
         <Route path="/home" element={<Home/>}/>
+        <Route path="/graph" element={<Graph/>}/>
       </Routes>
     </BrowserRouter>
   );
