@@ -8,7 +8,9 @@ import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import axios from "axios";
 import { useState } from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login } from './features/LoginSlice';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -29,6 +31,10 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 export default function SignInCard() {
+
+  // 리덕스(전역변수(상태)) 불러오기
+  const dispatch = useDispatch();
+
   const [idError, setIdError] = useState(false);
   const [idErrorMessage, setIdErrorMessage] = useState('');
   const [passwordError, setPasswordError] = useState(false);
@@ -98,8 +104,19 @@ export default function SignInCard() {
       const response = await axios.post("http://localhost:8081/staff/login", info, {withCredentials : true});
       console.log(response.data);
       if(response.data) {
-        alert("로그인 성공");
-        navigate("/home");
+        const response2 = await axios.get("http://localhost:8081/staff/info", {withCredentials : true});
+        console.log(response2.data);
+        if(!(response2.data == null)) {
+          alert("로그인 성공");
+          dispatch(login(response2.data));
+          if(response2.data.staffRank > 0) {
+            navigate("/reservation/room");
+          } else if(response2.data.staffRank == 0) {
+            navigate("/home");
+          }
+        } else {
+          alert("로그인 실패");
+        }
       } else {
         alert("로그인 실패");
       }

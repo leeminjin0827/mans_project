@@ -19,6 +19,21 @@ export default function StaffPage(props) {
     /** 페이지 이동 관련 코드 */
     const navigate = useNavigate();
 
+    /** 접근 권한 확인 하는 함수 */
+    const checkAuthority = async () => {
+        try {
+            const response = await axios.get("http://localhost:8081/staff/authority", {withCredentials : true});
+            const result = response.data;
+            console.log(`result = ${result}`);
+            if(!result) {
+                alert("접근 권한이 없습니다.");
+                navigate(-1);
+            }
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
     // 등록 모달창 관련 코드
     const [openModal, setOpenModal] = useState(false);
     // 수정 모달창 관련 코드
@@ -27,7 +42,10 @@ export default function StaffPage(props) {
     const [detailModal, setDetailModal] = useState(false);
 
     // 출력 관련 state
-    useEffect(() => {staffFindAll()}, []);
+    useEffect(() => {
+        checkAuthority();
+        staffFindAll();
+    }, []);
     const [staffInfoList, setStaffInfoList] = useState([]);
     const staffFindAll = async () => {
         try {

@@ -47,9 +47,9 @@ public class LoginController {
         return loginService.staffLogout(session);
     }
 
-    /** 로그인 상태 가져오기 */
+    /** 로그인 상태 가져오기<br/> 사용안함 */
     @GetMapping("/login/session")
-    public int loginState(HttpServletRequest req) {
+    public StaffDto loginState(HttpServletRequest req) {
         System.out.println("LoginController.loginState");
         System.out.println("req = " + req);
         return loginService.loginState(req);
@@ -58,12 +58,26 @@ public class LoginController {
     /** 내 정보 가져오기 */
     @GetMapping("/info")
     public StaffDto staffInfo(HttpServletRequest req) {
-
         HttpSession session = req.getSession();
         if(session == null) { return null; }
+        // 로그인 성공 시 저장한 loginDto와 로그인 정보를 꺼낸다.
+        StaffDto result = new LoginSession().check(session);
+        // Object object = session.getAttribute("staffDto");
+        // 세션에 저장된 자료들을 모두 Object타입이므로 타입 변환
+        // StaffDto staffDto = (StaffDto)object;
+        System.out.println("여기??");
+        System.out.println("staffDto = " + result);
+        return result;
+    }
 
-
-        return null;
+    /** 권한 인증 */
+    @GetMapping("/authority")
+    public boolean checkAuthority(HttpServletRequest req) {
+        HttpSession session = req.getSession();
+        if(session == null) { return false; }
+        StaffDto result = new LoginSession().check(session);
+        if(result.getStaffRank() == 0) { return true; }
+        else { return false; }
     }
 
 }

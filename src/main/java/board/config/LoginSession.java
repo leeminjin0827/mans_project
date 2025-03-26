@@ -12,12 +12,18 @@ public class LoginSession {
     private final static ArrayList<HttpSession> sessionList = new ArrayList<>();
 
     /** 로그인 정보를 가져오는 함수 */
-    public int check(HttpSession session) {
-        int result = 0;
+    public StaffDto check(HttpSession session) {
+        System.out.println("LoginSession.check");
+        StaffDto result = null;
+        System.out.println("size = " + sessionList.size());
         for(int index = 0; index < sessionList.size(); index++) {
             HttpSession tempSession = sessionList.get(index);
+            System.out.println("tempSession.getAttribute = " + tempSession.getAttribute("staffDto"));
+            System.out.println("session.getId() = " + session.getId());
+            System.out.println("tempSession.getId() = " + tempSession.getId());
             if(session.getId().equals(tempSession.getId())) {
-                result = (Integer)tempSession.getAttribute("loginNumber");
+                System.out.println("여기 어때?");
+                result = (StaffDto)tempSession.getAttribute("staffDto");
             }
         }
         return result;
@@ -58,18 +64,19 @@ public class LoginSession {
     /** 세션 추가 */
     public static boolean addSession(StaffDto staffDto, HttpSession session) {
         System.out.println("LoginSession.addSession");
+        System.out.println("session.getId() = " + session.getId());
         System.out.println("sessionList.size() = " + sessionList.size());
         System.out.println("session.isNew() = " + session.isNew());
         System.out.println("addSession staffDto = " + staffDto + ", session = " + session);
         if(sessionList.isEmpty()) {
-            session.setAttribute("staffInfo", staffDto);
+            session.setAttribute("staffDto", staffDto);
             sessionList.add(session);
             System.out.println("add sessionList.size() = " + sessionList.size());
             return true;
         } else {
             removeSession(staffDto.getStaffNumber());
-            session.setAttribute("staffInfo", staffDto);
-            System.out.println("리무브 후 session.getAttribute = " + session.getAttribute("staffInfo"));
+            session.setAttribute("staffDto", staffDto);
+            System.out.println("리무브 후 session.getAttribute = " + session.getAttribute("staffDto"));
             System.out.println(">> 실행 Start");
             sessionList.add(session);
             System.out.println(">> 실행 End");
@@ -89,7 +96,8 @@ public class LoginSession {
         boolean result = false;
         for(int index = 0; index < sessionList.size(); index++) {
             HttpSession tempSession = sessionList.get(index);
-            StaffDto dto = (StaffDto)tempSession.getAttribute("staffInfo");
+            System.out.println("tempSession.getId() = " + tempSession.getId());
+            StaffDto dto = (StaffDto)tempSession.getAttribute("staffDto");
             System.out.println("dto = " + dto);
             int loginNumber = dto.getStaffNumber();
             System.out.println("loginNumber = " + loginNumber);
@@ -97,7 +105,7 @@ public class LoginSession {
             // 세션의 값과 로그인을 시도한 유저의 번호가 같은지 확인
             if(loginNumber == staffNumber) {
                 System.out.println(">> 세션의 값과 방금 로그인 한 값이 같음을 알려주세요");
-                tempSession.removeAttribute("staffInfo");
+                tempSession.removeAttribute("staffDto");
                 sessionList.remove(tempSession);
                 // 세션 종료
                tempSession.invalidate();
