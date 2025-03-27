@@ -23,5 +23,5 @@ root.render(<PermanentDrawerLeft />);
 // root.render (<PictyreList /> );
 
 // import Graph from './hotels/detailGraph';
-// root.render(<Graph/>);
+// root.render(<Graph/>)
 

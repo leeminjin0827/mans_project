@@ -17,6 +17,8 @@ import DaumAddress from "./components/staff/DaumAddress";
 import RoomReservationStatus from "./components/room_reservation/RoomReservationStatus";
 import User from "./User";
 import { useEffect } from "react";
+import Graph from "./detailGraph";
+
 
 // useLocation를 사용하는 컴포넌트는 BrowserRouter 내부에서 호출되어야 함
 function RouterWrapper(){
@@ -42,6 +44,7 @@ function RouterWrapper(){
         <Route path="/address" element={<DaumAddress />} />
         <Route path="/reservation/room" element={<RoomReservationStatus />} />
         <Route path="/home" element={<Home/>}/>
+        <Route path="/graph" element={<Graph/>}/>
         <Route path="/user" element={<User />} />
     </Routes>
   )

@@ -6,6 +6,7 @@ import Stack from '@mui/joy/Stack';
 import { Button, Option, Select } from "@mui/joy";
 import Table from '@mui/joy/Table';
 import { useNavigate } from "react-router-dom";
+import Graph from "./detailGraph";
 
 
 
@@ -28,7 +29,7 @@ export default function  Home(props){
             console.log(e);
         }
     }
-    
+
     useEffect(()=>{checkAuthority(); rating();},[])
 
    //select hno 가져옴 value에 저장
@@ -90,7 +91,13 @@ export default function  Home(props){
     }
     console.log(ratings);
 
-   
+    const [choiceGraph , setChoiceGraph] = useState();
+
+    const choice = async () => {await axios.get('')
+
+
+    }
+
     useEffect(() => {
         // 컴포넌트가 처음 마운트될 때 hno가 1인 정보 불러오기
         staffone('1');
@@ -190,27 +197,33 @@ export default function  Home(props){
     </Stack>
     </div>
 
-    <div>
-        <h3>기본객실등급정보</h3>
-        <Table color="primary"
-                    variant="outlined" aria-label="basic table"  style={{width:"1250px"}}>
-            
-            <thead><tr><th>객실이름</th><th>침실수</th><th>침대타입</th></tr></thead>
-        
-        <tbody>
-          {
-           ratings && ratings.map((rating, index)=> {
-                return(<tr>
-                    <td>{rating.ratingName}</td>
-                    <td>{rating.bedCount}</td>
-                    <td>{rating.bedType}</td>
-                </tr>)
-            })
-          }
-           
-        </tbody>
-        </Table>
-    </div>
+        <div>
+            <h3>기본객실등급정보</h3>
+            <Table color="primary"
+                        variant="outlined" aria-label="basic table"  style={{width:"1250px"}}>
+
+                <thead><tr><th>객실이름</th><th>침실수</th><th>침대타입</th></tr></thead>
+
+            <tbody>
+            {
+            ratings && ratings.map((rating, index)=> {
+                    return(<tr>
+                        <td>{rating.ratingName}</td>
+                        <td>{rating.bedCount}</td>
+                        <td>{rating.bedType}</td>
+                    </tr>)
+                })
+            }
+
+            </tbody>
+            </Table>
+        </div>
+        <div>
+            <h3> 집계 </h3>
+            <div >
+                <Graph />
+            </div>
+        </div>
     </div>
     </>)
 
