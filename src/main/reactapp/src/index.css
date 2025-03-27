@@ -117,6 +117,7 @@ body{
   background-color: white;
   border-radius: 100px;
   height : 546px;
+  height: 100%;
 }
 .button_box .user_btn{
   width: 500px; font-size: 60px; font-weight: bold;
@@ -126,7 +127,7 @@ body{
   border: 1px solid transparent;
 }
 .button_box .user_btn:not(:first-of-type){
-  margin-top: 94px;
+  margin-top: 300px;
 }
 .button_box .user_btn:hover{
   background-color: white; border: 1px solid #f0f2f7;
@@ -145,8 +146,12 @@ body{
   height: 100%; border: 1px solid #a1a1a1;
   padding: 50px; border-radius: 50px;
 }
-#user_write > button{
+#user_write > button:first-of-type{
   width: 100%; margin-bottom: 40px;
+}
+
+#user_write > button:last-of-type{
+  width: 100%; margin-top: 40px;
 }
 .user_selectBox{
   display: flex;

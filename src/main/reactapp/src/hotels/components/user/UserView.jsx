@@ -21,6 +21,7 @@ export default function UserView({ reservationView }){
                                 <td>{ reservation.resstart }</td>
                                 <td>{ reservation.resend }</td>
                                 <td>
+                                    <Button variant="contained" type="button">수정</Button>
                                     <Button variant="contained" type="button">취소</Button>
                                 </td>
                             </tr>

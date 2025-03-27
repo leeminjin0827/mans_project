@@ -63,6 +63,7 @@ export default function UserWrite( props ){
                     <Input variant="outlined" type="text" disabled />
                 </FormControl>
             </div>
+            <Button variant="contained" type="button">예약등록</Button>
         </form>
     </>)
 }

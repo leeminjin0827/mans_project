@@ -37,7 +37,7 @@ export default function User( props ){
     const [changePage , setChangePage] = useState("menu");
     // logo클릭시 처음화면
     const logoClick = () => {
-        setChangePage("5");
+        setChangePage("3");
     } // f end
 
     const contentBox = () => {
@@ -45,22 +45,16 @@ export default function User( props ){
             case "1":
                 return <UserWrite />;
             case "2":
-                return <UserView reservationView={reservationView} />;
+                return <UserView reservationView={reservationView} />; 
             case "3":
-                return <UserUpdate />;          
-            case "4":
-                return <UserDelete />;   
-            case "5":
                 return(<>
                     <Button onClick={ () => setChangePage("1")} className="user_btn" type="button">호텔예약</Button>
                     <Button onClick={reservationUserView} className="user_btn" type="button">예약조회</Button>
-                    <Button onClick={ () => setChangePage("3")} className="user_btn" type="button">예약수정</Button>
                 </>) 
             default:
                 return(<>
                     <Button onClick={ () => setChangePage("1")} className="user_btn" type="button">호텔예약</Button>
                     <Button onClick={reservationUserView} className="user_btn" type="button">예약조회</Button>
-                    <Button onClick={ () => setChangePage("3")} className="user_btn" type="button">예약수정</Button>
                 </>)
         }
     } // f end
