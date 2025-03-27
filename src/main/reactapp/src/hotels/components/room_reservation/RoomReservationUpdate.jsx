@@ -1,4 +1,4 @@
-import { Divider, Input } from "@mui/joy";
+import { Divider, Input, Option, Select } from "@mui/joy";
 import { Button } from "@mui/material";
 import { useState } from "react";
 import axios from "axios";
@@ -81,8 +81,18 @@ export default function RoomReservationUpdate(props) {
         const newDay = event.$D < 10 ? "0" + event.$D : event.$D;
         setNewEndDate(`${newYear}-${newMonth}-${newDay}`);
     }
+    /** 호실 변경 함수 */
+    const changeRoom = (roomName) => {
+        for(let index = 0; index < props.roomList.length; index++) {
+            let temp = props.roomList[index];
+            if(temp.rname == roomName) {
+                setNewValue({...newValue, rname : roomName, rono : temp.rono})
+            }
+        }
+    }
 
     console.log(reservation);
+    console.log(newValue);
     // console.log(props.socket);
 
     return (
@@ -98,6 +108,25 @@ export default function RoomReservationUpdate(props) {
                         <tr>
                             <td>전화번호 : </td>
                             <td><Input type="text" name="resphone" value={newValue.resphone} onChange={changeInput} /></td>
+                        </tr>
+                        <tr>
+                            <td>호&ensp;&ensp;&ensp;&ensp;실 : </td>
+                            <td>
+                                <Select 
+                                    defaultValue={reservation.rname}
+                                    onChange={(event, roomName) => {changeRoom(roomName);}} 
+                                    slotProps={{listbox : {sx : { zIndex: 1300 }}}}
+                                    style={{width : "100%", height : "2.25rem", borderRadius : "5px"}}
+                                >
+                                    {
+                                        props.roomList.map((value, index) =>{
+                                            return (
+                                                <Option key={index} value={value.rname}>{value.rname}</Option>
+                                            )
+                                        })
+                                    }
+                                </Select>
+                            </td>
                         </tr>
                         <tr>
                             <td>입실날짜 : </td>

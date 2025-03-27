@@ -29,7 +29,7 @@ public class SalesService {
     private final ReserVationDetailMapper rvMapper;
     int count = 1;
 
-    @Scheduled(cron = "*/30 * * * * * ")
+    @Scheduled(cron = "0 0 */1 * * * ")
     public void test() {
         DecimalFormat df = new DecimalFormat("###,###");
         String fileName = "매출.txt";

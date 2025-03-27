@@ -52,7 +52,7 @@ public interface ReservationMapper {
 
     /** 예약 수정 (REST API) */
     @Update("update reservation set " +
-            "resname = #{resname}, resphone = #{resphone}, resstart = #{resstart}, resend = #{resend} " +
+            "resname = #{resname}, resphone = #{resphone}, resstart = #{resstart}, resend = #{resend}, rono = #{rono} " +
             "where reno = #{reno}")
     boolean updateReservation(ReservationDto reservationDto);
 
