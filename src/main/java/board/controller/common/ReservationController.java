@@ -37,6 +37,7 @@ public class ReservationController {
     // [GET] : http://localhost:8081/reservation?hno=#&rno=#
     @GetMapping("")
     public List<ReservationDto> reservationList(@RequestParam int hno , @RequestParam int rno , @RequestParam String resstart , @RequestParam String resend ){
+        System.out.println("GET 요청: hno=" + hno + ", rno=" + rno + ", resstart=" + resstart + ", resend=" + resend);
         return reservationService.reservationList( hno , rno , resstart , resend );
     } // f end
 

@@ -9,8 +9,9 @@ import SignInCard from "./Login";
 import Home from "./Home";
 import DaumAddress from "./components/staff/DaumAddress";
 import RoomReservationStatus from "./components/room_reservation/RoomReservationStatus";
-import User from "./User";
+// import User from "./User";
 import { useEffect } from "react";
+import User from "./User";
 
 // useLocation를 사용하는 컴포넌트는 BrowserRouter 내부에서 호출되어야 함
 function RouterWrapper(){

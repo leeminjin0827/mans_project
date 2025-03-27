@@ -6,8 +6,37 @@ import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import { useState } from "react";
 import { Button } from "@mui/material";
+import axios from "axios";
 
 export default function UserWrite( props ){
+
+
+    // input 상태 관리
+    const [ inputState , setInputState ] = useState(true);
+
+    // 지점 , 객실등급 , 체크인 , 체크아웃 에 적합한 방 조회
+
+    const [ userRoomList , setUserRoomList ] = useState([]);
+    console.log("적합한 방 조회 실행");
+    console.log(userRoomList);
+
+    const userRoomRead = async () => {
+        const hno = prompt("hno"); // 확인용
+        const rno = prompt("rno"); // 확인용
+        const resstart = prompt("resstart"); // 확인용
+        const resend = prompt("resend"); // 확인용
+        try{
+            const response = await axios.get(`http://localhost:8081/reservation?hno=${hno}&rno=${rno}&resstart=${resstart}&resend=${resend}`)
+            if( response.data === null ){
+                setInputState(true);
+            } else{
+                setInputState(false);
+            } // if end
+            setUserRoomList(response.data);
+        }catch( e ) { console.log( e ); }
+    } // f end
+
+    // =============================== 날짜 =============================== //
     const [startDate , setStartDate] = useState(null);
     const [endDate , setEndDate] = useState(null);
 
@@ -51,16 +80,16 @@ export default function UserWrite( props ){
                     />
                 </LocalizationProvider>
             </div>
-            <Button variant="contained" type="button">객실조회 </Button>
+            <Button onClick={userRoomRead} variant="contained" type="button">객실조회 </Button>
             <div className="user_input">
                 <FormControl>
                     <FormLabel>이름</FormLabel>
-                    <Input variant="outlined" type="text" disabled />
+                    <Input variant="outlined" type="text" disabled={inputState} />
                 </FormControl>
 
                 <FormControl style={{ flex: 1 }}>
                     <FormLabel >전화번호</FormLabel>
-                    <Input variant="outlined" type="text" disabled />
+                    <Input variant="outlined" type="text" disabled={inputState} />
                 </FormControl>
             </div>
             <Button variant="contained" type="button">예약등록</Button>

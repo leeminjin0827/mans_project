@@ -12,7 +12,7 @@ import './index.css'
 
 const root = createRoot(document.querySelector("#root"));
 
-import PermanentDrawerLeft from './hotels/Header';
+import PermanentDrawerLeft from './hotels/header';
 root.render(<PermanentDrawerLeft />);
 
 // import SignInCard from './hotels/Login';
