@@ -2,18 +2,37 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Sidebar from "./components/Sidebar";
 import { Box, Button } from "@mui/material";
-import { Table } from "@mui/joy";
+import { Table, Typography } from "@mui/joy";
 import { useNavigate } from "react-router-dom";
 import StaticModal from "./components/StaticModal";
 import StaffRegister from "./components/staff/StaffRegister";
 import StaffUpdate from "./components/staff/StaffUpdate";
 import StaffDetail from "./components/staff/StaffDetail";
 
+import IconButton from '@mui/joy/IconButton';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+
 
 export default function StaffPage(props) {
 
     /** 페이지 이동 관련 코드 */
     const navigate = useNavigate();
+
+    /** 접근 권한 확인 하는 함수 */
+    const checkAuthority = async () => {
+        try {
+            const response = await axios.get("http://localhost:8081/staff/authority", {withCredentials : true});
+            const result = response.data;
+            console.log(`result = ${result}`);
+            if(!result) {
+                alert("접근 권한이 없습니다.");
+                navigate(-1);
+            }
+        } catch(e) {
+            console.log(e);
+        }
+    }
 
     // 등록 모달창 관련 코드
     const [openModal, setOpenModal] = useState(false);
@@ -23,7 +42,10 @@ export default function StaffPage(props) {
     const [detailModal, setDetailModal] = useState(false);
 
     // 출력 관련 state
-    useEffect(() => {staffFindAll()}, []);
+    useEffect(() => {
+        checkAuthority();
+        staffFindAll();
+    }, []);
     const [staffInfoList, setStaffInfoList] = useState([]);
     const staffFindAll = async () => {
         try {
@@ -90,7 +112,7 @@ export default function StaffPage(props) {
 
     // 퇴사 관련 state
     const [staffDelete, setStaffDelete] = useState({endDate : "", resignation : ""});
-    const resignationStaff = async (event, staffNumber) => {
+    const resignationStaff = async (staffNumber) => {
         const state = confirm("정말 퇴사 처리하시겠습니까?");
         if(state) {
             let today = new Date();
@@ -134,6 +156,27 @@ export default function StaffPage(props) {
 
     // console.log(staffUpdate);
     // console.log(selectOption);
+
+    /** 페이징 처리 관련 */
+
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    function labelDisplayedRows({ from, to, count }) {
+        return `${from} - ${to} of ${count !== -1 ? count : `more than ${to}`}`;
+    }
+    const handleChangePage = (newPage) => {
+        setPage(newPage);
+    };
+    const getLabelDisplayedRowsTo = () => {
+        if (staffInfoList.length === -1) {
+          return (page + 1) * rowsPerPage;
+        }
+        return rowsPerPage === -1
+          ? staffInfoList.length
+          : Math.min(staffInfoList.length, (page + 1) * rowsPerPage);
+    };
+
+    /** 페이징 처리 관련 */
 
     // 치환 관련 코드
     /** 직급 관련 함수 */
@@ -216,11 +259,11 @@ export default function StaffPage(props) {
     return (
         <>
             <Sidebar />
-            <div className="mainBox">
-                <div style={{width : "100%"}}>
-                    <h1>직원 관리</h1>
-                    <div style={{ padding : "0px 10px", display : "flex", justifyContent : "end"}}>
-                        <select value={selectOption} onChange={changeOption} style={{marginRight : "50px", width : "7%", textAlign : "center"}}>
+            <div className="commonBox">
+                <div> {/*  style={{width : "100%"}} */}
+                    {/* <h1>직원 관리</h1> */}
+                    <div style={{display : "flex", justifyContent : "end"}}>
+                        <select value={selectOption} onChange={changeOption} style={{marginRight : "50px", width : "7%", textAlign : "center", borderRadius : "5px"}}>
                             <option value={"0"}>전체</option>
                             <option value={"1"}>강남점</option>
                             <option value={"2"}>중구점</option>
@@ -248,9 +291,9 @@ export default function StaffPage(props) {
                                     <th>비고</th>
                                 </tr>
                             </thead>
-                            <tbody border={"1"}>
+                            <tbody style={{width : "100%"}}>
                                 {
-                                    staffInfoList.map((info, index) => {
+                                    staffInfoList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((info, index) => {
                                         return (
                                             <tr key={index} style={{width : "100%"}}>
                                                 <td id={"staffNumber" + info.staffNumber}>{info.staffNumber}</td>
@@ -265,7 +308,7 @@ export default function StaffPage(props) {
                                                 {/* <td>{info.salary}</td> */}
                                                 <td>{changeWorkplace(info.hno)}</td>
                                                 <td>{changeResignationToString(info.resignation)}</td>
-                                                <td style={{width : "100%", padding : "10px", display : "flex", justifyContent : "space-evenly"}}>
+                                                <td style={{padding : "10px", display : "flex", justifyContent : "space-evenly"}}>
                                                     <Button variant="contained" type="button"  sx={{width : "5rem", height : "2.5rem"}} onClick={() => {openUpdateModal(info.staffNumber);}}>수정</Button>
                                                     <Button variant="contained" type="button"  sx={{width : "5rem", height : "2.5rem"}} onClick={(event) => {resignationStaff(event, info.staffNumber);}}>퇴사</Button>
                                                 </td>
@@ -274,6 +317,55 @@ export default function StaffPage(props) {
                                     })
                                 }
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colSpan={9}>
+                                        <Box
+                                            sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 2,
+                                            justifyContent: 'center',
+                                            }}
+                                        >
+                                            
+                                            <Box sx={{ display: 'flex', gap: 1 }}>
+                                                <IconButton
+                                                    size="sm"
+                                                    color="neutral"
+                                                    variant="outlined"
+                                                    disabled={page === 0}
+                                                    onClick={() => handleChangePage(page - 1)}
+                                                    sx={{ bgcolor: 'background.surface' }}
+                                                >
+                                                    <KeyboardArrowLeftIcon />
+                                                </IconButton>
+                                                <Typography sx={{ textAlign : 'center', minWidth : 80, alignContent : "center" }}>
+                                                    {
+                                                        labelDisplayedRows({ 
+                                                            from: staffInfoList.length === 0 ? 0 : page * rowsPerPage + 1, 
+                                                            to: getLabelDisplayedRowsTo(), 
+                                                            count: staffInfoList.length === -1 ? -1 : staffInfoList.length,
+                                                        })
+                                                    }
+                                                </Typography>
+                                                <IconButton
+                                                    size="sm"
+                                                    color="neutral"
+                                                    variant="outlined"
+                                                    disabled={
+                                                        staffInfoList.length !== -1 ? page >= Math.ceil(staffInfoList.length / rowsPerPage) - 1 : false
+                                                    }
+                                                    onClick={() => handleChangePage(page + 1)}
+                                                    sx={{ bgcolor: 'background.surface' }}
+                                                >
+                                                    <KeyboardArrowRightIcon />
+                                                </IconButton>
+                                            </Box>
+                                        </Box>
+                                    </td>
+                                </tr>
+                            </tfoot>
                         </Table>
                     </Box>
                 </div>

@@ -32,7 +32,7 @@ public class LoginService {
     }
 
     /** 로그인 상태 가져오기 */
-    public int loginState(HttpServletRequest req) {
+    public StaffDto loginState(HttpServletRequest req) {
         System.out.println("LoginService.loginState");
         System.out.println("req = " + req);
         return new LoginSession().check(req.getSession());

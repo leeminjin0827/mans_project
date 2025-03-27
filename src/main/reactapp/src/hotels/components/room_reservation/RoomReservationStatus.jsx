@@ -21,7 +21,7 @@ export function RoomCard(props) {
 
     const now = new Date();
     const year = now.getFullYear();
-    const month = now.getMonth() + 1 < 10 ? "0" + now.getMonth() : now.getMonth();
+    const month = now.getMonth() + 1 < 10 ? "0" + (now.getMonth()+1) : now.getMonth()+1;
     const day = now.getDate() + 1 < 10 ? "0" + now.getDate() : now.getDate();
     const startDate = `${year}-${month}-${day}`;
     // let backgroundColor = "#899f6a";
@@ -51,7 +51,9 @@ export function RoomCard(props) {
                     color : "white",
                     cursor : "pointer"
                 }}
-                onClick={clickCard}
+                onClick={() => {
+                    reservation.reno === 0  ? alert("당일 예약이 없습니다.") : clickCard();
+                }}
             >
                 <Typography sx={{textAlign : "center", color : "white"}} >{props.changeHnoString(info.hno)} / {info.rname}</Typography>
                 <table border={0} style={{tableLayout : "auto", textAlign : "center"}}>
@@ -95,6 +97,8 @@ export function RoomCard(props) {
                         socket={props.socket}
                         // 지점 정보
                         hno={props.info.hno}
+                        // 현재 날자
+                        now={startDate}
                     />
                 }
                 onClose={() => {setUpdateModal(false);}}
@@ -181,6 +185,12 @@ export default function RoomReservationStatus(props) {
             // 연결 성공 시
             socket.current.onopen = () => {
                 console.log("웹소켓 연결 성공!");
+                // const date = new Date();
+                // const year = date.getFullYear();
+                // const month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+                // const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+                // const now = `${year}-${month}-${day}`;
+                console.log(now);
                 socket.current.send("지점 번호");
                 socket.current.send("선택한 지점:1");
                 socket.current.send(`지점 별 예약:1:${now}`);
@@ -243,17 +253,28 @@ export default function RoomReservationStatus(props) {
         return str;
     }
     
-    // console.log(newDate);
+    
+    console.log(newDate);
 
     return (
         <>
             <Sidebar />
-            <div className="mainBox">
+            <div className="commonBox">
                 {/* <h1>객실 사용 현황</h1> */}
-                {/* <Divider /> */}
-                <div style={{display : "flex", justifyContent : "end", marginTop : "24px", marginRight : "5%"}}>
+                {/* <Divider /> */} 
+                <div style={{display : "flex", justifyContent : "end", margin : "24px 5% 0px 5%", height : "40px"}}>
                     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ko">
-                        <DesktopDatePicker format="YYYY-MM-DD" defaultValue={dayjs(now)} onChange={setNewDate} />
+                        <DesktopDatePicker 
+                            format="YYYY-MM-DD" 
+                            defaultValue={dayjs(now)} 
+                            onChange={setNewDate} 
+                            sx={{
+                                width : "155px",
+                                height : "40px", backgroundColor : "#FFFFFF",
+                                "& .MuiInputBase-root" : {height : "100%"},
+                                "& .MuiOutlinedInput-input" : {padding : "10px"}
+                            }}
+                        />
                     </LocalizationProvider>
                     
                     <select 
@@ -296,14 +317,12 @@ export default function RoomReservationStatus(props) {
                                     }
                                 }
                                 // console.log(reservation);
-                                console.log(bgColor);
+                                // console.log(bgColor);
                                 return (
                                     <RoomCard 
                                         key={index} 
                                         // 생성된 인덱스
                                         cardIndex={index}
-                                        //
-                                        count={roomList.length}
                                         // 지점별 방 정보
                                         info={value} 
                                         // 지점번호를 문자열로 치환하는 함수

@@ -1,24 +1,16 @@
-
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import MuiCard from '@mui/material/Card';
-import Checkbox from '@mui/material/Checkbox';
-import Divider from '@mui/material/Divider';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
-// import ForgotPassword from './ForgotPassword';
-// import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
 import axios from "axios";
 import { useState } from 'react';
-import {useNavigate} from 'react-router-dom';
-import "../login.css";
-
-
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login } from './features/LoginSlice';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -39,6 +31,10 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 export default function SignInCard() {
+
+  // 리덕스(전역변수(상태)) 불러오기
+  const dispatch = useDispatch();
+
   const [idError, setIdError] = useState(false);
   const [idErrorMessage, setIdErrorMessage] = useState('');
   const [passwordError, setPasswordError] = useState(false);
@@ -108,8 +104,19 @@ export default function SignInCard() {
       const response = await axios.post("http://localhost:8081/staff/login", info, {withCredentials : true});
       console.log(response.data);
       if(response.data) {
-        alert("로그인 성공");
-        navigate("/home");
+        const response2 = await axios.get("http://localhost:8081/staff/info", {withCredentials : true});
+        console.log(response2.data);
+        if(!(response2.data == null)) {
+          alert("로그인 성공");
+          dispatch(login(response2.data));
+          if(response2.data.staffRank > 0) {
+            navigate("/reservation/room");
+          } else if(response2.data.staffRank == 0) {
+            navigate("/home");
+          }
+        } else {
+          alert("로그인 실패");
+        }
       } else {
         alert("로그인 실패");
       }
@@ -121,7 +128,7 @@ export default function SignInCard() {
   // console.log(info);
 
   return (
-    <Card variant="outlined">
+    <Card variant="outlined" sx={{position : "absolute", top : "50%", left : "50%", transform : "translate(-50%, -50%)"}}>
         <Typography component="h1" variant="h4" sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}>
             로그인
         </Typography>

@@ -56,7 +56,6 @@ export default function Sidebar({setOptionWriteModal,setRatingWriteModal,setRoom
 
     const location = useLocation(); // 현재 URL 경로
     const LinkChange = location.pathname;
-    console.log( LinkChange );
 
     return (
         <>

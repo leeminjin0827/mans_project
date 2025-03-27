@@ -4,13 +4,31 @@ import { useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import { Box, Button, Input, Option, Select, Table } from "@mui/joy";
 import {useDaumPostcodePopup} from 'react-daum-postcode'; //daum 주소 검색 관련 hook?
+import { useNavigate } from "react-router-dom";
 
 
 
 export default function Operatae(props){
 
+    const navigate = useNavigate();
 
-    useEffect(() => {onFindAll()}, []) // 처음부터 전체 출력
+    /** 접근 권한 확인 하는 함수 */
+    const checkAuthority = async () => {
+        try {
+            const response = await axios.get("http://localhost:8081/staff/authority", {withCredentials : true});
+            const result = response.data;
+            console.log(`result = ${result}`);
+            if(!result) {
+                alert("접근 권한이 없습니다.");
+                navigate(-1);
+            }
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
+
+    useEffect(() => {checkAuthority(); onFindAll();}, []) // 처음부터 전체 출력
 
     //입력받은 데이터를 저장하는 변수
     const[dataInfo, setDataInfo] = useState({ address : '',hotel_number: '', intro : ''});

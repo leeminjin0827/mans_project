@@ -9,8 +9,28 @@ import RoomRatingRegister from "./components/room/RoomRatingRegister";
 import RatingRegister from "./components/room/RatingRegister";
 import RoomRegister from "./components/room/RoomRegister";
 import PictyreList from "./components/room/PictureList";
+import { useNavigate } from "react-router-dom";
 
 export default function ParlorPage( props ){
+
+    // ------------------------------------------------ 접근권한 ------------------------------------------------------------------------
+    /** 페이지 이동 관련 코드 */
+    const navigate = useNavigate();
+
+    /** 접근 권한 확인 하는 함수 */
+    const checkAuthority = async () => {
+        try {
+            const response = await axios.get("http://localhost:8081/staff/authority", {withCredentials : true});
+            const result = response.data;
+            console.log(`result = ${result}`);
+            if(!result) {
+                alert("접근 권한이 없습니다.");
+                navigate(-1);
+            }
+        } catch(e) {
+            console.log(e);
+        }
+    }
 
     // ------------------------------------------------ 모달 ------------------------------------------------------------------------
 
@@ -45,6 +65,7 @@ export default function ParlorPage( props ){
     
     // 옵션 조회
     useEffect( () => {
+        checkAuthority();
         console.log('옵션조회 실행');
         optionRead();
     } , [] )
