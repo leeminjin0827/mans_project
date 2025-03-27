@@ -244,6 +244,7 @@ export default function RoomReservationStatus(props) {
     }
     
     // console.log(newDate);
+    console.log(roomList);
 
     return (
         <>

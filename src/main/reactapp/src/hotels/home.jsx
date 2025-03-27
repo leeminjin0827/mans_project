@@ -1,4 +1,4 @@
-import { use, useActionState, useEffect, useState } from "react";
+import { cache, use, useActionState, useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import axios from "axios";
 import Divider from '@mui/joy/Divider';
@@ -6,6 +6,9 @@ import Stack from '@mui/joy/Stack';
 import { Button, Option, Select } from "@mui/joy";
 import Table from '@mui/joy/Table';
 import Graph from "./detailGraph";
+import Choice from "./OperGraph";
+// import { BarChart } from '@mui/x-charts/BarChart';
+
 
 
 
@@ -73,12 +76,8 @@ export default function  Home(props){
     }
     console.log(ratings);
 
-    const [choiceGraph , setChoiceGraph] = useState();
-
-    const choice = async () => {await axios.get('')
-        
     
-    }
+
    
     useEffect(() => {
         // 컴포넌트가 처음 마운트될 때 hno가 1인 정보 불러오기
@@ -178,18 +177,18 @@ export default function  Home(props){
             
     </Stack>
     </div>
-
-        <div>
-            <h3>기본객실등급정보</h3>
+    <h3>기본객실등급정보</h3>
+        <div style={{display : 'flex', marginTop: '10px'}}>
+            
             <Table
-                        variant="outlined" aria-label="basic table"  style={{width:"1250px"}}>
+                        variant="outlined" aria-label="basic table"  sx={{width : '500px'}}>
                 
                 <thead><tr><th>객실이름</th><th>침실수</th><th>침대타입</th></tr></thead>
             
             <tbody>
             {
             ratings && ratings.map((rating, index)=> {
-                    return(<tr>
+                    return(<tr key={index}>
                         <td>{rating.ratingName}</td>
                         <td>{rating.bedCount}</td>
                         <td>{rating.bedType}</td>
@@ -199,7 +198,11 @@ export default function  Home(props){
             
             </tbody>
             </Table>
+            <Choice hno={value}/>
+            
         </div>
+        
+        
         <div>
             <h3> 집계 </h3>
             <div >
