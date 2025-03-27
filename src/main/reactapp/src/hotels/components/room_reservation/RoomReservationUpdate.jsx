@@ -65,6 +65,22 @@ export default function RoomReservationUpdate(props) {
     const changeInput = (event) => {
         setNewValue({...newValue, [event.target.name] : event.target.value});
     }
+    /** 입실날짜 변경 함수 */
+    const changeStartDate = (event) => {
+        console.log(event);
+        const newYear = event.$y;
+        const newMonth = event.$M < 10 ? "0" + (event.$M + 1) : event.$M + 1;
+        const newDay = event.$D < 10 ? "0" + event.$D : event.$D;
+        setNewStartDate(`${newYear}-${newMonth}-${newDay}`);
+    }
+    /** 퇴실날짜 변경 함수 */
+    const changeEndDate = (event) => {
+        console.log(event);
+        const newYear = event.$y;
+        const newMonth = event.$M < 10 ? "0" + (event.$M + 1) : event.$M + 1;
+        const newDay = event.$D < 10 ? "0" + event.$D : event.$D;
+        setNewEndDate(`${newYear}-${newMonth}-${newDay}`);
+    }
 
     /** 입실날짜 변경 함수 */
     const changeStartDate = (event) => {

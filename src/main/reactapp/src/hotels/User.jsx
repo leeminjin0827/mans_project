@@ -3,10 +3,7 @@ import '../index.css';
 import UserWrite from "./components/user/UserWrite";
 import { useState } from "react";
 import UserView from "./components/user/UserView";
-import UserUpdate from "./components/user/UserUpdate";
-import UserDelete from "./components/user/UserDelete";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
 
 export default function User( props ){
 

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,19 +27,35 @@ public class ReservationService {
     public List<ReservationDto> reservationList(int hno, int rno, String resstart, String resend) {
         // 객실 조회에 필요한 조건을 DTO로 담아 전달
         List<RoomDto> rooms = reservationMapper.reservationList( hno , rno );
+        System.out.println("================ 전체 객실 ================");
         System.out.println( rooms );
+
+        // 예약이 겹치는 객실 조회
+        System.out.println("reservationCheck() 호출됨!");
+        List<ReservationDto> reservationRooms = reservationMapper.reservationCheck(hno , rno , resstart , resend );
+        System.out.println( "예약이 겹치는 객실 : " + reservationRooms);
+
+        // 예약이 겹치는 객실의 rono 추출
+        Set<Integer> ronoSet = reservationRooms.stream()
+                .map(ReservationDto::getRono)
+                .collect(Collectors.toSet());
+        System.out.println("rono추출 : " + ronoSet );
 
         // 예약 가능한 객실에서 rono 값을 가져와 ReservationDto에 매핑
         List<ReservationDto> reservationDtos = new ArrayList<>();
         for (RoomDto room : rooms) {
-            ReservationDto reservationDto = new ReservationDto();
-            reservationDto.setHno(hno);
-            reservationDto.setRno(rno);
-            reservationDto.setRname(room.getRname());
-            reservationDto.setRono(room.getRono());
-            reservationDtos.add(reservationDto);
+            if( !ronoSet.contains(room.getRono())) {
+                ReservationDto reservationDto = new ReservationDto();
+                reservationDto.setHno(hno);
+                reservationDto.setRno(rno);
+                reservationDto.setRname(room.getRname());
+                reservationDto.setRono(room.getRono());
+                reservationDtos.add(reservationDto);
+            } // if end
         } // for end
+        System.out.println( "걸러진객실 : " + reservationDtos );
         return reservationDtos;
+
     } // f end
 
     public boolean reservationReal(ReservationDto reservationDto){

@@ -14,8 +14,8 @@ export default function UserView({ reservationView }){
                 {
                     reservationView.map( ( reservation , i ) => {
                         return(
-                            <tr key={ reservation.reno }>
-                                <td>{ i }</td>
+                            <tr key={ i }>
+                                <td>{ reservation.reno }</td>
                                 <td>{ reservation.resname }</td>
                                 <td>{ reservation.resphone }</td>
                                 <td>{ reservation.resstart }</td>

@@ -137,7 +137,7 @@ export default function RoomReservationStatus(props) {
     // 예약 테이블에서 가져온 값 저장하는 state
     const [reservationList, setReservationList] = useState([]);
     // 객실 목록 테이블에서 가져온 값을 저장하는 state
-    const [roomList, setRoomList] = useState([]);
+    const [roomList, setroomList] = useState([]);
     // 셀렉트 값이 변경될 때 마다 값을 저장하는 state
     const [selectValue, setSelectValue] = useState("1");
     // 처음 지점 번호를 가져오는 함수
@@ -168,7 +168,7 @@ export default function RoomReservationStatus(props) {
                     }
                     if(data.length !== 0 && "rono" in data[0] && "rno" in data[0]) {
                         console.log("지점별 객실 정보 가져옴");
-                        setRoomList(data);
+                        setroomList(data);
                     }
                     if(data.length !== 0 && "reno" in data[0]) {
                         console.log("지점별 예약 정보 가져옴");
