@@ -65,7 +65,6 @@ export default function RoomReservationUpdate(props) {
     const changeInput = (event) => {
         setNewValue({...newValue, [event.target.name] : event.target.value});
     }
-
     /** 입실날짜 변경 함수 */
     const changeStartDate = (event) => {
         console.log(event);

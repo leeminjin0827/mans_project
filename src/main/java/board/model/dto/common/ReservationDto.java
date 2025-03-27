@@ -24,4 +24,12 @@ public class ReservationDto {
     private int rono;
     // 객실이름(호실)
     private String rname;
+    // 매출번호
+    private int rvno;
+    // 가격
+    private int price;
+    // 예약일
+    private String payment_date;
+    // 상태
+    private String detail_state;
 } // c end
