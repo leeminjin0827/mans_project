@@ -11,5 +11,7 @@ public class ReserVationDetailDto {
     private String payment_date;
     private String detail_state;
     private int reno;
+    private String FULLPRICE;
+    private int monthprice;
 
 }
