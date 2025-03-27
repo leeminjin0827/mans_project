@@ -94,7 +94,7 @@ export default function  Home(props){
     <Sidebar />
     <div className="mainBox">
     <div>
-        <Stack spacing={2} direction="row" size="sm" sx={{width : "600px" , padding : "10px" }} >
+        <Stack spacing={2} direction="row" size="sm" sx={{width : "600px" , padding : "10px" , }} >
         <Select name="지역선택" value={value} onChange={(e, newvalue) => {valueChanege(e, newvalue)}} >
         <Option value="1">강남구</Option>
         <Option value="2">중구</Option>
@@ -124,7 +124,7 @@ export default function  Home(props){
                       
                      
                    
-                    <Table  color="primary"
+                    <Table  
                     variant="outlined" aria-label="basic table" style={{width:"350px"}}>
                        
                     <tbody>
@@ -152,7 +152,7 @@ export default function  Home(props){
         { stappas && stappas.map((stapp, index) => {
 
             return(<>           
-            <Table  color="primary"
+            <Table  
   variant="outlined" aria-label="basic table" style={{width:"350px"}}  sx={{
     "--Table-headerUnderlineThickness": "10000px"
   }}>
@@ -181,7 +181,7 @@ export default function  Home(props){
 
         <div>
             <h3>기본객실등급정보</h3>
-            <Table color="primary"
+            <Table
                         variant="outlined" aria-label="basic table"  style={{width:"1250px"}}>
                 
                 <thead><tr><th>객실이름</th><th>침실수</th><th>침대타입</th></tr></thead>

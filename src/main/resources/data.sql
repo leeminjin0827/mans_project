@@ -189,17 +189,16 @@ INSERT INTO reservationdetail (price, payment_date, detail_state, reno) VALUES
 (400000, '2025-03-22', '정상', 27),
 (200000, '2025-03-25', '정상', 28),
 (200000, '2025-03-28', '정상', 29),
-(300000, '2025-03-30', '정상', 30),
+(300000, '2025-03-30', '정상', 30);
 
 
 
 -- select * from board;
 -- select * from senter;
---select * from user;
+-- select * from user;
 select * from options;
 select * from rating;
 select * from room;
 select * from operate;
 select * from staff;
 select * from commute;
-select * from reservationdetail;

@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface ReserVationDetailMapper {
 
-    @Select("select date_format(payment_date, '%Y-%m') as FULLPRICE, SUM(price) AS monthprice from reservationdetail group by FULLPRICE order by FULLPRICE;")
+    @Select("select date_format(payment_date, '%Y-%m') as FULLPRICE, SUM(price) AS monthprice from reservationdetail group by FULLPRICE order by FULLPRICE")
     public List<ReserVationDetailDto> detailFin();
 
 
