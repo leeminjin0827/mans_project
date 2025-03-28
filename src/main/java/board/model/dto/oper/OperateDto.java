@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class OperateDto {
 
     private int hno;
+    private String hname;
     private String address;
     private  String hotel_number;
     private String intro;

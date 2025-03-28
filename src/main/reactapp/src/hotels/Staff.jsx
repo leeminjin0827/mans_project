@@ -44,6 +44,7 @@ export default function StaffPage(props) {
     // 출력 관련 state
     useEffect(() => {
         checkAuthority();
+        hnoFindAll();
         staffFindAll();
     }, []);
     const [staffInfoList, setStaffInfoList] = useState([]);
@@ -130,6 +131,24 @@ export default function StaffPage(props) {
             } catch(e) {
                 console.log(e);
             }
+        }
+    }
+
+    // 지점 번호 가져오기
+    const [workplace, setWorkplace] = useState([]);
+    const hnoFindAll = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8081/director`);
+            const result = response.data;
+            console.log(result);
+            const temp = [{hno : 0, hname : "전체"}];
+            for(let index = 0; index < result.length; index++) {
+                temp.push(result[index]);
+                // console.log(temp);
+            }
+            setWorkplace(temp);
+        } catch(e) {
+            console.log(e);
         }
     }
 
@@ -242,7 +261,7 @@ export default function StaffPage(props) {
         }
         return result;
     }
-    // 퇴사 상태를 문자열로 변환
+    /** 퇴사 상태를 문자열로 변환 */
     const changeResignationToString = (resignation) => {
         let str;
         switch(resignation) {
@@ -264,10 +283,13 @@ export default function StaffPage(props) {
                     {/* <h1>직원 관리</h1> */}
                     <div style={{display : "flex", justifyContent : "end"}}>
                         <select value={selectOption} onChange={changeOption} style={{marginRight : "50px", width : "7%", textAlign : "center", borderRadius : "5px"}}>
-                            <option value={"0"}>전체</option>
-                            <option value={"1"}>강남점</option>
-                            <option value={"2"}>중구점</option>
-                            <option value={"3"}>부평점</option>
+                            {
+                                workplace.map((value, index) => {
+                                    return (
+                                        <option key={index} value={value.hno}>{value.hname}</option>
+                                    )
+                                })
+                            }
                         </select>
                         <Button variant="contained" onClick={() => {setOpenModal(true)}}>직원 등록</Button>
                     </div>

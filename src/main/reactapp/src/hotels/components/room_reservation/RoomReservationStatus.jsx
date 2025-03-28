@@ -17,6 +17,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 export function RoomCard(props) {
 
     const info = props.info;
+    const hnoInfo = props.hnoInfo;
     // const reservationValue = props.reservation;
     // #899f6a --> Tendril
     // #b5e9a1 --> Paradise green
@@ -40,7 +41,7 @@ export function RoomCard(props) {
     const clickCard = () => {
         setUpdateModal(true);
     }
-
+    // console.log(hnoInfo);
     return (
         <>
             <Card 
@@ -58,7 +59,7 @@ export function RoomCard(props) {
                     reservation.reno === 0  ? alert("당일 예약이 없습니다.") : clickCard();
                 }}
             >
-                <Typography sx={{textAlign : "center", color : "white"}} >{props.changeHnoString(info.hno)} / {info.rname}</Typography>
+                <Typography sx={{textAlign : "center", color : "white"}} >{props.hnoInfo.hname} / {info.rname}</Typography>
                 <table border={0} style={{tableLayout : "auto", textAlign : "center"}}>
                     <tbody>
                         <tr>
@@ -138,7 +139,7 @@ export default function RoomReservationStatus(props) {
     const now = `${year}-${month}-${day}`;
 
     // 지점명 저장 변수
-    let hotelBranch = ["전체", "강남점", "중구점", "부평점"];
+    // let hotelBranch = ["전체", "강남점", "중구점", "부평점"];
     // 예약 테이블에서 가져온 값 저장하는 state
     const [reservationList, setReservationList] = useState([]);
     // 객실 목록 테이블에서 가져온 값을 저장하는 state
@@ -224,11 +225,30 @@ export default function RoomReservationStatus(props) {
         if(newDate == now) {
             selectDate = now;
         } else {
-            const newYear = newDate.$y;
-            const newMonth = newDate.$M < 10 ? "0" + (newDate.$M + 1) : newDate.$M + 1;
-            const newDay = newDate.$D < 10 ? "0" + newDate.$D : newDate.$D;
-            selectDate = `${newYear}-${newMonth}-${newDay}`;
+            selectDate = changeDateFormat(0);
         }
+        console.log(`선택한 지점:${selectValue}`);
+        socket.current.send(`선택한 지점:${selectValue}`);
+        console.log(`지점 별 예약:${selectValue}:${selectDate}`);
+        socket.current.send(`지점 별 예약:${selectValue}:${selectDate}`);
+    }
+    /** 셀렉트한 날짜 포멧 변경 함수 */
+    const changeDateFormat = (count) => {
+        dayjs.locale("ko");
+        let tempDate = dayjs(newDate);
+        // console.log("변경 전:", tempDate.format("YYYY-MM-DD"));
+        if(count === 1) {
+            tempDate = tempDate.add(1, "day"); 
+        } else if(count == -1) {
+            tempDate = tempDate.subtract(1, "day");
+        }
+        setNewDate(tempDate);
+        // console.log("변경 후:", tempDate.format("YYYY-MM-DD"));
+        return tempDate.format("YYYY-MM-DD");
+    }
+    /** 일자를 이동하는 함수 */
+    const changeDate = (count) => {
+        const selectDate = changeDateFormat(count);
         console.log(`선택한 지점:${selectValue}`);
         socket.current.send(`선택한 지점:${selectValue}`);
         console.log(`지점 별 예약:${selectValue}:${selectDate}`);
@@ -236,21 +256,21 @@ export default function RoomReservationStatus(props) {
     }
 
     /** 지점 번호 문자열로 바꾸기 */
-    const changeHnoString = (hno) => {
-        let str = hno;
-        switch(hno) {
-            case 1:
-                str = hotelBranch[1];
-                break;
-            case 2:
-                str = hotelBranch[2];
-                break;
-            case 3:
-                str = hotelBranch[3];
-                break;
-        }
-        return str;
-    }
+    // const changeHnoString = (hno) => {
+    //     let str = hno;
+    //     switch(hno) {
+    //         case 1:
+    //             str = hotelBranch[1];
+    //             break;
+    //         case 2:
+    //             str = hotelBranch[2];
+    //             break;
+    //         case 3:
+    //             str = hotelBranch[3];
+    //             break;
+    //     }
+    //     return str;
+    // }
     
     // console.log(newDate);
 
@@ -258,13 +278,11 @@ export default function RoomReservationStatus(props) {
         <>
             <Sidebar />
             <div className="commonBox">
-                {/* <h1>객실 사용 현황</h1> */}
-                {/* <Divider /> */}
                 <div style={{display : "flex", justifyContent : "end", margin : "24px 5% 0px 5%", height : "40px"}}>
                     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ko">
                         <DesktopDatePicker
                             format="YYYY-MM-DD"
-                            defaultValue={dayjs(now)}
+                            value={dayjs(newDate)}
                             onChange={setNewDate}
                             sx={{
                                 width : "155px",
@@ -282,7 +300,7 @@ export default function RoomReservationStatus(props) {
                     >
                         {
                             hnoValue.map((value, index) => {
-                                return <option key={index} value={value.hno}>{changeHnoString(value.hno)}</option>
+                                return <option key={index} value={value.hno}>{value.hname}</option>
                             })
                         }
                     </select>
@@ -307,6 +325,12 @@ export default function RoomReservationStatus(props) {
                                     rname : "", rono : 0
 
                                 };
+                                let hnoInfo = {};
+                                for(let index = 0; index < hnoValue.length; index++) {
+                                    if(value.hno == hnoValue[index].hno) {
+                                        hnoInfo = hnoValue[index];
+                                    }
+                                }
                                 for(let index = 0; index < reservationList.length; index++) {
                                     let temp = reservationList[index];
                                     if(value.rname === temp.rname) {
@@ -316,6 +340,7 @@ export default function RoomReservationStatus(props) {
                                 }
                                 // console.log(reservation);
                                 // console.log(bgColor);
+                                // console.log(hnoInfo);
                                 return (
                                     <RoomCard 
                                         key={index} 
@@ -326,7 +351,8 @@ export default function RoomReservationStatus(props) {
                                         // 지점별 전체 객실 정보
                                         roomList={roomList}
                                         // 지점번호를 문자열로 치환하는 함수
-                                        changeHnoString={changeHnoString}
+                                        // changeHnoString={changeHnoString}
+                                        hnoInfo={hnoInfo}
                                         // 현재 예약 현황 정보
                                         reservation={reservation}
                                         // 카드 상태를 위한 배경색
@@ -342,10 +368,7 @@ export default function RoomReservationStatus(props) {
                     size="lg"
                     color="neutral"
                     variant="outlined"
-                    // disabled={
-                    //     staffInfoList.length !== -1 ? page >= Math.ceil(staffInfoList.length / rowsPerPage) - 1 : false
-                    // }
-                    onClick={() => handleChangePage(page + 1)}
+                    onClick={() => changeDate(-1)}
                     sx={{position : "fixed", top : "51%", left : "3%", bgcolor: 'background.surface' }}
                 >
                     <KeyboardArrowLeftIcon />
@@ -354,10 +377,7 @@ export default function RoomReservationStatus(props) {
                     size="lg"
                     color="neutral"
                     variant="outlined"
-                    // disabled={
-                    //     staffInfoList.length !== -1 ? page >= Math.ceil(staffInfoList.length / rowsPerPage) - 1 : false
-                    // }
-                    onClick={() => handleChangePage(page + 1)}
+                    onClick={() => changeDate(1)}
                     sx={{position : "fixed", top : "51%", right : "3%", bgcolor: 'background.surface' }}
                 >
                     <KeyboardArrowRightIcon />
