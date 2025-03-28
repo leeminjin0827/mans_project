@@ -50,7 +50,7 @@ export default function StaffPage(props) {
     const staffFindAll = async () => {
         try {
             const response = await axios.get("http://localhost:8081/staff");
-            // console.log(response.data);
+            console.log(response.data);
             setStaffInfoList(response.data);
         } catch(e) {
             console.log(e);
@@ -113,7 +113,7 @@ export default function StaffPage(props) {
     // 퇴사 관련 state
     const [staffDelete, setStaffDelete] = useState({endDate : "", resignation : ""});
     const resignationStaff = async (staffNumber) => {
-        const state = confirm("정말 퇴사 처리하시겠습니까?");
+        const state = confirm("정말 퇴사 처리하시겠습니까?" + staffNumber);
         if(state) {
             let today = new Date();
             let now = `${today.getFullYear()}-${today.getMonth()+1 < 10 ? `0${today.getMonth()+1}` : today.getMonth()+1}-${today.getDate() < 10 ? `0${today.getDate()}` : today.getDate()}`;
@@ -310,7 +310,7 @@ export default function StaffPage(props) {
                                                 <td>{changeResignationToString(info.resignation)}</td>
                                                 <td style={{padding : "10px", display : "flex", justifyContent : "space-evenly"}}>
                                                     <Button variant="contained" type="button"  sx={{width : "5rem", height : "2.5rem"}} onClick={() => {openUpdateModal(info.staffNumber);}}>수정</Button>
-                                                    <Button variant="contained" type="button"  sx={{width : "5rem", height : "2.5rem"}} onClick={(event) => {resignationStaff(event, info.staffNumber);}}>퇴사</Button>
+                                                    <Button variant="contained" type="button"  sx={{width : "5rem", height : "2.5rem"}} onClick={() => {resignationStaff(info.staffNumber);}}>퇴사</Button>
                                                 </td>
                                             </tr>
                                         );
