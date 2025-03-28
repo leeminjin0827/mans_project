@@ -9,6 +9,9 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import StaticModal from "../StaticModal";
 import RoomReservationUpdate from "./RoomReservationUpdate";
+import IconButton from '@mui/joy/IconButton';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 
 
 export function RoomCard(props) {
@@ -97,7 +100,9 @@ export function RoomCard(props) {
                         socket={props.socket}
                         // 지점 정보
                         hno={props.info.hno}
-                        // 현재 날자
+                        // 지점별 전체 객실 정보
+                        roomList={props.roomList}
+                        // 현재 날짜
                         now={startDate}
                     />
                 }
@@ -318,6 +323,8 @@ export default function RoomReservationStatus(props) {
                                         cardIndex={index}
                                         // 지점별 방 정보
                                         info={value} 
+                                        // 지점별 전체 객실 정보
+                                        roomList={roomList}
                                         // 지점번호를 문자열로 치환하는 함수
                                         changeHnoString={changeHnoString}
                                         // 현재 예약 현황 정보
@@ -331,6 +338,30 @@ export default function RoomReservationStatus(props) {
                             })
                         }
                 </Box>
+                <IconButton
+                    size="lg"
+                    color="neutral"
+                    variant="outlined"
+                    // disabled={
+                    //     staffInfoList.length !== -1 ? page >= Math.ceil(staffInfoList.length / rowsPerPage) - 1 : false
+                    // }
+                    onClick={() => handleChangePage(page + 1)}
+                    sx={{position : "fixed", top : "51%", left : "3%", bgcolor: 'background.surface' }}
+                >
+                    <KeyboardArrowLeftIcon />
+                </IconButton>
+                <IconButton
+                    size="lg"
+                    color="neutral"
+                    variant="outlined"
+                    // disabled={
+                    //     staffInfoList.length !== -1 ? page >= Math.ceil(staffInfoList.length / rowsPerPage) - 1 : false
+                    // }
+                    onClick={() => handleChangePage(page + 1)}
+                    sx={{position : "fixed", top : "51%", right : "3%", bgcolor: 'background.surface' }}
+                >
+                    <KeyboardArrowRightIcon />
+                </IconButton>
             </div>
         </>
     );

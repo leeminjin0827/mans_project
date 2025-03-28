@@ -36,10 +36,16 @@ public interface ReservationMapper {
 
 
     /** 지점별 예약 내역 조회 (소켓) */
+    /*
     @Select("select re.*, ro.* from reservation as re " +
             "inner join room as ro " +
             "on re.rono = ro.rono " +
             "where hno = #{hno}")
+     */
+    @Select("select re.*, r.rvno, r.price, r.payment_date, r.detail_state, ro.* from reservation as re " +
+            "inner join reservationdetail as r on re.reno = r.reno " +
+            "inner join room as ro on re.rono = ro.rono " +
+            "where ro.hno = #{hno} and detail_state = '정상';")
     List<ReservationDto> reservationFind(@Param("hno") int hno, @Param("date") String date);
 
     /** 지점별 객실 조회 (소켓) */
@@ -52,12 +58,13 @@ public interface ReservationMapper {
 
     /** 예약 수정 (REST API) */
     @Update("update reservation set " +
-            "resname = #{resname}, resphone = #{resphone}, resstart = #{resstart}, resend = #{resend} " +
+            "resname = #{resname}, resphone = #{resphone}, resstart = #{resstart}, resend = #{resend}, rono = #{rono} " +
             "where reno = #{reno}")
     boolean updateReservation(ReservationDto reservationDto);
 
-    /** 예약 삭제 */
-    @Delete("delete from reservation where reno = #{reno}")
+    /** 예약 삭제/취소 (REST API) */
+    // @Delete("delete from reservation where reno = #{reno}")
+    @Delete("update reservationdetail set detail_state = '취소' where reno = #{reno};")
     boolean deleteReservation(@Param("reno") int reno);
 
 }
