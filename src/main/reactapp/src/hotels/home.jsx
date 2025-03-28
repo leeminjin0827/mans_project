@@ -7,6 +7,9 @@ import { Button, Option, Select } from "@mui/joy";
 import Table from '@mui/joy/Table';
 import { useNavigate } from "react-router-dom";
 import Graph from "./detailGraph";
+import Choice from "./OperGraph";
+// import { BarChart } from '@mui/x-charts/BarChart';
+
 
 
 
@@ -98,6 +101,9 @@ export default function  Home(props){
 
     }
 
+
+
+
     useEffect(() => {
         // 컴포넌트가 처음 마운트될 때 hno가 1인 정보 불러오기
         staffone('1');
@@ -142,7 +148,7 @@ export default function  Home(props){
                       
                      
                    
-                    <Table  color="primary"
+                    <Table
                     variant="outlined" aria-label="basic table" style={{width:"350px"}}>
                        
                     <tbody>
@@ -170,7 +176,7 @@ export default function  Home(props){
         { stappas && stappas.map((stapp, index) => {
 
             return(<>           
-            <Table  color="primary"
+            <Table
   variant="outlined" aria-label="basic table" style={{width:"350px"}}  sx={{
     "--Table-headerUnderlineThickness": "10000px"
   }}>
@@ -201,22 +207,24 @@ export default function  Home(props){
             <h3>기본객실등급정보</h3>
             <Table color="primary"
                         variant="outlined" aria-label="basic table"  style={{width:"1250px"}}>
-
+                
                 <thead><tr><th>객실이름</th><th>침실수</th><th>침대타입</th></tr></thead>
-
+            
             <tbody>
             {
             ratings && ratings.map((rating, index)=> {
-                    return(<tr>
+                    return(<tr key={index}>
                         <td>{rating.ratingName}</td>
                         <td>{rating.bedCount}</td>
                         <td>{rating.bedType}</td>
                     </tr>)
                 })
             }
-
+            
             </tbody>
             </Table>
+            <Choice hno={value}/>
+
         </div>
         <div>
             <h3> 집계 </h3>

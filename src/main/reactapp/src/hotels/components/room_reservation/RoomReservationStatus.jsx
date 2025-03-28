@@ -137,7 +137,7 @@ export default function RoomReservationStatus(props) {
     // 예약 테이블에서 가져온 값 저장하는 state
     const [reservationList, setReservationList] = useState([]);
     // 객실 목록 테이블에서 가져온 값을 저장하는 state
-    const [roomList, setroomList] = useState([]);
+    const [roomList, setRoomList] = useState([]);
     // 셀렉트 값이 변경될 때 마다 값을 저장하는 state
     const [selectValue, setSelectValue] = useState("1");
     // 처음 지점 번호를 가져오는 함수
@@ -168,7 +168,7 @@ export default function RoomReservationStatus(props) {
                     }
                     if(data.length !== 0 && "rono" in data[0] && "rno" in data[0]) {
                         console.log("지점별 객실 정보 가져옴");
-                        setroomList(data);
+                        setRoomList(data);
                     }
                     if(data.length !== 0 && "reno" in data[0]) {
                         console.log("지점별 예약 정보 가져옴");
@@ -185,12 +185,6 @@ export default function RoomReservationStatus(props) {
             // 연결 성공 시
             socket.current.onopen = () => {
                 console.log("웹소켓 연결 성공!");
-                // const date = new Date();
-                // const year = date.getFullYear();
-                // const month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
-                // const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
-                // const now = `${year}-${month}-${day}`;
-                console.log(now);
                 socket.current.send("지점 번호");
                 socket.current.send("선택한 지점:1");
                 socket.current.send(`지점 별 예약:1:${now}`);
@@ -253,21 +247,20 @@ export default function RoomReservationStatus(props) {
         return str;
     }
     
-    
-    console.log(newDate);
+    // console.log(newDate);
 
     return (
         <>
             <Sidebar />
             <div className="commonBox">
                 {/* <h1>객실 사용 현황</h1> */}
-                {/* <Divider /> */} 
+                {/* <Divider /> */}
                 <div style={{display : "flex", justifyContent : "end", margin : "24px 5% 0px 5%", height : "40px"}}>
                     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ko">
-                        <DesktopDatePicker 
-                            format="YYYY-MM-DD" 
-                            defaultValue={dayjs(now)} 
-                            onChange={setNewDate} 
+                        <DesktopDatePicker
+                            format="YYYY-MM-DD"
+                            defaultValue={dayjs(now)}
+                            onChange={setNewDate}
                             sx={{
                                 width : "155px",
                                 height : "40px", backgroundColor : "#FFFFFF",

@@ -18,6 +18,7 @@ import RoomReservationStatus from "./components/room_reservation/RoomReservation
 import User from "./User";
 import { useEffect } from "react";
 import Graph from "./detailGraph";
+import Choice from "./OperGraph";
 
 
 // useLocation를 사용하는 컴포넌트는 BrowserRouter 내부에서 호출되어야 함
@@ -46,6 +47,8 @@ function RouterWrapper(){
         <Route path="/home" element={<Home/>}/>
         <Route path="/graph" element={<Graph/>}/>
         <Route path="/user" element={<User />} />
+         <Route path="/choice" element={<Choice/>}/>
+
     </Routes>
   )
 } // f end
