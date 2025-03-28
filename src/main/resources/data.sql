@@ -1,15 +1,15 @@
 -- 지점
 -- 강남 호텔 샘플 데이터
 INSERT INTO operate(address, hotel_number, intro, state, mimg)
-VALUES ('강남구 선릉로85길 6', '02-234-6576', '비즈니스와 여행을 위한 최적의 위치! 편안한 휴식을 제공합니다.', '0', 'default.jpg');
+VALUES ('강남구 선릉로85길 6', '02-234-6576', '비즈니스와 여행을 위한 최적의 위치! 편안한 휴식을 제공합니다.', '0', 'hotel1.jpg');
 
 -- 서울 호텔 샘플 데이터
 INSERT INTO operate(address, hotel_number, intro, state, mimg)
-VALUES ('서울특별시 중구 세종대로 99', '02-1234-5678', '세련된 인테리어와 고급스러운 서비스! 도심 속 최고의 휴식처.', '0', 'default2.jpg');
+VALUES ('서울특별시 중구 세종대로 99', '02-1234-5678', '세련된 인테리어와 고급스러운 서비스! 도심 속 최고의 휴식처.', '0', 'hotel2.jpg');
 
 -- 인천 부평 호텔 샘플 데이터
 INSERT INTO operate(address, hotel_number, intro, state, mimg)
-VALUES ('인천광역시 부평구 부평대로 15', '032-987-6543', '역과 가까운 최상의 접근성! 편안하고 안락한 숙박 경험을 제공합니다.', '0', 'default3.jpg');
+VALUES ('인천광역시 부평구 부평대로 15', '032-987-6543', '역과 가까운 최상의 접근성! 편안하고 안락한 숙박 경험을 제공합니다.', '0', 'hotel3.jpg');
 -- 지점
 
 -- 1강남점 /2중구점 /3부평점
