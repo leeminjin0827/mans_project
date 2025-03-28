@@ -44,13 +44,14 @@ export default function StaffPage(props) {
     // 출력 관련 state
     useEffect(() => {
         checkAuthority();
+        hnoFindAll();
         staffFindAll();
     }, []);
     const [staffInfoList, setStaffInfoList] = useState([]);
     const staffFindAll = async () => {
         try {
             const response = await axios.get("http://localhost:8081/staff");
-            // console.log(response.data);
+            console.log(response.data);
             setStaffInfoList(response.data);
         } catch(e) {
             console.log(e);
@@ -113,7 +114,7 @@ export default function StaffPage(props) {
     // 퇴사 관련 state
     const [staffDelete, setStaffDelete] = useState({endDate : "", resignation : ""});
     const resignationStaff = async (staffNumber) => {
-        const state = confirm("정말 퇴사 처리하시겠습니까?");
+        const state = confirm("정말 퇴사 처리하시겠습니까?" + staffNumber);
         if(state) {
             let today = new Date();
             let now = `${today.getFullYear()}-${today.getMonth()+1 < 10 ? `0${today.getMonth()+1}` : today.getMonth()+1}-${today.getDate() < 10 ? `0${today.getDate()}` : today.getDate()}`;
@@ -130,6 +131,24 @@ export default function StaffPage(props) {
             } catch(e) {
                 console.log(e);
             }
+        }
+    }
+
+    // 지점 번호 가져오기
+    const [workplace, setWorkplace] = useState([]);
+    const hnoFindAll = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8081/director`);
+            const result = response.data;
+            console.log(result);
+            const temp = [{hno : 0, hname : "전체"}];
+            for(let index = 0; index < result.length; index++) {
+                temp.push(result[index]);
+                // console.log(temp);
+            }
+            setWorkplace(temp);
+        } catch(e) {
+            console.log(e);
         }
     }
 
@@ -242,7 +261,7 @@ export default function StaffPage(props) {
         }
         return result;
     }
-    // 퇴사 상태를 문자열로 변환
+    /** 퇴사 상태를 문자열로 변환 */
     const changeResignationToString = (resignation) => {
         let str;
         switch(resignation) {
@@ -264,10 +283,13 @@ export default function StaffPage(props) {
                     {/* <h1>직원 관리</h1> */}
                     <div style={{display : "flex", justifyContent : "end"}}>
                         <select value={selectOption} onChange={changeOption} style={{marginRight : "50px", width : "7%", textAlign : "center", borderRadius : "5px"}}>
-                            <option value={"0"}>전체</option>
-                            <option value={"1"}>강남점</option>
-                            <option value={"2"}>중구점</option>
-                            <option value={"3"}>부평점</option>
+                            {
+                                workplace.map((value, index) => {
+                                    return (
+                                        <option key={index} value={value.hno}>{value.hname}</option>
+                                    )
+                                })
+                            }
                         </select>
                         <Button variant="contained" onClick={() => {setOpenModal(true)}}>직원 등록</Button>
                     </div>
@@ -310,7 +332,7 @@ export default function StaffPage(props) {
                                                 <td>{changeResignationToString(info.resignation)}</td>
                                                 <td style={{padding : "10px", display : "flex", justifyContent : "space-evenly"}}>
                                                     <Button variant="contained" type="button"  sx={{width : "5rem", height : "2.5rem"}} onClick={() => {openUpdateModal(info.staffNumber);}}>수정</Button>
-                                                    <Button variant="contained" type="button"  sx={{width : "5rem", height : "2.5rem"}} onClick={(event) => {resignationStaff(event, info.staffNumber);}}>퇴사</Button>
+                                                    <Button variant="contained" type="button"  sx={{width : "5rem", height : "2.5rem"}} onClick={() => {resignationStaff(info.staffNumber);}}>퇴사</Button>
                                                 </td>
                                             </tr>
                                         );

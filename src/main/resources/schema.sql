@@ -90,6 +90,7 @@ create table room_options (
 
 create table operate(
     hno int unsigned auto_increment,
+    hname varchar(10) not null,
     address char(50),
     hotel_number char(12),
     intro longtext,
