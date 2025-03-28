@@ -20,6 +20,7 @@ public class FileController {
         System.out.println("FileService.fileUpload");
         System.out.println("multipartFile = " + multipartFile);
         String result= fileService.fileUpload(multipartFile);
+        System.out.println(result);
         return result;
     }
 

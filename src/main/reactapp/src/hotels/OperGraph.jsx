@@ -7,45 +7,49 @@ import { useEffect, useState } from 'react';
 
 
 export default function Choice(props){
-    const [localHno, setLocalHno] = useState(props.hno);
-    useEffect(()=>{choice(props.hno)}, [props.hno])
-    // console.log(props.hno);
- 
+  useEffect(()=>{choice(props.hno)},[])
 
+  console.log("props확인" + props.hno);
+    useEffect(()=>{choice(props.hno)},[props.hno]) // useEffect 의존성 배열 추가 (props.hno 변경 시 effect 재실행)
+
+    console.log("props확인" + props.hno);
     const [choiceGraph , setChoiceGraph] = useState();
     const [loading, setLoading] = useState(true);
-  
-
-    const choice = async (hno) => {
+    const backendHno = props.hno - 1;
+    console.log(backendHno);
+    const choice = async (hno) => { // 인자 이름 통일 (props.hno 사용)
         try{
             const response = await axios.get(`http://localhost:8081/detail/choice?hno=${hno}`);
-            console.log(response.data);
+            console.log(`Data for hno ${hno}:`, response.data);
             setChoiceGraph(response.data);
             setLoading(false);
-
-        }catch(error){console.log(error);  setLoading(false);}
-    
+        }catch(error){
+            console.log(error);
+            setLoading(false);
+        }
     }
+    console.log(loading);
     console.log(choiceGraph);
+
 
     if (loading) {
         return <div>데이터를 불러오는 중...</div>;
-      }
-    
-      if (!choiceGraph || choiceGraph.length === 0) {
+    }
+
+    // choiceGraph가 아직 로딩되지 않았을 경우를 대비하여 조건부 렌더링 추가
+    if (!choiceGraph) {
         return <div>표시할 데이터가 없습니다.</div>;
-      }
+    }
 
 
     return(<>
-    
-    <BarChart sx={{  ml: -30}}
-                xAxis={[{ scaleType: 'band', data: ['group A', 'group B', 'group C'] }]}
-                series={[{ data: [4, 3, 5] }, { data: [1, 6, 3] }, { data: [2, 5, 6] }]}
-                width={730}
+
+    <BarChart sx={{  ml: -30 } }
+                xAxis={[{ scaleType: 'band', data: ['지점매출'] ,categoryGapRatio : 0.8 }]}
+                series={[{ data: [choiceGraph?.total_Payment || 0], label : '각 지점별 총 결제 금액'}]} // total_Payment 값을 배열로 감싸서 전달
+                width={250}
                 height={300}
                 />
 
-    
     </>)
 }

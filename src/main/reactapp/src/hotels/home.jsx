@@ -87,6 +87,7 @@ export default function  Home(props){
     }, []); // 빈 배열을 dependency array로 전달하여 컴포넌트 마운트 시에만 실행
 
 
+    const [hnoForChoice, setHnoForChoice] = useState('1');
 
 
     return(<>
@@ -102,7 +103,7 @@ export default function  Home(props){
 
         <Divider orientation="vertical"></Divider>
 
-        <Button sx={{width : "60px"}} size="sm" type="button" onClick={() => {operone(value) ,staffone(value)}}>조회</Button>
+        <Button sx={{width : "60px" }} size="sm" type="button" onClick={() => {operone(value) ,staffone(value) , setHnoForChoice(value)}}>조회</Button>
         </Stack>
         <Stack spacing={2} direction="row" sx={{width:'100%'}}>
 
@@ -181,9 +182,9 @@ export default function  Home(props){
         <div style={{display : 'flex', marginTop: '10px'}}>
 
             <Table
-                        variant="outlined" aria-label="basic table"  sx={{width : '500px'}}>
+                        variant="outlined" aria-label="basic table"  sx={{width : '900px'}}>
 
-                <thead><tr><th>객실이름</th><th>침실수</th><th>침대타입</th></tr></thead>
+                <thead><tr><th>객실이름</th><th>침실수</th><th>침대타입</th><th>가격</th></tr></thead>
 
             <tbody>
             {
@@ -192,13 +193,14 @@ export default function  Home(props){
                         <td>{rating.ratingName}</td>
                         <td>{rating.bedCount}</td>
                         <td>{rating.bedType}</td>
+                        <td>{rating.price}</td>
                     </tr>)
                 })
             }
 
             </tbody>
             </Table>
-            <Choice hno={value}/>
+            <Choice hno={hnoForChoice}/>
 
         </div>
 

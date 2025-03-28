@@ -230,19 +230,24 @@ export default function Operatae(props){
             <Sidebar />
             <div className="mainBox">
                 <form style={{float : 'left'}}>
+                    
+                    <Box sx={{ml: 10, py: 2, width: '100%',  display: 'grid', gap: 1, flexWrap: 'wrap' }}>
                     <h2>관리자 정보페이지</h2>
-                    <Box sx={{ py: 1, width: '25%',  display: 'grid', gap: 1, alignItems: 'center', flexWrap: 'wrap' }}>
                     <div>
-                    <Input sx={{ width: '150%' }} readOnly size="md" placeholder="주소" type="text" value={dataInfo.address} name="address" onChange={formDataChange}/>
-                    <Button size="sm" type="button" onClick={handleClick}>검색</Button>
+                    <Input sx={{ width: '85%' }} readOnly size="md" placeholder="주소" type="text" value={dataInfo.address} name="address" onChange={formDataChange}/>
                     </div>
-                    <Input sx={{ width: '150%' }}size="md" placeholder="호텔 전화번호" type="text" value={dataInfo.hotel_number} name="hotel_number" onChange={formDataChange}/>{phoneNumberError && <div style={{ color: 'red' , fontSize: '12px' }}>{phoneNumberError}</div>}
-                    <Input sx={{ width: '150%' }}size="md" placeholder="소개" type="text" value={dataInfo.intro} name="intro" onChange={formDataChange}/>
-                    <input sx={{ width: '150%' }}type="file" accept="imge/*" onChange={onFileChange}/>
-                    <Button size="sm" sx={{width: '30%'}} type="button" onClick={OnSignup}>저장</Button><br/><br/>
+                    <Box sx={{  ml: 45 } }>
+                    <Button sx={{ justifyContent: 'flex-end'  } } size="sm" type="button" onClick={handleClick}>검색</Button>
+                    </Box>
+                    <Input sx={{ width: '85%' }}size="md" placeholder="호텔 전화번호" type="text" value={dataInfo.hotel_number} name="hotel_number" onChange={formDataChange}/>{phoneNumberError && <div style={{ color: 'red' , fontSize: '12px' }}>{phoneNumberError}</div>}
+                    <Input sx={{ width: '85%' }}size="md" placeholder="소개" type="text" value={dataInfo.intro} name="intro" onChange={formDataChange}/>
+                    <input sx={{ width: '85%' }}type="file" accept="imge/*" onChange={onFileChange}/>
+                    <Box sx={{  ml: 45 }}>
+                    <Button size="sm" sx={{justifyContent: 'flex-end' }}  type="button" onClick={OnSignup}>저장</Button><br/><br/>
+                    </Box>
                     </Box>
                 </form>
-                    <div style={{ marginLeft: '30%'}}>
+                    <div style={{ marginLeft: '40%'}}>
                     {preview && (<><img src={preview} style={{with:"500px", height:"300px"}}/></>)}
                     </div>
 
@@ -262,15 +267,15 @@ export default function Operatae(props){
                                 <th>{board.hotel_number}</th>
                                 <th>{board.intro}</th>
                                 <th>
-                                    <Select sx={{ width: '150px' }}   value={ stateDe[index] } onChange={ (e , newvalue) => { stateChange( e, newvalue , index) } } >
+                                    <Select sx={{ width: '130px' , ml: -1 }}   value={ stateDe[index] } onChange={ (e , newvalue) => { stateChange( e, newvalue , index) } } >
                                         <Option value="운영중">운영중 </Option>
                                         <Option value="임시휴업">임시휴업</Option>
                                         <Option value="폐점">폐점 </Option>
                                     </Select>
-                                    <Button size="sm" type="button" onClick={() =>{stateUpdate(board.hno, stateDe[index])}}>상태수정</Button>
+                                    <Button size="sm" sx={{  ml: 6 } } type="button" onClick={() =>{stateUpdate(board.hno, stateDe[index])}}>상태수정</Button>
                                     </th>
-                                
-                                <th><Button type="butoon" onClick={() => onUpdate(board.hno, board.address, board.hotel_number ,board.intro)}>수정</Button></th></tr>);// 여기 부분 onUpdate() 를 그냥 넣으니 연속 실행됨
+                                <th><Button type="butoon" sx={{  ml: -1} } onClick={() => onUpdate(board.hno, board.address, board.hotel_number ,board.intro)}>수정</Button></th>
+                                </tr>);// 여기 부분 onUpdate() 를 그냥 넣으니 연속 실행됨
                             })
                         }
                     </tbody>
