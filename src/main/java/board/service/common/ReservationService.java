@@ -7,9 +7,7 @@ import board.model.mapper.common.ReservationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,12 +17,12 @@ public class ReservationService {
     private final ReservationMapper reservationMapper;
 
     // 객실 예약
-    public boolean reservationWrite(ReservationDto reservationDto){
+    public boolean reservationWrite( Map<String,Object > reservationDto){
         return reservationMapper.reservationWrite( reservationDto );
     } // f end
 
     // 원하는 조건 객실 조회 (지점번호, 객실등급, 체크인 날짜, 체크아웃 날짜)
-    public List<ReservationDto> reservationList(int hno, int rno, String resstart, String resend) {
+    public List<Map<String,Object >> reservationList(int hno, int rno, String resstart, String resend) {
         // 객실 조회에 필요한 조건을 DTO로 담아 전달
         List<RoomDto> rooms = reservationMapper.reservationList( hno , rno );
         System.out.println("================ 전체 객실 ================");
@@ -42,15 +40,15 @@ public class ReservationService {
         System.out.println("rono추출 : " + ronoSet );
 
         // 예약 가능한 객실에서 rono 값을 가져와 ReservationDto에 매핑
-        List<ReservationDto> reservationDtos = new ArrayList<>();
+        List<Map<String,Object >> reservationDtos = new ArrayList<>();
         for (RoomDto room : rooms) {
             if( !ronoSet.contains(room.getRono())) {
-                ReservationDto reservationDto = new ReservationDto();
-                reservationDto.setHno(hno);
-                reservationDto.setRno(rno);
-                reservationDto.setRname(room.getRname());
-                reservationDto.setRono(room.getRono());
-                reservationDtos.add(reservationDto);
+                Map<String,Object > map = new HashMap<>();
+                map.put( "hno" , hno);
+                map.put( "rno" , rno);
+                map.put( "rname" , room.getRname());
+                map.put( "rono" , room.getRono());
+                reservationDtos.add( map );
             } // if end
         } // for end
         System.out.println( "걸러진객실 : " + reservationDtos );
@@ -58,13 +56,13 @@ public class ReservationService {
 
     } // f end
 
-    public boolean reservationReal(ReservationDto reservationDto){
+    public boolean reservationReal(Map<String,Object > reservationDto){
         // 예약이 겹치는지 확인하기 위해 예약 테이블을 조회
         List<ReservationDto> real = reservationMapper.reservationCheck(
-           reservationDto.getHno(),
-           reservationDto.getRno(),
-           reservationDto.getResstart(),
-           reservationDto.getResend()
+                (Integer) reservationDto.get("hno"),
+                (Integer)reservationDto.get("rno"),
+                (String) reservationDto.get("resstart"),
+                (String)reservationDto.get("rssend")
         );
         return !real.isEmpty(); // 예약이 있으면 true (중복 예약), 없으면 false
     } // f end

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/reservation")
@@ -21,7 +22,7 @@ public class ReservationController {
     // 객실 예약
     // [POST] : { "resname" : "#" , "resphone" : "#" , "resstart" : "#" , "resend" : "#" , "rono" : "#" }
     @PostMapping("")
-    public boolean reservationWrite(@RequestBody ReservationDto reservationDto ){
+    public boolean reservationWrite(@RequestBody Map<String,Object >  reservationDto ){
         // 중복 예약 체크
         boolean real = reservationService.reservationReal(reservationDto);
         if( real ){
@@ -36,7 +37,7 @@ public class ReservationController {
     // 원하는 조건 객실 조회
     // [GET] : http://localhost:8081/reservation?hno=#&rno=#
     @GetMapping("")
-    public List<ReservationDto> reservationList(@RequestParam int hno , @RequestParam int rno , @RequestParam String resstart , @RequestParam String resend ){
+    public List<Map<String,Object > > reservationList(@RequestParam int hno , @RequestParam int rno , @RequestParam String resstart , @RequestParam String resend ){
         System.out.println("GET 요청: hno=" + hno + ", rno=" + rno + ", resstart=" + resstart + ", resend=" + resend);
         return reservationService.reservationList( hno , rno , resstart , resend );
     } // f end

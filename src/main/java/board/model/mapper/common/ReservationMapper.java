@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface ReservationMapper {
@@ -19,7 +20,7 @@ public interface ReservationMapper {
     // 객실 예약
     @Insert("insert into reservation( resname , resphone , resstart , resend , rono )" +
             " values ( #{resname} , #{resphone} , #{resstart} , #{resend} , #{rono} )")
-    boolean reservationWrite( ReservationDto reservationDto );
+    boolean reservationWrite( Map<String,Object > reservationDto );
 
     // 지점 , 객실 등급으로 객실 리스트 조회
     @Select("select * from room where hno = #{hno} and rno = #{rno}")

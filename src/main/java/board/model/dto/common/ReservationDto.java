@@ -25,10 +25,11 @@ public class ReservationDto {
     // 객실이름(호실)
     private String rname;
 
-    // 지점번호 (hno)
-    private int hno;
-    // 객실등급번호(rno)
-    private int rno;
+//    // 지점번호 (hno)
+//    private int hno;
+//    // 객실등급번호(rno)
+//    private int rno;
+
     // 매출번호
     private int rvno;
     // 가격
