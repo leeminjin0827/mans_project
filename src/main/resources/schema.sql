@@ -131,8 +131,6 @@ create table room(
     hno int unsigned ,
     -- 직원번호
     staff_number int unsigned ,
-    -- 객실 이미지
-    rimg varchar(255) default null ,
     -- 회원 번호 추가 해야함 --
     constraint primary key(rono),
     foreign key(rno) references rating(rno) on update cascade on delete cascade,
@@ -183,4 +181,16 @@ create table reservationdetail (
     constraint primary key(rvno),
     foreign key(reno) references reservation(reno) on update cascade on delete cascade
 
+);
+
+------------------ 사진 테이블 ------------------
+create table picture(
+    -- 사진번호(PK)
+    pno int unsigned auto_increment ,
+    -- 파일명
+    pnoname varchar(255) not null ,
+    -- 객실번호(FK)
+    rono int unsigned ,
+    constraint primary key(pno),
+    foreign key(rono) references room(rono) on update cascade on delete cascade
 );

@@ -196,6 +196,21 @@ INSERT INTO reservationdetail (price, payment_date, detail_state, reno) VALUES
 (200000, '2025-03-28', '정상', 29),
 (300000, '2025-03-30', '정상', 30);
 
+------------------ 사진 테이블 샘플 ------------------
+insert into picture( pnoname , rono )values
+("family_photo.webp" , 1 ) , ("family_photo.webp" , 2 ) ,("family_photo.webp" , 3 ) , ("family_photo.webp" , 4 ) ,("family_photo.webp" , 5 ),
+("family_photo.webp" , 6 ) , ("family_photo.webp" , 7 ) , ("family_photo.webp" , 8 ) , ("family_photo.webp" , 9 ) , ("family_photo.webp" , 10 ) ,
+("family_photo.webp" , 11 ) , ("family_photo.webp" , 12 ) , ("family_photo.webp" , 13 ) , ("family_photo.webp" , 14 ) , ("family_photo.webp" , 15 ) ,
+("family_photo.webp" , 16 ) , ("family_photo.webp" , 17 ) , ("family_photo.webp" , 18 ) , ("family_photo.webp" , 19 ) , ("family_photo.webp" , 20 ) ,
+("family_photo.webp" , 21 ) , ("family_photo.webp" , 22 ) , ("family_photo.webp" , 23 ) , ("family_photo.webp" , 24 ) , ("family_photo.webp" , 25 ) ,
+("family_photo.webp" , 26 ) , ("family_photo.webp" , 27 ) , ("family_photo.webp" , 28 ) , ("family_photo.webp" , 29 ) , ("family_photo.webp" , 30 ) ,
+("deluxe_photo.webp" , 31 ) , ("deluxe_photo.webp" , 32 ) , ("deluxe_photo.webp" , 33 ) , ("deluxe_photo.webp" , 34 ) , ("deluxe_photo.webp" , 35 ) ,
+("deluxe_photo.webp" , 36 ) , ("deluxe_photo.webp" , 37 ) , ("deluxe_photo.webp" , 38 ) , ("deluxe_photo.webp" , 39 ) , ("deluxe_photo.webp" , 40 ) ,
+("deluxe_photo.webp" , 41 ) , ("deluxe_photo.webp" , 42 ) , ("deluxe_photo.webp" , 43 ) , ("deluxe_photo.webp" , 44 ) , ("deluxe_photo.webp" , 45 ) ,
+("deluxe_photo.webp" , 46 ) , ("deluxe_photo.webp" , 47 ) , ("deluxe_photo.webp" , 48 ) , ("deluxe_photo.webp" , 49 ) , ("deluxe_photo.webp" , 50 ) ,
+("deluxe_photo.webp" , 51 ) , ("deluxe_photo.webp" , 52 ) , ("deluxe_photo.webp" , 53 ) , ("deluxe_photo.webp" , 54 ) , ("deluxe_photo.webp" , 55 ) ,
+("deluxe_photo.webp" , 56 ) , ("deluxe_photo.webp" , 57 ) , ("deluxe_photo.webp" , 58 ) , ("deluxe_photo.webp" , 59 ) , ("deluxe_photo.webp" , 60 );
+
 
 
 -- select * from board;

@@ -203,7 +203,6 @@ export default function ParlorPage( props ){
                     rono: room.rono,
                     hno: room.hno,
                     staffNumber: room.staffNumber,
-                    rimg : room.rimg,
                     rname : room.rname,
                     rno: room.rno,
                     ratingName: room.ratingName,

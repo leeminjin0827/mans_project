@@ -21,12 +21,10 @@ public class RoomDto {
     private int rno;
     // 호텔번호
     private int hno;
-    // 객실 사진
-    private String rimg;
-    // 등록시 업로드된 파일의 인터페이스 (여러개)
-    private List<MultipartFile> ruploadfiles;
+    // 객실 사진 ( 여러 개의 사진 저장 )
+    private List<MultipartFile> ruploadfiles;  // 업로드된 파일 리스트
 
-    private String name;
+    private String name; // 직원 이름
     private int staffNumber; // staff_number
     private String ratingName; // rating_name
     private int bedCount; // bed_count
