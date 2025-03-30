@@ -40,11 +40,24 @@ body{
 }
 
 .commonBox {
+  /* box-sizing: border-box; */
   padding : 2.5%;
   position : absolute;
   top: 50%; 
   left : 15%;
-  width : 80%;
+  width : 80vw;
+  height : 90vh;
+  background-color: #f7f7f7;
+  transform: translateY(-50%);
+}
+
+.commonBox2 {
+  padding : 2.5%;
+  position : absolute;
+  top: 50%; 
+  left : 15%;
+  width : 80vw;
+  height : 90vh;
   background-color: #f7f7f7;
   transform: translateY(-50%);
 }
