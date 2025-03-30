@@ -22,26 +22,6 @@ public class SenterController {
     // 문의등록
     @PostMapping("")
     public boolean sWrite(@RequestBody SenterDto senterDto , HttpServletRequest req ){
-        // 세션 가져오기
-        HttpSession session = req.getSession(false);
-        System.out.println( session );
-
-        // 세션이 없거나 로그인정보가 없으면 false
-        if( session == null || session.getAttribute("loginNumber") == null ){
-            return false;
-        }
-
-        // 세션에 저장된 loginNumber 가져오기
-//        int loginNumber = (int) session.getAttribute("loginNumber");
-        //senterDto.setUserNumber(loginNumber);
-
-//        // 로그인 정보 확인
-//        if( loginSession.check(loginNumber) == 0 ){
-//            return false;
-//        }
-
-        // 로그인한 번호를 Dto에 저장
-       // senterDto.setUserNumber(loginNumber);
 
         // 등록 처리
         boolean result = senterService.sWrite( senterDto );

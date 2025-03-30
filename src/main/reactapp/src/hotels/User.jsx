@@ -4,8 +4,13 @@ import UserWrite from "./components/user/UserWrite";
 import { useState } from "react";
 import UserView from "./components/user/UserView";
 import axios from "axios";
+import Senter from "./Senter";
+import SenterWrite from "./components/senter/SenterWrite";
+import SenterView from "./components/senter/SenterView";
 
 export default function User( props ){
+
+    const [selectSno, setSelectSno] = useState(null);
 
     // ========================================= 예약 내역 조회 ========================================= //
     
@@ -34,24 +39,36 @@ export default function User( props ){
     const [changePage , setChangePage] = useState("menu");
     // logo클릭시 처음화면
     const logoClick = () => {
-        setChangePage("3");
+        setChangePage("4");
     } // f end
 
     const contentBox = () => {
         switch (changePage) {
             case "1":
-                return <UserWrite />;
+                return <UserWrite />
             case "2":
-                return <UserView reservationView={reservationView} />; 
+                return <UserView reservationView={reservationView} />
             case "3":
+                return <Senter setChangePage={setChangePage} setSelectSno={setSelectSno} />
+            case "4":
                 return(<>
                     <Button onClick={ () => setChangePage("1")} className="user_btn" type="button">호텔예약</Button>
                     <Button onClick={reservationUserView} className="user_btn" type="button">예약조회</Button>
-                </>) 
+                    <Button onClick={ () => setChangePage("3")} className="user_btn" type="button">문의</Button>
+                </>)
+            case "5":
+                return(<>
+                    <SenterWrite setChangePage = { setChangePage } />
+                </>)
+            case "6":
+                return(<>
+                    <SenterView setChangePage = { setChangePage } setSelectSno = { setSelectSno } />
+                </>)
             default:
                 return(<>
                     <Button onClick={ () => setChangePage("1")} className="user_btn" type="button">호텔예약</Button>
                     <Button onClick={reservationUserView} className="user_btn" type="button">예약조회</Button>
+                    <Button onClick={ () => setChangePage("3")} className="user_btn" type="button">문의</Button>
                 </>)
         }
     } // f end

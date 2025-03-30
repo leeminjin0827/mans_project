@@ -23,6 +23,7 @@ public class RoomDto {
     private int hno;
     // 객실 사진 ( 여러 개의 사진 저장 )
     private List<MultipartFile> ruploadfiles;  // 업로드된 파일 리스트
+    private List<String> rfiles; // 사진을 저장하는 리스트
 
     private String name; // 직원 이름
     private int staffNumber; // staff_number

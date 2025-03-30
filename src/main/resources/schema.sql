@@ -25,18 +25,19 @@ use man;
 -- );
 
 -- 고객센터 테이블
--- create table senter(
---    -- 문의번호(PK)
---    sno int unsigned auto_increment ,
---     -- 문의제목
---    stitle varchar(30) not null ,
---     -- 문의내용
---     scontent longtext not null ,
---     -- 사용자번호(FK)
---     user_number int unsigned not null ,
---     constraint primary key(sno) ,
---     constraint foreign key(user_number) references user(user_number)
--- );
+create table senter(
+   -- 문의번호(PK)
+   sno int unsigned auto_increment ,
+   -- 문의 작성자
+   senter_name varchar(30) not null ,
+   -- 문의제목
+   senter_title varchar(30) not null ,
+   -- 문의내용
+   senter_content longtext not null ,
+   -- 문의 전화번호
+   senter_phone varchar(13) not null ,
+   constraint primary key(sno)
+);
 
 -- 게시판테이블
 -- create table board(
@@ -132,6 +133,8 @@ create table room(
     hno int unsigned ,
     -- 직원번호
     staff_number int unsigned ,
+    -- 객실사진
+    rfiles varchar(255) default "picture_default.jpg",
     -- 회원 번호 추가 해야함 --
     constraint primary key(rono),
     foreign key(rno) references rating(rno) on update cascade on delete cascade,

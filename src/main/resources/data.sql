@@ -25,13 +25,36 @@ VALUES ('부평점', '인천광역시 부평구 부평대로 15', '032-987-6543'
 --
 
 -- 고객센터 샘플
--- insert into senter ( stitle , scontent , user_number ) values
--- ( "불편합니다" ,  "불편함" , 1 ),
--- ( "불편합니다" ,  "불편함" , 1 ),
--- ( "불편합니다" ,  "불편함" , 1 ),
--- ( "불편합니다" ,  "불편함" , 1 ),
--- ( "불편합니다" ,  "불편함" , 1 );
--- 고객센터 샘플
+INSERT INTO senter (senter_name, senter_phone, senter_title, senter_content) VALUES
+('김철수', '010-1234-5678', '체크인 시간 문의', '체크인은 몇 시부터 가능한가요?'),
+('이영희', '010-9876-5432', '객실 추가 예약', '현재 예약한 객실 외에 한 개 더 예약하고 싶은데 가능한가요?'),
+('박민수', '010-5555-6666', '수영장 이용 문의', '호텔 수영장 운영 시간과 이용 요금을 알고 싶습니다.'),
+('정지은', '010-2222-3333', '룸서비스 메뉴', '룸서비스 메뉴판을 확인하고 싶은데 어디에서 볼 수 있나요?'),
+('최강희', '010-4444-7777', '객실 청소 요청', '객실 청소 요청을 하고 싶습니다.'),
+('한도윤', '010-6666-8888', '와이파이 연결 문제', '와이파이 연결이 잘 안되는데 해결 방법이 있을까요?'),
+('오세훈', '010-9999-0000', '조식 운영 시간', '조식은 몇 시부터 몇 시까지 제공되나요?'),
+('서지수', '010-1122-3344', '주차장 이용 문의', '주차는 무료인가요? 발렛 서비스가 제공되나요?'),
+('유태영', '010-2233-4455', '객실 내 어메니티', '객실 내 제공되는 어메니티 종류를 알고 싶습니다.'),
+('배수진', '010-3344-5566', '체크아웃 연장 문의', '체크아웃 시간을 연장하고 싶은데 가능할까요?'),
+('강민호', '010-4455-6677', '피트니스 센터 이용', '피트니스 센터 이용 시간과 시설을 알고 싶습니다.'),
+('이준석', '010-5566-7788', '공항 셔틀버스 운영', '호텔에서 공항까지 셔틀버스가 운영되나요?'),
+('홍지훈', '010-6677-8899', '레이트 체크아웃 가능 여부', '늦은 체크아웃이 가능한가요? 추가 요금이 있나요?'),
+('임수진', '010-7788-9900', '반려동물 동반 가능 여부', '반려동물과 함께 투숙할 수 있는 객실이 있나요?'),
+('김서현', '010-8899-0011', '흡연 가능 객실 여부', '흡연 가능한 객실이 따로 있나요?'),
+('최진혁', '010-9900-1122', '레스토랑 예약 문의', '호텔 레스토랑을 사전 예약하고 싶은데 어떻게 하면 되나요?'),
+('박수영', '010-1111-2222', '객실 변경 요청', '현재 예약한 객실을 다른 타입으로 변경할 수 있을까요?'),
+('장예린', '010-2222-3333', '이벤트 정보 문의', '현재 진행 중인 프로모션이나 이벤트가 있나요?'),
+('서동훈', '010-3333-4444', '미니바 이용 요금', '객실 내 미니바 음료와 간식은 무료인가요?'),
+('권민지', '010-4444-5555', '세탁 서비스 제공 여부', '호텔에서 세탁 서비스를 제공하나요? 이용 요금은 어떻게 되나요?'),
+('김도현', '010-5555-6666', '호텔 주변 관광지 추천', '호텔 주변에서 방문할 만한 관광지를 추천해 주세요.'),
+('이하늘', '010-6666-7777', '수건 추가 요청', '객실에 수건을 추가로 요청하고 싶습니다.'),
+('신유진', '010-7777-8888', '객실 내 금고 사용법', '객실 내 금고를 사용하려면 어떻게 해야 하나요?'),
+('남지훈', '010-8888-9999', '비즈니스 센터 운영 시간', '비즈니스 센터는 몇 시부터 몇 시까지 이용할 수 있나요?'),
+('백승연', '010-9999-1111', '룸서비스 운영 시간', '룸서비스는 24시간 이용 가능한가요?'),
+('차예진', '010-0000-2222', '호텔 내 마사지 서비스', '호텔에서 마사지 서비스를 받을 수 있나요?'),
+('송다인', '010-1234-5678', '어린이 놀이방 유무', '어린이를 위한 놀이방이나 프로그램이 있나요?'),
+('유나경', '010-2345-6789', '흡연 구역 위치', '호텔 내 흡연 가능한 공간이 어디에 있나요?'),
+('전태수', '010-3456-7890', '체크인 시 신분증 필요 여부', '체크인할 때 신분증이 꼭 필요한가요?');
 
 -- 게시판 샘플
 -- insert into board(title, content) values('그림' , '이름');
@@ -88,15 +111,15 @@ update staff set end_date = "2025-03-07", resignation = 1 where staff_number = 1
 
 insert into room ( rname , rno , hno , staff_number ) values
 -- 기존 샘플
-    -- 강남
-    ("101호",1,1,3),("102호",1,1,5),("103호",1,1,7),("104호",1,1,4),("105호",1,1,5),("201호",1,1,3),("202호",1,1,4),("203호",1,1,5),("204호",2,1,5),("205호",2,1,6),
-    ("301호",2,1,3),("302호",2,1,5),("303호",2,1,7),("304호",2,1,4),("305호",3,1,6),("401호",3,1,6),("402호",3,1,3),("403호",3,1,7),("404호",4,1,1),("405호",4,1,2),
-    -- 중구
-    ("101호",1,2,9),("102호",1,2,11),("103호",1,2,13),("104호",1,2,12),("105호",1,2,13),("201호",1,2,10),("202호",1,2,13),("203호",1,2,12),("204호",2,2,13),("205호",2,2,11),
-    ("301호",2,2,13),("302호",2,2,10),("303호",2,2,9),("304호",2,2,12),("305호",3,2,9),("401호",3,2,10),("402호",3,2,11),("403호",3,2,10),("404호",4,2,9),("405호",4,2,12),
-    -- 부평
-    ("101호",1,3,16),("102호",1,3,16),("103호",1,3,19),("104호",1,3,16),("105호",1,3,19),("201호",1,3,17),("202호",1,3,18),("203호",1,3,19),("204호",2,3,17),("205호",2,3,18),
-    ("301호",2,3,20),("302호",2,3,18),("303호",2,3,20),("304호",2,3,18),("305호",3,3,20),("401호",3,3,16),("402호",3,3,16),("403호",3,3,17),("404호",4,3,20),("405호",4,3,20);
+-- 강남
+("101호",1,1,3),("102호",1,1,5),("103호",1,1,7),("104호",1,1,4),("105호",1,1,5),("201호",1,1,3),("202호",1,1,4),("203호",1,1,5),("204호",2,1,5),("205호",2,1,6),
+("301호",2,1,3),("302호",2,1,5),("303호",2,1,7),("304호",2,1,4),("305호",3,1,6),("401호",3,1,6),("402호",3,1,3),("403호",3,1,7),("404호",4,1,1),("405호",4,1,2),
+-- 중구
+("101호",1,2,9),("102호",1,2,11),("103호",1,2,13),("104호",1,2,12),("105호",1,2,13),("201호",1,2,10),("202호",1,2,13),("203호",1,2,12),("204호",2,2,13),("205호",2,2,11),
+("301호",2,2,13),("302호",2,2,10),("303호",2,2,9),("304호",2,2,12),("305호",3,2,9),("401호",3,2,10),("402호",3,2,11),("403호",3,2,10),("404호",4,2,9),("405호",4,2,12),
+-- 부평
+("101호",1,3,16),("102호",1,3,16),("103호",1,3,19),("104호",1,3,16),("105호",1,3,19),("201호",1,3,17),("202호",1,3,18),("203호",1,3,19),("204호",2,3,17),("205호",2,3,18),
+("301호",2,3,20),("302호",2,3,18),("303호",2,3,20),("304호",2,3,18),("305호",3,3,20),("401호",3,3,16),("402호",3,3,16),("403호",3,3,17),("404호",4,3,20),("405호",4,3,20);
 
 
 -- 직원
@@ -198,18 +221,66 @@ INSERT INTO reservationdetail (price, payment_date, detail_state, reno) VALUES
 
 ------------------ 사진 테이블 샘플 ------------------
 insert into picture( pnoname , rono )values
-("family_photo.webp" , 1 ) , ("family_photo.webp" , 2 ) ,("family_photo.webp" , 3 ) , ("family_photo.webp" , 4 ) ,("family_photo.webp" , 5 ),
-("family_photo.webp" , 6 ) , ("family_photo.webp" , 7 ) , ("family_photo.webp" , 8 ) , ("family_photo.webp" , 9 ) , ("family_photo.webp" , 10 ) ,
-("family_photo.webp" , 11 ) , ("family_photo.webp" , 12 ) , ("family_photo.webp" , 13 ) , ("family_photo.webp" , 14 ) , ("family_photo.webp" , 15 ) ,
-("family_photo.webp" , 16 ) , ("family_photo.webp" , 17 ) , ("family_photo.webp" , 18 ) , ("family_photo.webp" , 19 ) , ("family_photo.webp" , 20 ) ,
-("family_photo.webp" , 21 ) , ("family_photo.webp" , 22 ) , ("family_photo.webp" , 23 ) , ("family_photo.webp" , 24 ) , ("family_photo.webp" , 25 ) ,
-("family_photo.webp" , 26 ) , ("family_photo.webp" , 27 ) , ("family_photo.webp" , 28 ) , ("family_photo.webp" , 29 ) , ("family_photo.webp" , 30 ) ,
-("deluxe_photo.webp" , 31 ) , ("deluxe_photo.webp" , 32 ) , ("deluxe_photo.webp" , 33 ) , ("deluxe_photo.webp" , 34 ) , ("deluxe_photo.webp" , 35 ) ,
-("deluxe_photo.webp" , 36 ) , ("deluxe_photo.webp" , 37 ) , ("deluxe_photo.webp" , 38 ) , ("deluxe_photo.webp" , 39 ) , ("deluxe_photo.webp" , 40 ) ,
-("deluxe_photo.webp" , 41 ) , ("deluxe_photo.webp" , 42 ) , ("deluxe_photo.webp" , 43 ) , ("deluxe_photo.webp" , 44 ) , ("deluxe_photo.webp" , 45 ) ,
-("deluxe_photo.webp" , 46 ) , ("deluxe_photo.webp" , 47 ) , ("deluxe_photo.webp" , 48 ) , ("deluxe_photo.webp" , 49 ) , ("deluxe_photo.webp" , 50 ) ,
-("deluxe_photo.webp" , 51 ) , ("deluxe_photo.webp" , 52 ) , ("deluxe_photo.webp" , 53 ) , ("deluxe_photo.webp" , 54 ) , ("deluxe_photo.webp" , 55 ) ,
-("deluxe_photo.webp" , 56 ) , ("deluxe_photo.webp" , 57 ) , ("deluxe_photo.webp" , 58 ) , ("deluxe_photo.webp" , 59 ) , ("deluxe_photo.webp" , 60 );
+("standard_photo.png" , 1 ) , ("fitness_photo.png" , 1 ) ,
+("standard_photo.png" , 2 ) , ("fitness_photo.png" , 2 ) ,
+("standard_photo.png" , 3 ) , ("fitness_photo.png" , 3 ) ,
+("standard_photo.png" , 4 ) , ("fitness_photo.png" , 4 ) ,
+("standard_photo.png" , 5 ) , ("fitness_photo.png" , 5 ) ,
+("standard_photo.png" , 6 ) , ("fitness_photo.png" , 6 ) ,
+("standard_photo.png" , 7 ) , ("fitness_photo.png" , 7 ) ,
+("standard_photo.png" , 8 ) , ("fitness_photo.png" , 8 ) ,
+("superior_photo.png" , 9 ) , ("fitness_photo.png" , 9 ) ,
+("superior_photo.png" , 10 ) , ("fitness_photo.png" , 10 ) ,
+("superior_photo.png" , 11 ) , ("fitness_photo.png" , 11 ) ,
+("superior_photo.png" , 12 ) , ("fitness_photo.png" , 12 ) ,
+("superior_photo.png" , 13 ) , ("fitness_photo.png" , 13 ) ,
+("superior_photo.png" , 14 ) , ("fitness_photo.png" , 14 ) ,
+("deluxe_photo.png" , 15 ) , ("brunch_photo.png" , 15 ) ,
+("deluxe_photo.png" , 16 ) , ("brunch_photo.png" , 16 ) ,
+("deluxe_photo.png" , 17 ) , ("brunch_photo.png" , 17 ) ,
+("deluxe_photo.png" , 18 ) , ("brunch_photo.png" , 18 ) ,
+("family_photo.png" , 19 ) , ("brunch_photo.png" , 19 ) ,
+("family_photo.png" , 20 ) , ("brunch_photo.png" , 20 ) ,
+("standard_photo.png" , 21 ) , ("fitness_photo.png" , 21 ) ,
+("standard_photo.png" , 22 ) , ("fitness_photo.png" , 22 ) ,
+("standard_photo.png" , 23 ) , ("fitness_photo.png" , 23 ) ,
+("standard_photo.png" , 24 ) , ("fitness_photo.png" , 24 ) ,
+("standard_photo.png" , 25 ) , ("fitness_photo.png" , 25 ) ,
+("standard_photo.png" , 26 ) , ("fitness_photo.png" , 26 ) ,
+("standard_photo.png" , 27 ) , ("fitness_photo.png" , 27 ) ,
+("standard_photo.png" , 28 ) , ("fitness_photo.png" , 28 ) ,
+("superior_photo.png" , 29 ) , ("fitness_photo.png" , 29 ) ,
+("superior_photo.png" , 30 ) , ("fitness_photo.png" , 30 ) ,
+("superior_photo.png" , 31 ) , ("fitness_photo.png" , 31 ) ,
+("superior_photo.png" , 32 ) , ("fitness_photo.png" , 32 ) ,
+("superior_photo.png" , 33 ) , ("fitness_photo.png" , 33 ) ,
+("superior_photo.png" , 34 ) , ("fitness_photo.png" , 34 ) ,
+("deluxe_photo.png" , 35 ) , ("brunch_photo.png" , 35 ) ,
+("deluxe_photo.png" , 36 ) , ("brunch_photo.png" , 36 ) ,
+("deluxe_photo.png" , 37 ) , ("brunch_photo.png" , 37 ) ,
+("deluxe_photo.png" , 38 ) , ("brunch_photo.png" , 38 ) ,
+("family_photo.png" , 39 ) , ("brunch_photo.png" , 39 ) ,
+("family_photo.png" , 40 ) , ("brunch_photo.png" , 40 ) ,
+("standard_photo.png" , 41 ) , ("fitness_photo.png" , 41 ) ,
+("standard_photo.png" , 42 ) , ("fitness_photo.png" , 42 ) ,
+("standard_photo.png" , 43 ) , ("fitness_photo.png" , 43 ) ,
+("standard_photo.png" , 44 ) , ("fitness_photo.png" , 44 ) ,
+("standard_photo.png" , 45 ) , ("fitness_photo.png" , 45 ) ,
+("standard_photo.png" , 46 ) , ("fitness_photo.png" , 46 ) ,
+("standard_photo.png" , 47 ) , ("fitness_photo.png" , 47 ) ,
+("standard_photo.png" , 48 ) , ("fitness_photo.png" , 48 ) ,
+("superior_photo.png" , 49 ) , ("fitness_photo.png" , 49 ) ,
+("superior_photo.png" , 50 ) , ("fitness_photo.png" , 50 ) ,
+("superior_photo.png" , 51 ) , ("fitness_photo.png" , 51 ) ,
+("superior_photo.png" , 52 ) , ("fitness_photo.png" , 52 ) ,
+("superior_photo.png" , 53 ) , ("fitness_photo.png" , 53 ) ,
+("superior_photo.png" , 54 ) , ("fitness_photo.png" , 54 ) ,
+("deluxe_photo.png" , 55 ) , ("brunch_photo.png" , 55 ) ,
+("deluxe_photo.png" , 56 ) , ("brunch_photo.png" , 56 ) ,
+("deluxe_photo.png" , 57 ) , ("brunch_photo.png" , 57 ) ,
+("deluxe_photo.png" , 58 ) , ("brunch_photo.png" , 58 ) ,
+("family_photo.png" , 59 ) , ("brunch_photo.png" , 59 ) ,
+("family_photo.png" , 60 ) , ("brunch_photo.png" , 60 );
 
 
 

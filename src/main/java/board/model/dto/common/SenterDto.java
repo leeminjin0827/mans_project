@@ -7,11 +7,13 @@ import lombok.*;
 public class SenterDto {
     // 문의번호 PK
     private int sno;
+    // 문의 작성자
+    private String senterName;
+    // 문의 작성자 전화번호
+    private String senterPhone;
     // 문의제목
-    private String stitle;
+    private String senterTitle;
     // 문의내용
-    private String scontent;
-    // 문의작성자 FK
-    private int userNumber;
+    private String senterContent;
 
 } // c end

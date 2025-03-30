@@ -32,18 +32,17 @@ public interface RoomMapper {
             @Result(property = "rno", column = "rno"),
             @Result(property = "hno", column = "hno"),
             @Result(property = "staffNumber", column = "staff_number"),
-            @Result(property = "rimg", column = "rimg"),
             @Result(property = "ratingName", column = "rating_name"),
             @Result(property = "bedCount", column = "bed_count"),
             @Result(property = "bedType", column = "bed_type"),
             @Result(property = "opName", column = "op_name"),
-            @Result(property = "rimg", column = "filename" , javaType = List.class, many = @Many(select = "selectRoomImages"))
+            @Result(property = "rfiles", column = "rono" , javaType = List.class, many = @Many(select = "selectRoomImages")) // 사진명을 리스트로 가져옴
     })
     List<RoomDto> roomList();
 
     // 사진 조회 SQL
-    @Select("select filename from picture where rono = #{rono}")
-    List<String> selectRoomImg( int rono );
+    @Select("select pnoname from picture where rono = #{rono}")
+    List<String> selectRoomImages( int rono );
 
     // 객실 수정 SQL
     @Update(" update room set rname = #{rname} , rno = #{rno} , staff_number = #{staffNumber} where rono = #{rono} ")

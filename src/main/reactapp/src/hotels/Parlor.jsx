@@ -2,14 +2,14 @@ import axios from "axios";
 import { useEffect, useState } from "react"
 import Sidebar from "./components/Sidebar";
 import { Box, Table } from "@mui/joy";
-import { Button, ButtonGroup } from "@mui/material";
+import { Button, ButtonGroup, TablePagination } from "@mui/material";
 import StaticModal from "./components/StaticModal";
 import OptionRegister from "./components/room/OptionRegister";
 import RoomRatingRegister from "./components/room/RoomRatingRegister";
 import RatingRegister from "./components/room/RatingRegister";
 import RoomRegister from "./components/room/RoomRegister";
-import PictyreList from "./components/room/PictureList";
 import { useNavigate } from "react-router-dom";
+import PictureList from "./components/room/PictureList";
 
 export default function ParlorPage( props ){
 
@@ -49,17 +49,14 @@ export default function ParlorPage( props ){
     const [omodals , setOmodals ] = useState(false);
     const [rmodals , setRmodals ] = useState(false);
     const [romodals , setRomodals ] = useState(false);
-    const [ pmodals , setPmodals ] = useState(false);
     // 모달 열기
     const oOpenModal = () => { setOmodals(true); }
     const rOpenModal = () => { setRmodals(true); }
     const roOpenModal = () => { setRomodals(true); }
-    const pOpemModal = () => { setPmodals(true); }
     // 모달 닫기
     const oCloseModal = () => { setOmodals(false); }
     const rCloseModal = () => { setRmodals(false); }
     const roCloseModal = () => { setRomodals(false); }
-    const pCloseModal = () => { setPmodals(false); }
 
     // ------------------------------------------------ 옵션 ------------------------------------------------------------------------
     
@@ -184,19 +181,19 @@ export default function ParlorPage( props ){
         console.log("객실 전체 조회 실행");
         roomRead();
     }, []);  // 처음 한번만 실행
-
+    
     const [roomList, setRoomList] = useState([]);
-    console.log( "객실 목록 ")
-    console.log( roomList );
-
+    const [plzList, setPlzList] = useState([]);  // 필터링할 객실목록
+    const [selectedRoom, setSelectedRoom] = useState(null); // 선택된 객실 상태
+    
     const roomRead = async () => {
         const response = await axios.get("http://localhost:8081/room");
     
         // 객실 번호별로 옵션을 그룹화
         const groupedRooms = response.data.reduce((acc, room) => {
             if (acc[room.rono]) {
-                // 기존 객실에 옵션 추가
-                acc[room.rono].options.push(room.opName);
+                // 기존 객실에 옵션 추가 (중복된 옵션을 Set으로 제거)
+                acc[room.rono].options.add(room.opName); // Set을 사용하여 중복 옵션을 제거
             } else {
                 // 새로운 객실에 대한 옵션 추가
                 acc[room.rono] = {
@@ -204,46 +201,72 @@ export default function ParlorPage( props ){
                     hno: room.hno,
                     staffNumber: room.staffNumber,
                     rname : room.rname,
-                    rno: room.rno,
+                    rfiles: room.rfiles,
                     ratingName: room.ratingName,
                     bedCount: room.bedCount,
                     bedType: room.bedType,
                     name: room.name,
-                    options: room.opName ? [room.opName] : [],  // 첫 번째 옵션 추가
+                    options: room.opName ? new Set([room.opName]) : new Set(),  // 첫 번째 옵션 추가, Set으로 중복 제거
                 };
             }
             return acc;
         }, {});
     
-        // 객체를 배열로 변환하고, 옵션을 쉼표로 구분된 문자열로 변환
+        // 객체를 배열로 변환하고, Set을 쉼표로 구분된 문자열로 변환
         const roomListWithOptions = Object.values(groupedRooms).map((room) => {
             return {
                 ...room,
-                options: room.options.join(", "), // 옵션을 쉼표로 구분된 문자열로 변환
+                options: Array.from(room.options).join(", "), // Set을 배열로 변환하고 옵션을 쉼표로 구분된 문자열로 변환
             };
         });
     
         setRoomList(roomListWithOptions);  // 상태 업데이트
-        setPlzList(roomListWithOptions);
     };
-
+    
     // select
     const [selectBranch , setSelectBranch ] = useState("0");
-    const [plzList , setPlzList ] = useState([]); // 필터링할 객실목록
-    const selectChange = (e) =>{
+    
+    const selectChange = (e) => {
         const value = e.target.value;
         setSelectBranch(value);
-    }
-    useEffect( () => {
-        if( selectBranch === "0" ){ // 전체 선택 시 모든객실 표시
+    };
+    
+    // selectBranch나 roomList가 변경될 때마다 plzList를 업데이트
+    useEffect(() => {
+        if (selectBranch === "0") {
+            // 전체 선택 시 모든 객실 표시
             setPlzList(roomList);
-        } else{
-            const filterRooms = roomList.filter((room) => room.hno === parseInt(selectBranch));  // 지점에 맞는 객실만 필터링
-            setPlzList(filterRooms); 
+        } else {
+            // 지점에 맞는 객실만 필터링
+            const filterRooms = roomList.filter((room) => room.hno === parseInt(selectBranch));
+            setPlzList(filterRooms);
         }
-    } , [selectBranch , roomList ]);
+    }, [selectBranch, roomList]);  // selectBranch와 roomList가 변경될 때마다 실행
+    
+    // 페이지네이션
+    const [page, setPage] = useState(0); // 현재 페이지
+    const [rowsPage, setRowsPage] = useState(10); // 페이지당 행 개수
+    
+    const changePage = (e, newPage) => {
+        setPage(newPage);
+    };
+    
+    const changeRowPage = (e) => {
+        setRowsPage(parseInt(e.target.value, 10));
+    };
+    
+    const newRoom = Array.isArray(plzList) ? plzList.slice(page * rowsPage, page * rowsPage + rowsPage) : [];
+    
+    // 객실 사진 모달을 열 때 선택된 객실의 사진만 표시
+    const openPictureModal = (room) => {
+        setSelectedRoom(room); // 선택된 객실 설정
+        setPList(true); // 모달 열기
+    };
 
-    // 객실사진
+    const closePictureModal = () => {
+        setPList(false); // 모달 닫기
+        setSelectedRoom(null); // 선택된 객실 정보 초기화
+    };
     
 
     // 객실 수정
@@ -547,24 +570,24 @@ export default function ParlorPage( props ){
                     </div>
                     {/* select 박스 end */}
                 </div>
-                <Table id="tableAll" sx={{tableLayout : "auto"}}>
+                <Table className={"roomtable"}> 
                         <thead>
                             <tr>
-                                <th>객실번호</th>
-                                <th>호실</th>
-                                <th>지점</th>
-                                <th>객실등급</th>
-                                <th>침대수</th>
-                                <th>침대유형</th>
-                                <th>객실옵션</th>
-                                <th>담당자</th>
-                                <th>사진</th>
-                                <th>비고</th>
+                                <th style={{ width : '4%'}}>객실번호</th>
+                                <th style={{ width : '4%'}}>호실</th>
+                                <th style={{ width : '4%'}}>지점</th>
+                                <th style={{ width : '5%'}}>객실등급</th>
+                                <th style={{ width : '4%'}}>침대수</th>
+                                <th style={{ width : '9%'}}>침대유형</th>
+                                <th style={{ width : '25%'}}>객실옵션</th>
+                                <th style={{ width : '9%'}}>사진</th>
+                                <th style={{ width : '5%'}}>담당자</th>
+                                <th style={{ width : '10%'}}>비고</th>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                plzList.map( ( room , i ) => {
+                                newRoom.map( ( room , i ) => {
                                     if(true) {
                                         
                                     }
@@ -578,7 +601,7 @@ export default function ParlorPage( props ){
                                             <td>{room.bedType}</td>
                                             <td>{room.options}</td>
                                             <td>
-                                                <Button variant="contained" type="button" onClick={pOpemModal}> 사진보기 </Button>
+                                                <Button variant="contained" type="button" onClick={ () => openPictureModal(room)}> 사진보기 </Button>
                                             </td>
                                             <td>{room.name}</td>
                                             <td>
@@ -591,15 +614,19 @@ export default function ParlorPage( props ){
                             }
                         </tbody>
                 </Table>
-                <StaticModal 
-                    isOpen={pOpemModal}
-                    onClose={pCloseModal}
-                    title={"객실 사진"}
-                    openData={
-                        <PictyreList
-                            roomList={roomList}
-                        />
-                    }
+                {/* 페이지네이션 */}
+                <TablePagination
+                    component="div"
+                    count={plzList.length} // 전체 데이터 개수
+                    page={page}
+                    onPageChange={changePage}
+                    rowsPerPage={rowsPage}
+                    onRowsPerPageChange={changeRowPage}
+                    sx={{
+                        "& .MuiTablePagination-selectLabel": { display: "none" },
+                        "& .MuiTablePagination-select": { display: "none" },
+                        "& .MuiTablePagination-displayedRows": { marginRight: "auto" } // 가운데 정렬 깨짐 방지
+                    }}
                 />
             </Box>
             {/* 객실 목록 end */}
@@ -650,6 +677,18 @@ export default function ParlorPage( props ){
                     />
                 }
                 onClose={ () => { setRoomWriteModal(false) } }
+            />
+            {/* 객실 사진 모달 */}
+            <StaticModal 
+                isOpen={pList}
+                title={"객실 사진"}
+                openData={
+                    <PictureList
+                        room={selectedRoom}
+                        onClose={ closePictureModal}
+                    />
+                }
+                onClose={ () => { setPList(false) } }
             />
         </div>
     </>)
