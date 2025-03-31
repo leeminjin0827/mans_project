@@ -20,15 +20,9 @@
 
 <h2 style="color: #17a2b8;"><i class="fas fa-rocket"></i> 프로젝트 소개 <i class="fas fa-rocket"></i></h2>
 <div style="background-color: #f8f9fa; padding: 20px; border-radius: 5px; border: 1px solid #ddd;">
-  <p>저희는 <strong style="color: #dc3545;">React</strong> 기반으로 <strong style="color: #007bff;">CRUD</strong> 및 <strong style="color: #ffc107;">API</strong>를 활용하여 개발된 호텔 관리 시스템을 선보입니다. 🚀</p>
-  <p>본 시스템은 관리자의 효율적인 업무 처리를 돕고, 고객 만족도 향상과 인적 자원 운영 최적화를 지향합니다.</p>
+지점별 운영 현황을 통합 관리, 객실 및 예약 시스템을 최적화하여 고객 만족도를 향상시키며, 직원 근무 관리를 효율화하여 인적 자원의 운영을 최적화 하고자 했습니다.
+또한, 매출 데이터를 분석 및 시각화하여 경영진의 입장에서 신속하고 정확한 의사 결정을 내릴 수 있도록 지원하는 데 목적이 있습니다.
   <br>
-  <ul style="list-style-type: none; padding-left: 0;">
-    <li><i class="fas fa-chart-line" style="color: #28a745;"></i> <strong>통합 관리</strong>: 다양한 지점의 운영 데이터를 한 곳에서!</li>
-    <li><i class="fas fa-calendar-alt" style="color: #007bff;"></i> <strong>예약 최적화</strong>: 스마트한 객실 및 예약 관리 시스템!</li>
-    <li><i class="fas fa-users" style="color: #ffc107;"></i> <strong>인적 자원 효율화</strong>: 효과적인 직원 근무 관리 지원!</li>
-    <li><i class="fas fa-lightbulb" style="color: #17a2b8;"></i> <strong>데이터 기반 의사 결정</strong>: 매출 분석 및 시각화로 현명한 선택을!</li>
-  </ul>
 </div>
 
 <hr style="border: 3px solid #007bff; border-radius: 5px;">
