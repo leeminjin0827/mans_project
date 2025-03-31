@@ -1,8 +1,9 @@
-<img src="https://capsule-render.vercel.app/api?type=wave&color=Blue &height=5px&section=header" />
 
 <div align = "center">
   <img src="https://github.com/leeminjin0827/mans_project/blob/master/src/main/reactapp/public/logo2.png" width = "400" height = "400"/>
 </div>
+
+<img src="https://capsule-render.vercel.app/api?type=wave&color=Blue &height=5px&section=header"/>
 
 
 ## 호텔 관리 시스템 프로젝트 
