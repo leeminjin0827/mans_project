@@ -22,7 +22,7 @@ public interface OperateMapper {
     @Select("select * from operate where hno = #{hno}")
     public  OperateDto findOne(int hno);
 
-    @Update(" update operate set address = #{address}, hotel_number = #{hotel_number} , intro = #{intro} where hno = #{hno} ")
+    @Update(" update operate set hname = #{hname}, address = #{address}, hotel_number = #{hotel_number} , intro = #{intro} where hno = #{hno} ")
     public boolean Update(OperateDto operateDto);
 
 //    @Update(" update operate set address = #{address} where hno = #{hno} ")
