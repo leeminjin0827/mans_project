@@ -17,6 +17,8 @@ public class UserService {
 
 
     public Map<String, Object> findAvailableRooms(Map<String, Object> reqMap) {
+
+
         // 객실 조회
         List<Map<String, Object>> result1 = userMapper.findAvailableRooms(reqMap);
         System.out.println("result1 = " + result1);
@@ -30,24 +32,28 @@ public class UserService {
         // hno와 rno 값 안전하게 가져오기 (예외 처리 추가)
         String hno = reqMap.get("hno") != null ? reqMap.get("hno").toString() : "0";
         String rno = reqMap.get("rno") != null ? reqMap.get("rno").toString() : "0";
-
-        result.put("hno", hno); // 지점 번호
-        result.put("rno", rno); // 객실 등급 번호
-
         try {
+            result.put("hno", hno); // 지점 번호
+            result.put("rno", rno); // 객실 등급 번호
+
             // 호텔 이름과 객실 등급 이름 조회
             String hotelName = userMapper.findHotelName(Integer.parseInt(hno));
             String ratingName = userMapper.findRatingName(Integer.parseInt(rno));
 
             result.put("hname", hotelName); // 호텔 이름
             result.put("rname", ratingName); // 객실 등급 이름
+            // 객실 사진
+            result.put("pnoname" , userMapper.findRnoNameByRono( Integer.parseInt( result1.get(0).get("rono").toString() )  ));
+            return result;
+
         } catch (NumberFormatException e) {
             result.put("hname", "Invalid Hotel");
             result.put("rname", "Invalid Rating");
             System.err.println("Invalid number format: " + e.getMessage());
+
+            return null;
         }
 
-        return result;
     }
 
     private final RoomReservation roomReservation;
