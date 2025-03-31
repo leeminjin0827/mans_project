@@ -54,7 +54,7 @@ public interface ReservationMapper {
     List<RoomDto> findHnoRoom(@Param("hno") int hno);
 
     /** 지점 번호 조회 (소켓) */
-    @Select("select hno from operate where state = #{state}")
+    @Select("select hno, hname from operate where state = #{state}")
     List<OperateDto> findHno(@Param("state") int state);
 
     /** 예약 수정 (REST API) */

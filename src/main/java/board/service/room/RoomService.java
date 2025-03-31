@@ -24,30 +24,24 @@ public class RoomService {
     // 객실 등록
     public boolean roomWrite(RoomDto roomDto){
         try {
-            // 업로드된 파일명을 저장할 리스트 생성
-            List<String> filenames = new ArrayList<>();
-            // 첨부파일 존재여부 검사
-            if (roomDto.getRuploadfiles() != null && !roomDto.getRuploadfiles().isEmpty() ) {
-                for(MultipartFile file : roomDto.getRuploadfiles() ){
-                    if( !file.isEmpty() ){ // false : 파일이 있다. // true 이면
-                        System.out.println("file : " + file);
+            // 객실 등록
+            boolean result = roomMapper.roomWrite(roomDto);
+            System.out.println("result = " + result);
+
+            // 객실 등록 후 , 사진 등록
+            if( result ){
+                if( roomDto.getRuploadfiles() != null && !roomDto.getRuploadfiles().isEmpty()){
+                    for( MultipartFile file : roomDto.getRuploadfiles()){
                         String filename = rfileService.rFileUpload(file);
                         System.out.println("filename : " + filename);
                         if( filename != null ){
-                            filenames.add(filename);
+                            System.out.println(roomDto );
+                            roomMapper.pictureSave(roomDto.getRono() , filename );
                         } // if end
-                    } // if end
-                } // for end
+                    } // for end
+                } // if end
             } // if end
-            // 업로드된 파일명이 있을경우 처리
-            if( !filenames.isEmpty() ){
-                // 파일명을 문자열로 합쳐서 DB에 저장
-                String filenamesString = String.join("," , filenames );
-                roomDto.setRimg(filenamesString);
-                System.out.println("파일 경로들: " + filenamesString);
-            } // if end
-            boolean result = roomMapper.roomWrite(roomDto);
-            System.out.println("result = " + result);
+            System.out.println(result);
             return result;
         }catch (Exception e ) { return false; }
     } // f end

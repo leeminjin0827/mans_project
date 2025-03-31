@@ -21,6 +21,8 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
 import BallotIcon from '@mui/icons-material/Ballot';
 import axios from "axios";
+import { useDispatch } from 'react-redux';
+import { logout } from '../features/LoginSlice';
 
 
 
@@ -32,6 +34,9 @@ export default function Sidebar({setOptionWriteModal,setRatingWriteModal,setRoom
     // 각 항목에 대한 open 상태 관리
     const [openParlor, setOpenParlor] = React.useState(false);  // 지점별객실관리 항목에 대한 상태
 
+    // 리덕스(전역변수(상태)) 불러오기
+    const dispatch = useDispatch();
+
     const handleClick = (section) => {
       if (section === 'parlor') {
         setOpenParlor(!openParlor);
@@ -40,11 +45,12 @@ export default function Sidebar({setOptionWriteModal,setRatingWriteModal,setRoom
 
     // 로그아웃 버튼 클릭 시 로그아웃 하는 함수
     const navigate = useNavigate();
-    const logout = async () => {
+    const logoutId = async () => {
         try {
             const response = await axios.get("http://localhost:8081/staff/logout", {withCredentials : true});
             if(response.data) {
                 alert("로그아웃 성공");
+                dispatch(logout());
                 navigate("/");
             } else {
                 alert("로그아웃 실패");
@@ -155,7 +161,7 @@ export default function Sidebar({setOptionWriteModal,setRatingWriteModal,setRoom
                         <Divider /> {/* 사이드바 border */}
                         <List sx={{padding: '0'}}>
                             <ListItem disablePadding>
-                            <ListItemButton onClick={logout}>
+                            <ListItemButton onClick={logoutId}>
                                 <ListItemIcon>
                                 <MeetingRoomIcon />
                                 </ListItemIcon>

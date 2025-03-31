@@ -39,7 +39,9 @@ public class RfileService {
         // 경로에 업로드
         try{ multipartFile.transferTo( file );
         }catch ( IOException e ) { System.out.println( e ); return null; } // 실패시 null
+        System.out.println( "fileName : " + fileName );
         return fileName; // 업로드 성공시 파일명 반환
+
     } // f end
 
     // [2] 다운로드

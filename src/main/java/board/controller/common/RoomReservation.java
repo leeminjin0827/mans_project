@@ -36,6 +36,7 @@ public class RoomReservation extends TextWebSocketHandler {
     public boolean isJson(String str) {
         try {
             ObjectMapper mapper = new ObjectMapper();
+            // 입력된 문자열을 JSON 트리 구조로 변환
             mapper.readTree(str);
             return true;
         } catch (Exception e) {
@@ -62,7 +63,13 @@ public class RoomReservation extends TextWebSocketHandler {
         // JSON을 String으로 바꿔주는 클래스
         ObjectMapper mapper = new ObjectMapper();
         // 브라우저가 보낸 값을 확인하는 부분
-        boolean checkJson = isJson(message.getPayload());
+        boolean checkJson = false;
+        try {
+            mapper.readTree(message.getPayload());
+            checkJson = true;
+        } catch (Exception e) {
+            checkJson = false;
+        }
         if(checkJson) {
             payload = mapper.readValue(message.getPayload().trim(), String.class);
         } else {
@@ -116,14 +123,6 @@ public class RoomReservation extends TextWebSocketHandler {
 
         // 현재 접속 중인 소캣 개수 출력
         System.out.println(">> 현재 소캣 접속 개수 = " + accessList.size() + "\n");
-
-        // 데이터베이스에서 예약 테이블 전체 값 가져오기
-        // List<ReservationDto> reservationList = reservationMapper.reservationFindAll();
-        // 데이터베이스에서 지점 가져오기
-
-        // String str = mapper.writeValueAsString(reservationList);
-
-
         // 모든 클라이언트에게 메시지 전송
         for(int index = 0; index < accessList.size(); index++) {
             WebSocketSession temp = accessList.get(index);

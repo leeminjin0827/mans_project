@@ -12,8 +12,8 @@ import java.util.ArrayList;
 @Mapper
 public interface OperateMapper {
 
-    @Insert("insert into operate( address,  hotel_number, intro , mimg )" +
-            "values( #{address}, #{hotel_number}, #{intro} , #{mimg} ) ")
+    @Insert("insert into operate(hname, address,  hotel_number, intro , mimg )" +
+            "values(#{hname}, #{address}, #{hotel_number}, #{intro} , #{mimg} ) ")
     public boolean conFine(OperateDto operateDto);
 
     @Select("select * from operate")

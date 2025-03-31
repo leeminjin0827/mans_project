@@ -2,7 +2,7 @@ import { BrowserRouter , Route , Routes , Link, useLocation } from "react-router
 import * as React from 'react';
 
 // 리덕스, 리덕스 퍼시스턴스 import
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { store, persistor } from "./store/Store";
 import { PersistGate } from "redux-persist/integration/react";
 
@@ -19,6 +19,7 @@ import User from "./User";
 import { useEffect } from "react";
 import Graph from "./detailGraph";
 import Choice from "./OperGraph";
+import Sidebar from "./components/Sidebar";
 
 
 // useLocation를 사용하는 컴포넌트는 BrowserRouter 내부에서 호출되어야 함
@@ -54,6 +55,9 @@ function RouterWrapper(){
 } // f end
 
 export default function PermanentDrawerLeft() {
+
+  // const userInfo = useSelector((state) => state.user.userInfo);
+
   return (
     <>
         {/* ↓ 리덕스 스토어 적용 : 현재 Provider로 감싼 컴포넌트들은 모두 리덕스의 전역변수(상태)를 사용할 수 있다. */}
@@ -61,7 +65,8 @@ export default function PermanentDrawerLeft() {
             {/* ↓ 리덕스 퍼시스턴스를 적용 하는 컴포넌트 */}
             <PersistGate persistor={persistor} loading={null}>
                 <BrowserRouter>
-                {/* <SignInCard /> */}
+                    {/* <SignInCard /> */}
+                    {/* <Sidebar /> */}
                     <RouterWrapper />
                 </BrowserRouter>
             </PersistGate>
