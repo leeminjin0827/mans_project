@@ -145,7 +145,7 @@ export default function UserWrite(props) {
                                 <Grid item xs={12} sm={4}>
                                     <CardMedia
                                         component="img"
-                                        image={"http://localhost:8081/upload/"+roomData.pnoname} // 이미지 경로를 실제 서버의 이미지로 변경
+                                        image={"http://localhost:8081/upload/room/"+roomData.pnoname} // 이미지 경로를 실제 서버의 이미지로 변경
                                         alt="Room image"
                                         style={{ width: '100%', height: 'auto' }}
                                     />
