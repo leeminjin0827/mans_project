@@ -33,7 +33,6 @@
 
 <hr style="border: 3px solid #007bff; border-radius: 5px;">
 
-<h2 style="color: #ffc107;"><i class="fas fa-tools"></i> 개발 환경 <i class="fas fa-tools"></i></h2>
 
 ## 🛠️ 개발 환경 🛠️
 
