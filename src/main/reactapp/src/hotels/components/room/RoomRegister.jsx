@@ -54,19 +54,19 @@ export default function RoomRegister( props ){
                 <tbody>
                     <tr>
                         <td> 호실명 :  </td>
-                        <td> <Input onChange={roChange} variant="outlined" type="text" name="rname" value={roomWrite.rname}/> </td>
+                        <td> <Input onChange={roChange} variant="outlined" type="text" name="rname" value={roomWrite.rname}/></td>
                     </tr>
                     <tr>
                         <td> 등급 :  </td>
-                        <td> <Input onChange={roChange} variant="outlined" type="text" name="rno" value={roomWrite.rno}/> </td>
+                        <td> <Input onChange={roChange} variant="outlined" type="text" name="rno" value={roomWrite.rno} placeholder="번호로 입력"/> </td>
                     </tr>
                     <tr>
                         <td> 지점 :  </td>
-                        <td> <Input onChange={roChange} variant="outlined" type="text" name="hno" value={roomWrite.hno}/> </td>
+                        <td> <Input onChange={roChange} variant="outlined" type="text" name="hno" value={roomWrite.hno} placeholder="번호로 입력"/> </td>
                     </tr>
                     <tr>
                         <td> 담당자 :  </td>
-                        <td> <Input onChange={roChange} variant="outlined" type="text" name="staffNumber" value={roomWrite.staffNumber}/> </td>
+                        <td> <Input onChange={roChange} variant="outlined" type="text" name="staffNumber" value={roomWrite.staffNumber} placeholder="번호로 입력"/> </td>
                     </tr>
                     <tr>
                         <td> 객실사진 </td>

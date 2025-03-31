@@ -31,7 +31,7 @@ export default function OptionRegister( props ){
                 <tbody>
                     <tr>
                         <td> 옵션 이름 : </td>
-                        <td> <Input onChange={oChange} variant="outlined" type="text" name="opName" value={optionWrite.opName}/> </td>
+                        <td> <Input onChange={oChange} variant="outlined" type="text" name="opName" value={optionWrite.opName} /> </td>
                     </tr>
                 </tbody>
             </table>
