@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/leeminjin0827/mans_project/blob/master/src/main/reactapp/public/logo2.png" width="400" height="400"/>
+  <img src="https://github.com/leeminjin0827/mans_project/blob/master/src/main/reactapp/public/logo2.png" width="600" height="400"/>
 </div>
 
 <br>
