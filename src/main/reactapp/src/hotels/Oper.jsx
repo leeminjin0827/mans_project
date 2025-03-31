@@ -209,10 +209,7 @@ export default function Operatae(props){
     //          0           1           2
     //   index  0           1           2
     const stateChange = (e , newvalue, index ) => {
-        // console.log( index )
-        // console.log(e.target);
-        // // console.log(e.target.name);
-        // console.log(e.target.value);
+
         // stateDe[index] = e.target.value; mui select가 target을 인식을 못함
         stateDe[index] = newvalue;
         setStateDe( [...stateDe ] );
