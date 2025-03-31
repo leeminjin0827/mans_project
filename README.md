@@ -5,13 +5,13 @@
 <br>
 
 <div align="center">
-  <h1><span style="color: #fff; background-color: #007bff; padding: 10px 20px; border-radius: 5px;">✨🏨 호텔 관리 시스템 프로젝트 🏨✨</span></h1>
+  <h1><span style="color: #fff; background-color: #007bff; padding: 10px 20px; border-radius: 5px;">✨호텔 관리 시스템 프로젝트 ✨</span></h1>
 </div>
 
 <br>
 
 <div align="center">
-  <p style="font-size: 1.2em; color: #555;">🎉 4명의 열정적인 팀원이 뭉쳐 만든 관리자 중심의 호텔 관리 서비스 프로토타입! 🎉</p>
+  <p style="font-size: 1.2em; color: #555;">🎉 수업 프로젝트의 일환으로 4명의 팀원들이 협업하여 리액트를 활용하여 crud 및 api를 적용한 관리자 입장의 호텔관리 서비스의 프로토 타입을 구현하였습니다. 🎉</p>
 </div>
 
 <br>
