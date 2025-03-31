@@ -31,7 +31,7 @@ export default function Operatae(props){
     useEffect(() => {checkAuthority(); onFindAll();}, []) // 처음부터 전체 출력
 
     //입력받은 데이터를 저장하는 변수
-    const[dataInfo, setDataInfo] = useState({ address : '',hotel_number: '', intro : ''});
+    const[dataInfo, setDataInfo] = useState({ hname : '' , address : '',hotel_number: '', intro : ''});
     const[profile , setProfile] = useState(null); //업로드 파일을 파일객체로로 저장하는 state 변수
     const[preview , setPreview] = useState(null); //업로드 파일을 바이트로 저장하는 state 변수
     const onFileChange = (event) => { console.log(event.target.files[0])
@@ -93,13 +93,14 @@ export default function Operatae(props){
     //     } catch (error) { console.log(error);}
     // }
 
-    const OnSignup = async () => {
+    const OnSignup = async () => { // 관리자 등록부분
         if (phoneNumberError) {
             alert('전화번호 형식을 확인해주세요.');
             return;
         }
         //formdata 객체 만들기
         const formData = new FormData();
+        formData.append('hname' , dataInfo.hname);
         formData.append('address' , dataInfo.address );
         formData.append('hotel_number' , dataInfo.hotel_number);
         formData.append('intro' , dataInfo.intro);
@@ -166,7 +167,7 @@ export default function Operatae(props){
     
 
     //주소 소개 , 폰번호 변경 데이터
-    const [editFormData, setEditFormData] = useState({ hno : '' , address : '', hotel_number : '' , intro : ''});
+    const [editFormData, setEditFormData] = useState({ hno : '', hname : '' , address : '', hotel_number : '' , intro : ''});
 
     const editChange = (e) => {
         console.log(e.target);
@@ -176,7 +177,8 @@ export default function Operatae(props){
     }
     
 
-    const onUpdate = async (hno,address, hotel_number, intro) => {
+    const onUpdate = async (hno,hname,address, hotel_number, intro) => {
+        editFormData.hname = prompt(`현재 지점명 : ${hname}` , editFormData.hname);
         editFormData.address = prompt(`현재주소 : ${address}`, editFormData.address);
         editFormData.hotel_number= prompt(`현재 번호 : ${hotel_number}`, editFormData.hotel_number);
         editFormData.intro = prompt(`현재 소개 : ${intro}`, editFormData.intro);
@@ -233,6 +235,7 @@ export default function Operatae(props){
                     
                     <Box sx={{ml: 10, py: 2, width: '100%',  display: 'grid', gap: 1, flexWrap: 'wrap' }}>
                     <h2>관리자 정보페이지</h2>
+                    <Input sx={{ width: '85%' }} size="md" placeholder="호텔지점" type="text" value={dataInfo.hname} name="hname" onChange={formDataChange}/>
                     <div>
                     <Input sx={{ width: '85%' }} readOnly size="md" placeholder="주소" type="text" value={dataInfo.address} name="address" onChange={formDataChange}/>
                     </div>
@@ -254,7 +257,7 @@ export default function Operatae(props){
 
                 <Table sx={{tableLayout : "auto"}}  >
                     <thead>
-                        <tr ><th>번호</th><th>주소</th><th>호텔전화번호</th><th>소개</th><th>운영상태</th><th>수정</th></tr>
+                        <tr><th>번호</th><th>지점명</th><th>주소</th><th>호텔전화번호</th><th>소개</th><th>운영상태</th><th>수정</th></tr>
                         
                     </thead>
                     <tbody border={1}>
@@ -263,6 +266,7 @@ export default function Operatae(props){
 
                                 return(<tr key={board.hno}>
                                 <th>{board.hno}</th>
+                                <th>{board.hname}</th>
                                 <th>{board.address}</th>
                                 <th>{board.hotel_number}</th>
                                 <th>{board.intro}</th>
@@ -274,7 +278,7 @@ export default function Operatae(props){
                                     </Select>
                                     <Button size="sm" sx={{  ml: 6 } } type="button" onClick={() =>{stateUpdate(board.hno, stateDe[index])}}>상태수정</Button>
                                     </th>
-                                <th><Button type="butoon" sx={{  ml: -1} } onClick={() => onUpdate(board.hno, board.address, board.hotel_number ,board.intro)}>수정</Button></th>
+                                <th><Button type="butoon" sx={{  ml: -1} } onClick={() => onUpdate(board.hno, board.hname, board.address, board.hotel_number ,board.intro)}>수정</Button></th>
                                 </tr>);// 여기 부분 onUpdate() 를 그냥 넣으니 연속 실행됨
                             })
                         }

@@ -30,7 +30,7 @@ export default function  Home(props){
 
     const [stappas , setStappas] = useState();
 
-    const staffone = async (hno) => {
+    const staffone = async (hno) => {/// 스태프 테이블 정보 가져오는것
         try {
             let temp = Number(hno)
             const response = await axios.get(`http://localhost:8081/findall/stffone?hno=${temp}`);
@@ -47,7 +47,7 @@ export default function  Home(props){
 
     const [opers , setOpers] = useState();
 
-    const operone = async (hno) => {
+    const operone = async (hno) => { // 정보 다 가져오기 호텔 테이블
         try {
             let temp = Number(hno)
             const response = await axios.get(`http://localhost:8081/findall/operone?hno=${temp}`);
@@ -127,7 +127,10 @@ export default function  Home(props){
                     <Table
                     variant="outlined" aria-label="basic table" style={{width:"350px"}}>
 
-                    <tbody>
+                    <tbody>               
+                    <tr>
+                    <td style={{ color: "black"}}>지점명 : {opers.hname}</td>
+                    </tr>    
                     <tr>
                     <td style={{ color: "black"}}>주소 : {opers.address}</td>
                     </tr>
