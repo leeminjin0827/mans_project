@@ -48,7 +48,7 @@ export default function UserView({ reservationView }){
         {/* 페이지네이션 */}
         <TablePagination
             component="div"
-            count={senterList.length}
+            count={reservationView.length}
             page={page}
             onPageChange={changePage}
             rowsPerPage={rowsPage}
