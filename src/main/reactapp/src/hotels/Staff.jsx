@@ -114,7 +114,7 @@ export default function StaffPage(props) {
     // 퇴사 관련 state
     const [staffDelete, setStaffDelete] = useState({endDate : "", resignation : ""});
     const resignationStaff = async (staffNumber) => {
-        const state = confirm("정말 퇴사 처리하시겠습니까?" + staffNumber);
+        const state = confirm("정말 퇴사 처리하시겠습니까?");
         if(state) {
             let today = new Date();
             let now = `${today.getFullYear()}-${today.getMonth()+1 < 10 ? `0${today.getMonth()+1}` : today.getMonth()+1}-${today.getDate() < 10 ? `0${today.getDate()}` : today.getDate()}`;
