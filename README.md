@@ -36,12 +36,13 @@
 <h2 style="color: #ffc107;"><i class="fas fa-tools"></i> 개발 환경 <i class="fas fa-tools"></i></h2>
 <div style="background-color: #e9ecef; padding: 20px; border-radius: 5px; border: 1px solid #ccc;">
   <p>🛠️ 저희 프로젝트는 다음과 같은 환경에서 개발되었습니다:</p>
-  <ul>
-    <li><span style="font-weight: bold; color: #6c757d;">Version</span>: <img src="https://img.shields.io/badge/Java-17-orange?style=flat-square&logo=openjdk&logoColor=white" alt="Java 17"></li>
-    <li><span style="font-weight: bold; color: #6c757d;">IDE</span>: <img src="https://img.shields.io/badge/IntelliJ_IDEA-2023-blueviolet?style=flat-square&logo=intellij-idea&logoColor=white" alt="IntelliJ IDEA"></li>
-    <li><span style="font-weight: bold; color: #6c757d;">Backend</span>: <img src="https://img.shields.io/badge/JAVA-orange?style=flat-square&logo=java&logoColor=white" alt="JAVA">, <img src="https://img.shields.io/badge/Spring-brightgreen?style=flat-square&logo=spring&logoColor=white" alt="Spring"></li>
-    <li><span style="font-weight: bold; color: #6c757d;">Frontend</span>: <img src="https://img.shields.io/badge/JavaScript-yellow?style=flat-square&logo=javascript&logoColor=black" alt="JavaScript">, <img src="https://img.shields.io/badge/HTML-E34F26?style=flat-square&logo=html5&logoColor=white" alt="HTML">, <img src="https://img.shields.io/badge/CSS-1572B6?style=flat-square&logo=css3&logoColor=white" alt="CSS">, <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=white" alt="React"></li>
-  </ul>
+![Java](https://img.shields.io/badge/Java-17-orange)
+![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ_IDEA-2023-blueviolet)
+![Spring](https://img.shields.io/badge/Spring-5.x-brightgreen)
+![React](https://img.shields.io/badge/React-18.x-61DAFB)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow)
+![HTML5](https://img.shields.io/badge/HTML5-%23E34F26.svg?style=flat&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-%231572B6.svg?style=flat&logo=css3&logoColor=white)
 </div>
 
 <hr style="border: 3px solid #dc3545; border-radius: 5px;">
