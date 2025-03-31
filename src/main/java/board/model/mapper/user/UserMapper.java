@@ -43,4 +43,8 @@ public interface UserMapper {
             "VALUES (#{price}, #{payment_date}, #{detail_state}, #{reno})")
     int insertReservationDetail(Map<String, Object> reservationDetailData);
 
+    // rono로 rnoname 조회
+    @Select("SELECT pnoname FROM picture WHERE rono = #{rono} limit 1")
+    String findRnoNameByRono(int rono);
+
 }
