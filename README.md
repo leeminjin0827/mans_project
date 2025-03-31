@@ -1,8 +1,11 @@
+<img src="https://capsule-render.vercel.app/api?type=wave&color=skyblue&height=10px&section=header" />
 
 <div align = "center">
   <img src="https://github.com/leeminjin0827/mans_project/blob/master/src/main/reactapp/public/logo2.png" width = "400" height = "400"/>
 </div>
-# 호텔 관리 시스템 프로젝트 
+
+
+## 호텔 관리 시스템 프로젝트 
 
 수업 프로젝트의 일환으로 4명의 팀원들이 협업하여 리애트를 활용하여 crud 및 api를 적용한 관리자 입장의 호텔관리 서비스의 프로토 타입을 구현하였습니다.
 
@@ -30,3 +33,6 @@
 + 이민진(조장) : 지점별객실관리(조회,등록,수정,삭제) , 옵션목록(수정,삭제) , 객실등급목록(수정,삭제) , 객실별옵션목록(등록,삭제)
 + 한웅재 : 직원관리(조회,수정,등록,삭제,사진등록) , 객실예약 현황(수정, 삭제, 조회-웹소켓)
 + 한상범 : 대시보드(조회) , 지점관리(조회,등록,수정,삭제)
+
+<img src="https://capsule-render.vercel.app/api?type=wave&color=skyblue&height=10px&section=footer" />
+
