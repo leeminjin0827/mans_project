@@ -1,4 +1,4 @@
-import { Box, Card, Typography } from "@mui/joy";
+import { Box, Card, Tooltip, Typography } from "@mui/joy";
 import { Button, Divider } from "@mui/material";
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -46,11 +46,12 @@ export function RoomCard(props) {
         <>
             <Card 
                 sx={{
+                    boxSizing: "border-box",
                     minWidth : "15%", width : "15%", 
                     minHeight : "15%", height : "15%",
                     flexGrow : 0,
                     flexShrink : 1,
-                    flexBasis : "calc(100% / 6 - 20px)",
+                    flexBasis : "calc(100% / 5 - 20px)",
                     backgroundColor : props.bgColor,
                     color : "white",
                     cursor : "pointer"
@@ -81,9 +82,9 @@ export function RoomCard(props) {
                             </td>
                         </tr>
                         <tr>
-                            <td>사용현황 : </td>
+                            <td>입실여부 : </td>
                             <td>
-                                <Typography level="title-md" sx={{color : "white"}}>{props.bgColor == "#d19c97" ? "불가능" : "가능"}</Typography>
+                                <Typography level="title-md" sx={{color : "white"}}>{props.bgColor == "#d19c97" ? "입실" : "퇴실"}</Typography>
                             </td>
                         </tr>
                     </tbody>
@@ -313,6 +314,7 @@ export default function RoomReservationStatus(props) {
                         justifyContent : "center",
                         gap : "20px",
                         margin : 3,
+                        padding : "0px 30px"
                     }}>
                         {
                             roomList.map((value, index) => {
@@ -364,24 +366,27 @@ export default function RoomReservationStatus(props) {
                             })
                         }
                 </Box>
-                <IconButton
-                    size="lg"
-                    color="neutral"
-                    variant="outlined"
-                    onClick={() => changeDate(-1)}
-                    sx={{position : "fixed", top : "51%", left : "3%", bgcolor: 'background.surface' }}
-                >
-                    <KeyboardArrowLeftIcon />
-                </IconButton>
-                <IconButton
-                    size="lg"
-                    color="neutral"
-                    variant="outlined"
-                    onClick={() => changeDate(1)}
-                    sx={{position : "fixed", top : "51%", right : "3%", bgcolor: 'background.surface' }}
-                >
-                    <KeyboardArrowRightIcon />
-                </IconButton>
+                <Tooltip title="이전 날">
+                    <IconButton
+                        size="lg"
+                        variant="outlined"
+                        onClick={() => changeDate(-1)}
+                        sx={{position : "fixed", top : "49%", left : "3%", bgcolor : "#224a9a", "&:hover": { backgroundColor: "#224a9a" }}}
+                    >
+                        <KeyboardArrowLeftIcon sx={{color : "white"}} />
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title="이후 날">
+                    <IconButton
+                        size="lg"
+                        color="neutral"
+                        variant="outlined"
+                        onClick={() => changeDate(1)}
+                        sx={{position : "fixed", top : "49%", right : "3%", bgcolor : "#224a9a", "&:hover": { backgroundColor: "#224a9a" }}}
+                    >
+                        <KeyboardArrowRightIcon sx={{color : "white"}}  />
+                    </IconButton>
+                </Tooltip>
             </div>
         </>
     );

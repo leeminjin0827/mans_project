@@ -7,6 +7,7 @@ import { Button, Option, Select } from "@mui/joy";
 import Table from '@mui/joy/Table';
 import Graph from "./detailGraph";
 import Choice from "./OperGraph";
+import { useNavigate } from "react-router-dom";
 // import { BarChart } from '@mui/x-charts/BarChart';
 
 
@@ -15,7 +16,25 @@ import Choice from "./OperGraph";
 
 export default function  Home(props){
 
-    useEffect(()=>{rating()},[])
+    /** 페이지 이동 관련 코드 */
+    const navigate = useNavigate();
+
+    /** 접근 권한 확인 하는 함수 */
+    const checkAuthority = async () => {
+        try {
+            const response = await axios.get("http://localhost:8081/staff/authority", {withCredentials : true});
+            const result = response.data;
+            console.log(`result = ${result}`);
+            if(!result) {
+                alert("접근 권한이 없습니다.");
+                navigate(-1);
+            }
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
+    useEffect(()=>{checkAuthority(); rating(); },[])
 
    //select hno 가져옴 value에 저장
     const [value , setValue ] = useState('1');
