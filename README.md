@@ -1,9 +1,9 @@
-# 호텔 관리 시스템 프로젝트 
+
 <div align = "center">
   <img src="https://github.com/leeminjin0827/mans_project/blob/master/src/main/reactapp/public/logo2.png" width = "400" height = "400"/>
 </div>
+# 호텔 관리 시스템 프로젝트 
 -----------
-
 수업 프로젝트의 일환으로 4명의 팀원들이 협업하여 리애트를 활용하여 crud 및 api를 적용한 관리자 입장의 호텔관리 서비스의 프로토 타입을 구현하였습니다.
 
 ## 프로젝트 소개
