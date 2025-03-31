@@ -20,7 +20,7 @@
 
 <h2 style="color: #17a2b8;"><i class="fas fa-rocket"></i> 프로젝트 소개 <i class="fas fa-rocket"></i></h2>
 <div style="background-color: #f8f9fa; padding: 20px; border-radius: 5px; border: 1px solid #ddd;">
-지점별 운영 현황을 통합 관리, 객실 및 예약 시스템을 최적화하여 고객 만족도를 향상시키며, 직원 근무 관리를 효율화하여 인적 자원의 운영을 최적화 하고자 했습니다.
+지점별 운영 현황을 통합 관리, 객실 및 예약 시스템을 최적화하여 고객 만족도를 향상시키며, 직원 근무 관리를 효율화하여 인적 자원의 운영을 최적화 하고자 했습니다.</br>
 또한, 매출 데이터를 분석 및 시각화하여 경영진의 입장에서 신속하고 정확한 의사 결정을 내릴 수 있도록 지원하는 데 목적이 있습니다.
   <br>
 </div>
