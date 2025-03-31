@@ -1,6 +1,4 @@
-import { FormControl, FormLabel, Input, Card, CardContent, Typography, Box, Grid ,Avatar} from "@mui/joy";
-import { CardMedia } from '@mui/material';
-
+import { FormControl, FormLabel, Input } from "@mui/joy";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -20,7 +18,7 @@ export default function UserWrite(props) {
     const [name, setName] = useState(''); // 이름
     const [phoneNumber, setPhoneNumber] = useState(''); // 전화번호
     const [roomData, setRoomData] = useState(null); // 객실 정보 상태
-    
+
 
 
     // 날짜 변경 핸들러
@@ -54,9 +52,9 @@ export default function UserWrite(props) {
     // 객실 조회 버튼 클릭 시 서버에 데이터 전송
     const userRoomRead = async () => {
         const requestData = {
-            hno: branch, 
+            hno: branch,
             rno: roomGrade,
-            checkinDate: startDate.format('YYYY-MM-DD'), 
+            checkinDate: startDate.format('YYYY-MM-DD'),
             checkoutDate: endDate.format('YYYY-MM-DD')
         };
         try{
@@ -135,7 +133,7 @@ export default function UserWrite(props) {
                         />
                     </LocalizationProvider>
 
-                    
+
                 {/* 객실 정보 카드 형식으로 표시 */}
                 {roomData && (
                         <Card style={{ marginTop: '30px', marginBottom: '60px', width: '500px' }}>
@@ -157,7 +155,7 @@ export default function UserWrite(props) {
                                     <Typography variant="h6">객실 등급: {roomData.rname}</Typography>
                                     <Typography variant="body1">체크인: {startDate.format('YYYY-MM-DD')}</Typography>
                                     <Typography variant="body1">체크아웃: {endDate.format('YYYY-MM-DD')}</Typography>
-                                    
+
                                     {/* 남은 개수 표시 */}
                                     <Box mt={2}>
                                         <Typography variant="h3" style={{ fontWeight: 'bold', color: '#3f51b5' , fontSize : '20px' }}>
@@ -178,21 +176,113 @@ export default function UserWrite(props) {
                 <div className="user_input">
                     <FormControl>
                         <FormLabel>이름</FormLabel>
-                        <Input 
-                            variant="outlined" 
-                            type="text" 
-                            value={name} 
-                            onChange={handleNameChange} 
+                        <Input
+                            variant="outlined"
+                            type="text"
+                            value={name}
+                            onChange={handleNameChange}
+                        />
+                    </FormControl>
+    return (
+        <>
+            <form id="user_write">
+                <div className="user_selectBox">
+                <Select
+                        value={branch}
+                        onChange={handleBranchChange} // handleBranchChange 이벤트 핸들러로 값 처리
+                        placeholder="지점선택"
+                    >
+                        <Option value="1">강남점</Option>
+                        <Option value="2">중구점</Option>
+                        <Option value="3">부평점</Option>
+                    </Select>
+                    <Select
+                        value={roomGrade}
+                        onChange={handleRoomGradeChange} // handleRoomGradeChange 이벤트 핸들러로 값 처리
+                        placeholder="객실등급선택"
+                    >
+                        <Option value="1">스탠다드</Option>
+                        <Option value="2">슈페리어</Option>
+                        <Option value="3">디럭스</Option>
+                        <Option value="4">패밀리</Option>
+                    </Select>
+                </div>
+                <div className="user_day">
+                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ko">
+                        <DesktopDatePicker
+                            label="체크인"
+                            format="YYYY-MM-DD"
+                            value={startDate}
+                            onChange={StartChange}
+                        />
+                    </LocalizationProvider>
+                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ko">
+                        <DesktopDatePicker
+                            label="체크아웃"
+                            format="YYYY-MM-DD"
+                            value={endDate}
+                            onChange={EndChange}
+                        />
+                    </LocalizationProvider>
+
+
+                {/* 객실 정보 카드 형식으로 표시 */}
+                {roomData && (
+                        <Card style={{ marginTop: '30px', marginBottom: '60px', width: '500px' }}>
+                        <CardContent>
+                            <Grid container spacing={3}>
+                                {/* 왼쪽에 사진 */}
+                                <Grid item xs={12} sm={4}>
+                                    <CardMedia
+                                        component="img"
+                                        image={"http://localhost:8081/upload/room/"+roomData.pnoname} // 이미지 경로를 실제 서버의 이미지로 변경
+                                        alt="Room image"
+                                        style={{ width: '100%', height: 'auto' }}
+                                    />
+                                </Grid>
+
+                                {/* 오른쪽에 정보 */}
+                                <Grid item xs={12} sm={8}>
+                                    <Typography variant="h6">지점: {roomData.hname}</Typography>
+                                    <Typography variant="h6">객실 등급: {roomData.rname}</Typography>
+                                    <Typography variant="body1">체크인: {startDate.format('YYYY-MM-DD')}</Typography>
+                                    <Typography variant="body1">체크아웃: {endDate.format('YYYY-MM-DD')}</Typography>
+
+                                    {/* 남은 개수 표시 */}
+                                    <Box mt={2}>
+                                        <Typography variant="h3" style={{ fontWeight: 'bold', color: '#3f51b5' , fontSize : '20px' }}>
+                                            남은개수: {roomData.size}
+                                        </Typography>
+                                    </Box>
+                                </Grid>
+                            </Grid>
+                        </CardContent>
+                    </Card>
+                )}
+
+                </div>
+                <Button onClick={userRoomRead} variant="contained" type="button">객실조회</Button>
+
+
+
+                <div className="user_input">
+                    <FormControl>
+                        <FormLabel>이름</FormLabel>
+                        <Input
+                            variant="outlined"
+                            type="text"
+                            value={name}
+                            onChange={handleNameChange}
                         />
                     </FormControl>
 
                     <FormControl style={{ flex: 1 }}>
                         <FormLabel>전화번호</FormLabel>
-                        <Input 
-                            variant="outlined" 
+                        <Input
+                            variant="outlined"
                             type="text"
-                            value={phoneNumber} 
-                            onChange={handlePhoneChange} 
+                            value={phoneNumber}
+                            onChange={handlePhoneChange}
                         />
                     </FormControl>
                 </div>

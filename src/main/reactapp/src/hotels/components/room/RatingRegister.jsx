@@ -37,7 +37,7 @@ export default function RatingRegister( props ){
                     </tr>
                     <tr>
                         <td> 침대 수 : </td>
-                        <td> <Input onChange={rChange} variant="outlined" type="text" name="bedCount" value={ratingnWrite.bedCount} /></td>
+                        <td> <Input onChange={rChange} variant="outlined" type="text" name="bedCount" value={ratingnWrite.bedCount} placeholder="숫자 입력" /></td>
                     </tr>
                     <tr>
                         <td> 침대 종류 : </td>
@@ -45,7 +45,7 @@ export default function RatingRegister( props ){
                     </tr>
                     <tr>
                         <td> 금액 : </td>
-                        <td> <Input onChange={rChange} variant="outlined" type="text" name="price" value={ratingnWrite.price} /></td>
+                        <td> <Input onChange={rChange} variant="outlined" type="text" name="price" value={ratingnWrite.price} placeholder="숫자 입력" /></td>
                     </tr>
                 </tbody>
             </table>

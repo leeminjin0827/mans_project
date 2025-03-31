@@ -30,11 +30,11 @@ export default function RoomRatingRegister( props ){
                 <tbody>
                     <tr>
                         <td> 객실 등급 : </td>
-                        <td> <Input variant="outlined" type="text" name="rno" value={roomOptionListWrite.rno} onChange={roChange} /> </td>
+                        <td> <Input variant="outlined" type="text" name="rno" value={roomOptionListWrite.rno} onChange={roChange} placeholder="번호로 입력" /> </td>
                     </tr>
                     <tr>
                         <td> 옵션 번호 : </td>
-                        <td> <Input variant="outlined" type="text" name="opno" value={roomOptionListWrite.opno} onChange={roChange} /> </td>
+                        <td> <Input variant="outlined" type="text" name="opno" value={roomOptionListWrite.opno} onChange={roChange} placeholder="번호로 입력" /> </td>
                     </tr>
                 </tbody>
             </table>
