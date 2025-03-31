@@ -3,8 +3,9 @@
   <img src="https://github.com/leeminjin0827/mans_project/blob/master/src/main/reactapp/public/logo2.png" width = "400" height = "400"/>
 </div>
 
+<div>
 <img src="https://capsule-render.vercel.app/api?type=wave&color=Blue &height=5px&section=header"/>
-
+</div>
 
 ## 호텔 관리 시스템 프로젝트 
 
@@ -35,5 +36,6 @@
 + 한웅재 : 직원관리(조회,수정,등록,삭제,사진등록) , 객실예약 현황(수정, 삭제, 조회-웹소켓)
 + 한상범 : 대시보드(조회) , 지점관리(조회,등록,수정,삭제)
 
+<div>
 <img src="https://capsule-render.vercel.app/api?type=wave&color=Blue&height=5px&section=footer" />
-
+</div>
