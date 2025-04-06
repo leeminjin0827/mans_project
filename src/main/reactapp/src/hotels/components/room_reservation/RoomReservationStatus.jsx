@@ -156,6 +156,13 @@ export default function RoomReservationStatus(props) {
 
     let socket = useRef(null);
 
+    // 추가한 부분
+    const newDateRef = useRef(newDate);
+    useEffect(() => {
+        newDateRef.current = newDate;
+    }, [newDate]);
+    // 추가한 부분
+
     // 웹소켓 연결을 한 번만 생성
     useEffect(() => {
         if (!socket.current) {
@@ -179,6 +186,11 @@ export default function RoomReservationStatus(props) {
                     }
                     if(data.length !== 0 && "reno" in data[0]) {
                         console.log("지점별 예약 정보 가져옴");
+                        // console.log(newDateRef.current);
+                        // if(newDate == newDateRef.current) {
+                           
+                        // }
+                        // socket.current.send(`지점 별 예약:1:${newDateRef.current}`);
                         setReservationList(data);
                     }
                     if(data.length === 0) {
@@ -250,12 +262,14 @@ export default function RoomReservationStatus(props) {
     /** 일자를 이동하는 함수 */
     const changeDate = (count) => {
         const selectDate = changeDateFormat(count);
+        setNewDate(selectDate);
+        console.log(selectDate);
         console.log(`선택한 지점:${selectValue}`);
         socket.current.send(`선택한 지점:${selectValue}`);
         console.log(`지점 별 예약:${selectValue}:${selectDate}`);
         socket.current.send(`지점 별 예약:${selectValue}:${selectDate}`);
     }
-
+    console.log(newDate);
     /** 지점 번호 문자열로 바꾸기 */
     // const changeHnoString = (hno) => {
     //     let str = hno;
@@ -279,6 +293,7 @@ export default function RoomReservationStatus(props) {
         <>
             <Sidebar />
             <div className="commonBox">
+                {/* <div style={{position : "absolute", top : "228px", right : "30px", left : "30px"}}> */}
                 <div style={{display : "flex", justifyContent : "end", margin : "24px 5% 0px 5%", height : "40px"}}>
                     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ko">
                         <DesktopDatePicker
@@ -366,6 +381,7 @@ export default function RoomReservationStatus(props) {
                             })
                         }
                 </Box>
+                {/* </div> */}
                 <Tooltip title="이전 날">
                     <IconButton
                         size="lg"

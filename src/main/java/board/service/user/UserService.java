@@ -105,7 +105,8 @@ public class UserService {
             TextMessage message1 = new TextMessage("선택한 지점:"+reservationData.get("hno"));
             roomReservation.handleMessage(null, message1);
 
-            TextMessage message2 = new TextMessage("지점 별 예약:"+reservationData.get("hno")+":"+currentDate);
+            // TextMessage message2 = new TextMessage("지점 별 예약:"+reservationData.get("hno")+":"+currentDate);
+            TextMessage message2 = new TextMessage("지점 별 예약:"+reservationData.get("hno")+":"+reservationData.get("checkinDate")+":0");
             roomReservation.handleMessage(null, message2);
 
 
